@@ -1,7 +1,7 @@
 import React from 'react';
 import Homeheader from '../../../components/Homeheader';
 import {View,Text} from 'react-native';
-const Notification = () => {
+const NewPost = () => {
   return (
       <View>
           <Homeheader/>
@@ -9,4 +9,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default NewPost;

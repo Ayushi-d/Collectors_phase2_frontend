@@ -9,7 +9,9 @@ import SigninOTp from '../screens/Auth/Signin/SigninOTp';
 import SigninPassword from '../screens/Auth/Signin/SigninPassword';
 import SignupOtp from '../screens/Auth/Signup/SignupOtp';
 import SignupUsername from '../screens/Auth/Signup/SignupUsername';
+import BottomTab from './bottomtab';
 import MainHome from '../screens/Screen/MainHome';
+import EditProfile from '../screens/Screen/Profile/EditProfile';
 const Stack = createNativeStackNavigator();
 const StackNavigtaion=()=>{
     return(
@@ -23,7 +25,8 @@ const StackNavigtaion=()=>{
     <Stack.Screen name="SigninPassword" component={SigninPassword} options={{headerShown:false}}/>
     <Stack.Screen name="SignupUsername" component={SignupUsername} options={{headerShown:false}}/>
     <Stack.Screen name="SignupOtp" component={SignupOtp} options={{headerShown:false}}/>
-    <Stack.Screen name="MainHome" component={MainHome} options={{headerShown:false}}/>
+    <Stack.Screen name="BottomTab" component={BottomTab} options={{headerShown:false}}/>
+    <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown:false}}/>
 
   </Stack.Navigator>
     )

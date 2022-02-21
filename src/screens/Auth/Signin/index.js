@@ -1,23 +1,119 @@
 import React,{useState} from "react";
-import {View,Text, TouchableOpacity,Image} from 'react-native';
+import {View,Text, TouchableOpacity,Image,ActivityIndicator, Alert,TextInput} from 'react-native';
 import { heightPercentageToDP as hp,widthPercentageToDP as wp } from "../../../utility";
 import Header from "../../../components/Header";
-import {Box,FormControl,Input,ScrollView,WarningOutlineIcon} from 'native-base';
-import { HelperText, TextInput } from 'react-native-paper';
+import {Box,FormControl,Input,KeyboardAvoidingView,ScrollView,WarningOutlineIcon} from 'native-base';
+// import { HelperText, TextInput } from 'react-native-paper';
 import Path from '../../../constants/Imagepath';
+import Loader from "../../../components/loader";
+import axios from 'axios';
+import * as Utility from '../../../utility/index';
 const Signin=({navigation})=>{
-    const [Authdata,setAuthData]=useState("");
+    const [Authdata,setAuthData]=useState("Login");
+    const [loading, setLoading] = useState(false);
+    const [loadingRegister,setLoadingRegister]=useState(false);
     const [text, setText] = React.useState('');
-
+    const [fullName,setFullname]=useState('');
+    const [emailid,setEmailid]=useState('');
+    const [mobile,setMobile]=useState('');
+    const [password,setPassword]=useState('');
+    const [code,setCode]=useState('');
+    const [loginuserName,setLoginuserName]=useState('');
+    const [loginPassword,setLoginPassword]=useState('');
+    const [loginIsClick1,setLoginIsCLick]=useState(false);
+    const [loginIsClick12,setLoginIsCLick2]=useState(false);
+    const [isCheckfullName,setIsCheckfullName]=useState(false);
+    const [isCheckEmail,setIsCheckEMail]=useState(false);
+    const [isCheckCode,setIsCheckCode]=useState(false);
+    const [isCheckMobile,setIsCheckMobile]=useState(false);
+    const [isCheckPassword1,setIsChcekPassword1]=useState(false);
     const onChangeText = text => setText(text);
- 
    const hasErrors = () => {
      return !text.includes('@');
    };
+   const loginApi=async()=>{
+    // navigation.navigate('BottomTab')
+    setLoading(!loading)
+    if(loginuserName && loginPassword){
+      let body=JSON.stringify({
+        name:fullName,
+        email:emailid,
+        phone_number:mobile,
+        password:password
+       })
+        let headers = {
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json',
+      };
+       console.log("user body is..",body);
+      let response=await axios.post(
+        'http://3.138.124.101:9000/login', 
+        {
+          logintype:"email",
+          emailOrUserName:loginuserName,
+          password:loginPassword
+        },
+    );
+      console.log('befire', response.data);
+      if(response.data.code=="200"){
+        setLoading(!loading)
+        navigation.navigate('BottomTab')
+        // setAuthData("Login");
+      }
+      else{
+        Alert.alert("Something wrong into server side");
+      }
+    }
+    else{
+      setLoading(!loading)
+      Alert.alert("something parameter is missing");
+      
+    }
+   }
+   const registerApi=async()=>{
+    setLoadingRegister(!loadingRegister)
+    if(emailid && fullName && password){
+      let body=JSON.stringify({
+        name:fullName,
+        email:emailid,
+        phone_number:mobile,
+        password:password
+       })
+        let headers = {
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json',
+      };
+       console.log("user body is..",body);
+      let response=await axios.post(
+        'http://3.138.124.101:9000/register', 
+        {
+          name:fullName,
+          email:emailid,
+          phone_number:mobile,
+          password:password
+        },
+    );
+      console.log('befire', response.data);
+      if(response.data.code=="200"){
+        await Utility.setInLocalStorge('user_email',emailid)
+        setLoadingRegister(!loadingRegister)
+
+        navigation.navigate('SignupOtp')
+      }
+      else{
+        Alert.alert("Something wrong into server side");
+      }
+    }
+    else{
+      Alert.alert("something parameter is missing");
+    }
+   }
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
             <Header/>
+            {/* <Loader isLoading={loading}></Loader> */}
             <ScrollView>
+              <KeyboardAvoidingView>
             <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                 <TouchableOpacity onPress={()=>setAuthData('Login')} style={{alignItems:'center'}}>
                 <View><Text style={{color:'white'}}>LOGIN</Text></View>
@@ -68,25 +164,21 @@ const Signin=({navigation})=>{
             </View>
             {Authdata=="Login"?
             <View>
-            <View style={{width:wp('90%'),alignSelf:'center',marginTop:hp('5%')}} >
-      <TextInput label="Username or E-mail ID" value={text} onChangeText={onChangeText} placeholderTextColor="#9CA6B6" style={{backgroundColor:'#1F232E',borderRadius:10,borderColor:'#117AF5',borderWidth:1,color:'white'}}/>
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
-    <View style={{width:wp('90%'),alignSelf:'center',marginTop:hp('5%')}}>
-      <TextInput label="Password" value={text} onChangeText={onChangeText} style={{backgroundColor:'#1F232E',borderRadius:10,borderColor:'red',borderWidth:1}}  right={<TextInput.Icon name="eye" />}/>
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
-    <TouchableOpacity  style={{margin:hp('2%')}}>
-    <View style={{backgroundColor:'#117AF5',padding:10,borderRadius:8,width:wp('90%'),alignSelf:'center',alignItems:'center'}}>
-        <Text style={{color:'white',lineHeight:28}}>LOGIN</Text>
+            <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+        <Text style={loginIsClick1 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Username</Text>
+        <TextInput selectionColor="black" value={loginuserName} onTouchStart={() => setLoginIsCLick(!loginIsClick1)} onChangeText={(e) => setLoginuserName(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
+      <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+        <Text style={loginIsClick12 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Password</Text>
+        <TextInput value={loginPassword} onTouchStart={() => setLoginIsCLick2(!loginIsClick12)} onChangeText={(e) => setLoginPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
+    <TouchableOpacity  style={{margin:hp('2%')}} onPress={()=>loginApi()}>
+    <View style={{backgroundColor:'#117AF5',padding:12,borderRadius:8,width:wp('90%'),alignSelf:'center',alignItems:'center'}}>
+
+      {!loading?
+        <Text style={{color:'white',lineHeight:28}}>LOGIN</Text>:
+        <ActivityIndicator size="large" color="white" />}
+
     </View>
     </TouchableOpacity>
     <View style={{flexDirection:'row',alignSelf:'center'}}>
@@ -123,7 +215,7 @@ const Signin=({navigation})=>{
     <View style={{flexDirection:'row',width:wp('80%'),alignSelf:'center',justifyContent:'space-between',margin:'2%'}}>
                 <TouchableOpacity>
                 <View style={{backgroundColor:'#161F37',padding:12,width:wp('38%'),alignItems:'center',borderRadius:8}}>
-                    <Image source={Path.Applelogo}></Image>
+                    <Image source={Path.Applelogo} ></Image>
                     </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
@@ -202,53 +294,38 @@ const Signin=({navigation})=>{
 
         </View>
     </View>
-    <View style={{width:wp('90%'),margin:'2%'}}>
-      <TextInput label="Full Name" value={text} onChangeText={onChangeText}/>
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
-    <View style={{width:wp('90%'),margin:'2%'}}>
-      <TextInput label="Email ID" value={text} onChangeText={onChangeText}/>
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
+    
+     <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+        <Text style={isCheckfullName ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Full Name *</Text>
+        <TextInput value={fullName} onTouchStart={() => setIsCheckfullName(!isCheckfullName)} onChangeText={(e) => setFullname(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
+  
+     <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+        <Text style={isCheckEmail ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Email ID *</Text>
+        <TextInput value={emailid} onTouchStart={() => setIsCheckEMail(!isCheckEmail)} onChangeText={(e) => setEmailid(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
 
-    <View style={{flexDirection:'row',margin:'2%'}}>
-    <View style={{width:wp('25%')}}>
-      <TextInput label="Code" value={text} onChangeText={onChangeText}/>
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
-    <View style={{width:wp('60%'),marginLeft:10}}>
-      <TextInput label="Contact Number (Optional)" value={text} onChangeText={onChangeText} />
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
+    <View style={{flexDirection:'row'}}>
+    
+     <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%',height:hp('7%') }} >
+        <Text style={isCheckCode ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Code</Text>
+        <TextInput value={code} keyboardType="number-pad"  onTouchStart={() => setIsCheckCode(!isCheckCode)} onChangeText={(e) => setCode(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
+  
+     <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '2%', marginRight: '5%',height:hp('7%'),width:wp('75%')}} >
+        <Text style={isCheckMobile ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Contact Number (Optional)</Text>
+        <TextInput value={mobile} onTouchStart={() => setIsCheckMobile(!isCheckMobile)} onChangeText={(e) => setMobile(e)} keyboardType="number-pad"  style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
         </View>
-
-        <View style={{width:wp('90%'),margin:'2%'}}>
-      <TextInput label="Password" value={text} onChangeText={onChangeText}  right={<TextInput.Icon name="eye" />}/>
-      {/* <HelperText type="error" visible={hasErrors()}>
-          <Text>
-        Email address is invalid!
-        </Text>
-      </HelperText> */}
-    </View>
-      <TouchableOpacity onPress={()=>navigation.navigate('SignupOtp')} style={{margin:hp('5%')}}>
+     <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+        <Text style={isCheckPassword1 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Password *</Text>
+        <TextInput value={password} onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+      </View>
+      <TouchableOpacity onPress={()=>registerApi()} style={{margin:hp('5%')}}>
     <View style={{backgroundColor:'#117AF5',padding:10,borderRadius:8,width:wp('90%'),alignSelf:'center',alignItems:'center'}}>
-        <Text style={{color:'white',lineHeight:28,fontWeight:'600',fontSize:13}}>CREATE ACCOUNT</Text>
+      {!loadingRegister?
+        <Text style={{color:'white',lineHeight:28,fontWeight:'600',fontSize:13}}>CREATE ACCOUNT</Text>:
+        <ActivityIndicator size="large" color="white"></ActivityIndicator>}
     </View>
     </TouchableOpacity>
             <View style={{flexDirection:'row',marginLeft:hp('5%'),marginTop:hp('10%')}}>
@@ -260,6 +337,7 @@ const Signin=({navigation})=>{
             </View>
             <Text style={{fontWeight:'600',color:'white',alignSelf:'center',textDecorationLine:'underline'}}>T&C</Text>
             </View>}
+            </KeyboardAvoidingView>
             </ScrollView>
         </View>
     )

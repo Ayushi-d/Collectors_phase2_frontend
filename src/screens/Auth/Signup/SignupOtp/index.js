@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {View,Text,TouchableOpacity,StyleSheet} from 'react-native';
 import Header from '../../../../components/Header';
 import {
@@ -7,6 +7,8 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import * as Utility from '../../../../utility/index';
+import axios from 'axios';
 import { heightPercentageToDP as  hp, widthPercentageToDP as wp } from '../../../../utility';
 const styles = StyleSheet.create({
   root: { flex: 1, padding: 10 },
@@ -33,15 +35,61 @@ const styles = StyleSheet.create({
 
 const CELL_COUNT = 4;
 const SignupOTp=({navigation})=>{
+   
+    const [email,setEmail]=useState('tvikas6523@gmail.com');
   const [value, setValue] = useState('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
         setValue,
     });
+    const callSignUpOtpVerifyAPi=async()=>{
+        console.log("VIkassss");
+        // console.log(text);
+        if (value && email) {
+          // console.log(text);
+          let body = JSON.stringify({
+            // email: text,
+            email:email,
+            otp:value
+          })
+          let headers = {
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
+          };
+          console.log("user body is..", body);
+          let response = await axios.post(
+            'http://3.138.124.101:9000/verifyOtp',
+            {
+            email:email,
+            otp:value
+            },
+          );
+          console.log('befire', response.data);
+          if (response.data.code == "200") {
+            await Utility.setInLocalStorge("user_id",response.data.user_id);
+            console.log("out put come");
+            navigation.navigate('SignupUsername')
+          }
+          else {
+            Alert.alert("Something wrong into server side");
+          }
+    
+        }
+        else{
+          Alert.alert("Otp is missing");
+        }
+      }
+      useEffect(()=>{
+        getEmail()
+      })
+      const getEmail=async()=>{
+        var email=await Utility.getFromLocalStorge('user_email');
+        setEmail(email);
+      }
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
-            <Header  login="true"/>
+            <Header  login="true" navigate={navigation}/>
             <View style={{margin:wp('3%')}}> 
             <Text style={{color:'white',fontWeight:'700',fontSize:32}}>OTP Verification</Text>
             </View>
@@ -93,7 +141,7 @@ const SignupOTp=({navigation})=>{
             }}
           />
     </View>
-    <TouchableOpacity onPress={()=>navigation.navigate('SignupUsername')}>
+    <TouchableOpacity onPress={()=>callSignUpOtpVerifyAPi()}>
     <View style={{backgroundColor:'#117AF5',padding:10,borderRadius:8,width:wp('80%'),alignSelf:'center',alignItems:'center'}}>
         <Text style={{color:'white',fontWeight:'600',fontSize:13,lineHeight:28}}>VERIFY OTP</Text>
     </View>

@@ -22,12 +22,12 @@ const Authdetails=({navigation})=>{
             </View>
             <View style={{flexDirection:'row',width:wp('90%'),alignSelf:'center',justifyContent:'space-between',margin:'2%'}}>
                 <TouchableOpacity>
-                <View style={{backgroundColor:'#161F37',padding:12,width:wp('38%'),alignItems:'center',borderRadius:8}}>
+                <View style={{backgroundColor:'#161F37',padding:12,width:wp('43%'),alignItems:'center',borderRadius:8}}>
                     <Image source={Path.Applelogo}></Image>
                     </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
-                    <View style={{backgroundColor:'#161F37',padding:12,width:wp('38%'),alignItems:'center',borderRadius:8}}>
+                    <View style={{backgroundColor:'#161F37',padding:12,width:wp('43%'),alignItems:'center',borderRadius:8}}>
                         <Image source={Path.Googlelogo}></Image>
                     </View>
                     </TouchableOpacity>
