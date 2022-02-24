@@ -47,11 +47,11 @@ const Splash=({navigation})=>{
                 <View style={{alignSelf:'center',marginTop:hp('50%')}}>
                     <Image source={Path.logo}></Image>
                 </View>
-                <View style={{marginTop:hp('35%'),alignSelf:'center'}}>
-                    <Image source={Path.logoText}></Image>
+                <View style={{marginTop:hp('30%'),alignSelf:'center'}}>
+                    <Image source={Path.logoTextlong} resizeMode="center" style={{height:hp('10%'),width:wp('80%')}}></Image>
                 </View>
-                <View style={{alignSelf:'center',margin:'2%'}}>
-                    <Text style={{fontSize:15,fontWeight:'500'}}>Version 0.2</Text>
+                <View style={{alignSelf:'center'}}>
+                    <Text style={{fontSize:15,color:'#E9F0FA',fontFamily:'Poppins-Regular'}}>Version 0.2</Text>
                 </View>
             </ImageBackground>
         </View>

@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
       borderColor: '#00000030',
       textAlign: 'center',
       borderRadius: 6,
-      color: '#484C76'
+      color: 'white'
 
   },
   focusCell: {
-      borderColor: '#000',
+      borderColor: '#117AF5',
       borderRadius: 6,
       color: '#484C76'
   },
@@ -92,11 +92,10 @@ const SigninOTp=({navigation})=>{
             <View style={{margin:wp('3%')}}> 
             <Text style={{color:'white',fontWeight:'700',fontSize:32}}>OTP Verification</Text>
             </View>
-            <View style={{margin:wp('3%')}}>
-                <Text style={{color:'white'}}>Enter the One Time Password sent to your contact number ending with 90 to verify.</Text>
+            <View style={{margin:wp('3%'),width:wp('90%')}}>
+                <Text style={{color:'white',fontFamily:'Poppins',fontSize:13,fontWeight:'400'}}>Enter the One Time Password sent to your contact number ending with 90 to verify.</Text>
             </View>
-            <View style={{margin:wp('10%')}}>
-
+            <View style={{marginLeft:wp('22%'),marginRight:wp('22%'),margin:hp('5%')}}>
             <CodeField
                     ref={ref}
                     {...props}
@@ -108,7 +107,7 @@ const SigninOTp=({navigation})=>{
                     keyboardType="number-pad"
                     textContentType="oneTimeCode"
                     renderCell={({ index, symbol, isFocused }) => (
-                        <View style={{margin:wp('2%'),alignSelf:'center',borderWidth:1,backgroundColor:'#1F232E',borderRadius:10}} key={index}>
+                        <View style={{alignSelf:'center',borderWidth:1,backgroundColor:'#1F232E',borderRadius:10}} key={index}>
                             <Text
                                 style={[styles.cell, isFocused && styles.focusCell]}
                                 onLayout={getCellOnLayoutHandler(index)}>
@@ -140,7 +139,7 @@ const SigninOTp=({navigation})=>{
           />
          <View
             style={{
-              borderBottomColor: 'white',
+              borderBottomColor: '#117AF520',
               borderBottomWidth: 5,
               width: '15%',
               marginTop: 5,
@@ -155,11 +154,11 @@ const SigninOTp=({navigation})=>{
     </TouchableOpacity>
     <View style={{flexDirection:'row',alignSelf:'center',margin:hp('3%')}}>
         <View>
-            <Text style={{color:'white',fontWeight:'400',fontSize:12}}>Haven’t recieved the OTP? </Text>
+            <Text style={{color:'#9CA6B690',fontWeight:'400',fontSize:12}}>Haven’t recieved the OTP? </Text>
         </View>
         <View>
           <TouchableOpacity >
-            <Text style={{fontSize:13,fontWeight:'800',color:'white'}}>RESEND</Text>
+            <Text style={{fontSize:13,fontWeight:'800',color:'white',textDecorationLine:'underline'}}>RESEND</Text>
             </TouchableOpacity>
         </View>
     </View>

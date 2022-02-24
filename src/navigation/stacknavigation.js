@@ -12,6 +12,7 @@ import SignupUsername from '../screens/Auth/Signup/SignupUsername';
 import BottomTab from './bottomtab';
 import MainHome from '../screens/Screen/MainHome';
 import EditProfile from '../screens/Screen/Profile/EditProfile';
+import Termsofuse from '../screens/BasicDetails/Termsofuse';
 const Stack = createNativeStackNavigator();
 const StackNavigtaion=()=>{
     return(
@@ -27,6 +28,7 @@ const StackNavigtaion=()=>{
     <Stack.Screen name="SignupOtp" component={SignupOtp} options={{headerShown:false}}/>
     <Stack.Screen name="BottomTab" component={BottomTab} options={{headerShown:false}}/>
     <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown:false}}/>
+    <Stack.Screen name="Termofuse" component={Termsofuse} options={{headerShown:false}}/>
 
   </Stack.Navigator>
     )

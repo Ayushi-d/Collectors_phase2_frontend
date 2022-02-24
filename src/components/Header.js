@@ -13,8 +13,8 @@ const Header=({login,navigate})=>{
             <Text style={{color:'white',marginLeft:wp('5%'),fontSize:13,fontWeight:'300'}}>Back</Text>
           </View>:null}
         
-          <View style={login?{marginLeft:wp('15%')}:{marginLeft:wp('35%'),marginTop:5}} >
-          <Image source={Path.logo} style={{alignSelf:'center'}} resizeMode="center" ></Image>
+          <View style={login?{marginLeft:wp('10%')}:{marginLeft:wp('25%'),marginTop:5}} >
+          <Image source={Path.logohd} style={{alignSelf:'center'}} resizeMode="center" ></Image>
           </View>
         </View>
 

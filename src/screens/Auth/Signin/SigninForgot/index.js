@@ -14,9 +14,13 @@ const SigninForgot = ({ navigation }) => {
     return !text.includes('@');
   };
   const callForgotAPi = async () => {
+    
     console.log("VIkassss");
     console.log(text);
-    if (text) {
+    if(Utility.isValidEmail(text)){
+      Alert.alert("Please enter valid email");
+    }
+    else  if (text) {
       console.log(text);
       let body = JSON.stringify({
         email: text,
@@ -51,10 +55,10 @@ const SigninForgot = ({ navigation }) => {
     <View style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
       <Header login="true" navigate={navigation} />
       <View style={{ margin: hp('3%') }}>
-        <Text style={{ color: 'white', lineHeight: 32, fontSize: 24, fontWeight: '900' }}>Forgot Password?</Text>
+        <Text style={{ color: 'white', lineHeight: 32, fontSize: 24, fontWeight: '900' ,fontFamily:'Poppins'}}>Forgot Password?</Text>
       </View>
       <View style={{ marginLeft: hp('3%'), marginRight: hp('3%') }}>
-        <Text style={{ color: 'white', lineHeight: 22, fontSize: 14, fontWeight: '200' }}>Don’t worry, we’ve got you covered! Enter your registered contact to reset your password.</Text>
+        <Text style={{ color: 'white', lineHeight: 22, fontSize: 14, fontWeight: '200' ,fontFamily:'Poppins'}}>Don’t worry, we’ve got you covered! Enter your registered contact to reset your password.</Text>
       </View>
       <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
         <Text style={isClick ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Username or E-mail ID</Text>
@@ -73,7 +77,7 @@ const SigninForgot = ({ navigation }) => {
         />
         <View
           style={{
-            borderBottomColor: 'white',
+            borderBottomColor: '#117AF520',
             borderBottomWidth: 5,
             width: '15%',
             marginTop: 5,
@@ -82,7 +86,7 @@ const SigninForgot = ({ navigation }) => {
         />
         <View
           style={{
-            borderBottomColor: 'white',
+            borderBottomColor: '#117AF520',
             borderBottomWidth: 5,
             width: '15%',
             marginTop: 5,
@@ -92,7 +96,7 @@ const SigninForgot = ({ navigation }) => {
       </View>
       <TouchableOpacity onPress={() => callForgotAPi()}>
         <View style={{ backgroundColor: '#117AF5', padding: 10, borderRadius: 8, width: wp('87%'), alignSelf: 'center', alignItems: 'center' }}>
-          <Text style={{ lineHeight: 28, color: 'white', fontSize: 13, fontWeight: '600' }}>VERIFY</Text>
+          <Text style={{ lineHeight: 28, color: 'white', fontSize: 13, fontWeight: '600',fontFamily:'Poppins' }}>VERIFY</Text>
         </View>
       </TouchableOpacity>
     </View>

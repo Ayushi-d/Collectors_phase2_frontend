@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
       borderColor: '#00000030',
       textAlign: 'center',
       borderRadius: 6,
-      color: '#484C76'
+      color: 'white'
 
   },
   focusCell: {
-      borderColor: '#000',
+      borderColor: '#117AF5',
       borderRadius: 6,
       color: '#484C76'
   },
@@ -87,6 +87,9 @@ const SignupOTp=({navigation})=>{
         var email=await Utility.getFromLocalStorge('user_email');
         setEmail(email);
       }
+      const resendOtpAPi=()=>{
+        
+      }
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
             <Header  login="true" navigate={navigation}/>
@@ -96,7 +99,7 @@ const SignupOTp=({navigation})=>{
             <View style={{margin:wp('3%')}}>
                 <Text style={{color:'white'}}>Don’t worry, we’ve got you covered! Enter your registered contact to reset your password.</Text>
             </View>
-            <View style={{margin:wp('10%')}}>
+            <View style={{marginLeft:wp('22%'),marginRight:wp('22%'),margin:hp('5%')}}>
 
             <CodeField
                     ref={ref}
@@ -109,7 +112,7 @@ const SignupOTp=({navigation})=>{
                     keyboardType="number-pad"
                     textContentType="oneTimeCode"
                     renderCell={({ index, symbol, isFocused }) => (
-                        <View style={{margin:wp('2%'),alignSelf:'center',borderWidth:1,backgroundColor:'#1F232E',borderRadius:10}} key={index}>
+                        <View style={{alignSelf:'center',borderWidth:1,backgroundColor:'#1F232E',borderRadius:10}} key={index}>
                             <Text
                                 style={[styles.cell, isFocused && styles.focusCell]}
                                 onLayout={getCellOnLayoutHandler(index)}>
@@ -133,7 +136,7 @@ const SignupOTp=({navigation})=>{
       
          <View
             style={{
-              borderBottomColor: 'white',
+              borderBottomColor: '#117AF530',
               borderBottomWidth: 5,
               width: '15%',
               marginTop: 5,
@@ -148,10 +151,12 @@ const SignupOTp=({navigation})=>{
     </TouchableOpacity>
     <View style={{flexDirection:'row',alignSelf:'center',margin:hp('3%')}}>
         <View>
-            <Text style={{color:'white',fontWeight:'400'}}>Haven’t recieved the OTP?</Text>
+            <Text style={{color:'#9CA6B690',fontWeight:'400',fontSize:12}}>Haven’t recieved the OTP? </Text>
         </View>
         <View>
+          <TouchableOpacity onPress={()=>resendOtpAPi()}>
             <Text style={{fontSize:13,fontWeight:'800',color:'white',textDecorationLine:'underline'}}>RESEND</Text>
+            </TouchableOpacity>
         </View>
     </View>
         </View>
