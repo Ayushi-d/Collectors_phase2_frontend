@@ -10,7 +10,7 @@ const Splash=({navigation})=>{
         }, 1000);
       }, []);
       const retrieveData = async () => {
-        navigation.navigate('Authdetails')
+        navigation.navigate('BottomTab')
         // let user_id = await Utility.getFromLocalStorge('user_id');
         // let is_profile_completed = await Utility.getFromLocalStorge('is_profile_completed');
         // let student_id = await Utility.getFromLocalStorge('student_id');
@@ -36,10 +36,8 @@ const Splash=({navigation})=>{
         // }
         // else{
         //  return navigation.navigate('Login');
-    
         // }
         
-    
       };
     return(
         <View style={{flex:1}}>

@@ -13,6 +13,10 @@ import BottomTab from './bottomtab';
 import MainHome from '../screens/Screen/MainHome';
 import EditProfile from '../screens/Screen/Profile/EditProfile';
 import Termsofuse from '../screens/BasicDetails/Termsofuse';
+import ChangePassword from '../screens/Screen/Profile/ChangePassword';
+import SeetingScreen from '../screens/Screen/Profile/SettingScreen';
+import Followings from '../screens/Screen/Profile/Following';
+// import { Settings } from 'react-native';
 const Stack = createNativeStackNavigator();
 const StackNavigtaion=()=>{
     return(
@@ -29,7 +33,9 @@ const StackNavigtaion=()=>{
     <Stack.Screen name="BottomTab" component={BottomTab} options={{headerShown:false}}/>
     <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown:false}}/>
     <Stack.Screen name="Termofuse" component={Termsofuse} options={{headerShown:false}}/>
-
+    <Stack.Screen name="Following" component={Followings} options={{headerShown:false}}/>
+    <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown:false}}/>
+      <Stack.Screen name="SettingScreen" component={SeetingScreen} options={{headerShown:false}}/>
   </Stack.Navigator>
     )
 }

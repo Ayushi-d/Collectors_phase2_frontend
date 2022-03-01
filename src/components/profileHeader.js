@@ -18,7 +18,7 @@ const ProfileHeader=({name,navigate})=>{
             <Text style={{color:'white'}}>{Loginusername}</Text>
             </View>
             <View style={{marginRight:Utility.widthPercentageToDP('5%'),margin:'2%'}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={navigate}>
                 <Image source={Path.Setting}></Image>
                 </TouchableOpacity>
             </View>

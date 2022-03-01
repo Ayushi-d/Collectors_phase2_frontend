@@ -27,6 +27,8 @@ const Signin=({navigation})=>{
     const [isCheckCode,setIsCheckCode]=useState(false);
     const [isCheckMobile,setIsCheckMobile]=useState(false);
     const [isCheckPassword1,setIsChcekPassword1]=useState(false);
+    const [loginpasswordEye,setLoginPasswordEye]=useState(false);
+    const [resgisterPasswordeye,setRegisterPasswordeye]=useState(false);
     const onChangeText = text => setText(text);
    const hasErrors = () => {
      return !text.includes('@');
@@ -119,10 +121,10 @@ const Signin=({navigation})=>{
             {/* <Loader isLoading={loading}></Loader> */}
             <ScrollView>
               <KeyboardAvoidingView>
-            <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
+            <View style={{flexDirection:'row',justifyContent:'space-evenly',backgroundColor:'#0D111C',padding:5}}>
                 <TouchableOpacity onPress={()=>setAuthData('Login')} style={{alignItems:'center'}}>
-                <View><Text style={Authdata=="Login"?{color:'white',fontFamily:'Poppins'}:{color:'#E9F0FA70',fontWeight:'400',fontSize:14,fontFamily:'Poppins'}}>LOGIN</Text></View>
-                <View
+                <View ><Text style={Authdata=="Login"?{color:'white',fontFamily:'Poppins'}:{color:'#E9F0FA70',fontWeight:'400',fontSize:14,fontFamily:'Poppins'}}>LOGIN</Text></View>
+                {/* <View
             style={{
               borderBottomColor: '#117AF5',
               borderBottomWidth: .25,
@@ -130,7 +132,7 @@ const Signin=({navigation})=>{
               marginTop: 5,
               // marginLeft:5
             }}
-          />
+          /> */}
           {Authdata=="Login"?
                 <View
             style={{
@@ -145,7 +147,7 @@ const Signin=({navigation})=>{
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>setAuthData('Signup')} style={{alignItems:'center'}}>
                 <View><Text style={Authdata=="Signup"?{color:'white'}:{color:'#E9F0FA70',fontWeight:'400',fontSize:14}}>SIGNUP</Text></View>
-                <View
+                {/* <View
             style={{
               borderBottomColor: '#117AF5',
               borderBottomWidth: .25,
@@ -153,7 +155,7 @@ const Signin=({navigation})=>{
               marginTop: 5,
               // marginLeft:5
             }}
-          />
+          /> */}
           {Authdata=="Signup"?
                 <View
             style={{
@@ -169,13 +171,26 @@ const Signin=({navigation})=>{
             </View>
             {Authdata=="Login"?
             <View>
-            <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+            <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('8%') }} >
         <Text style={loginIsClick1 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Username</Text>
         <TextInput selectionColor="black" value={loginuserName} onTouchStart={() => setLoginIsCLick(!loginIsClick1)} onChangeText={(e) => setLoginuserName(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
       </View>
-      <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+      <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('8%') }} >
         <Text style={loginIsClick12 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Password</Text>
-        <TextInput value={loginPassword} onTouchStart={() => setLoginIsCLick2(!loginIsClick12)} onChangeText={(e) => setLoginPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+        <TextInput value={loginPassword} secureTextEntry={loginpasswordEye} onTouchStart={() => setLoginIsCLick2(!loginIsClick12)} onChangeText={(e) => setLoginPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+ 
+        {loginpasswordEye?
+        <TouchableOpacity onPress={()=>setLoginPasswordEye(!loginpasswordEye)} style={{top:'-5%'}}>
+        <Image source={Path.eyeClose} resizeMode="center"></Image>
+        </TouchableOpacity>
+        :
+        <TouchableOpacity onPress={()=>setLoginPasswordEye(!loginpasswordEye)} style={{top:'-5%'}}>
+          <Image source={Path.eyeOpen} resizeMode="center"></Image>
+          </TouchableOpacity>
+        }
+        </View>
+       
       </View>
     <TouchableOpacity  style={{margin:hp('2%')}} onPress={()=>loginApi()}>
     <View style={{backgroundColor:'#117AF5',padding:12,borderRadius:8,width:wp('90%'),alignSelf:'center',alignItems:'center'}}>
@@ -229,17 +244,18 @@ const Signin=({navigation})=>{
                     </View>
                     </TouchableOpacity>
             </View>
-            <View style={{flexDirection:'row',marginLeft:hp('5%')}}>
+            <View style={{flexDirection:'row',marginLeft:hp('2%')}}>
                 <Text style={{fontWeight:'200',color:'white'}}>By joining you agree to our</Text>
                 <TouchableOpacity onPress={()=>openTermofuse()}>
                 <Text style={{fontSize:15,fontWeight:'600',textDecorationLine:'underline',color:'white'}}> Privacy Policy</Text>
                 </TouchableOpacity>
-                <Text style={{fontWeight:'200',color:'white'}} > and</Text>
-            </View>
-            <View style={{alignSelf:'center'}}>
+                <Text style={{fontWeight:'200',color:'white'}} > and </Text>
                 <TouchableOpacity onPress={()=>openTermofuse()}>
                 <Text style={{fontSize:15,fontWeight:'600',textDecorationLine:'underline',color:'white'}}>T&C</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={{alignSelf:'center'}}>
+               
             </View>
             </View>
             :
@@ -324,7 +340,18 @@ const Signin=({navigation})=>{
         </View> */}
      <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '10%' }} >
         <Text style={isCheckPassword1 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Password *</Text>
-        <TextInput value={password} onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+        <TextInput value={password} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+        {resgisterPasswordeye?
+        <TouchableOpacity onPress={()=>setRegisterPasswordeye(!resgisterPasswordeye)} style={{top:'-5%'}}> 
+        <Image source={Path.eyeClose} resizeMode="center"></Image>
+        </TouchableOpacity>
+        :
+        <TouchableOpacity onPress={()=>setRegisterPasswordeye(!resgisterPasswordeye)} style={{top:'-5%'}}>
+        <Image source={Path.eyeOpen} resizeMode="center"></Image>
+        </TouchableOpacity>
+        }
+        </View>
       </View>
       <TouchableOpacity onPress={()=>registerApi()} style={{margin:hp('5%')}}>
     <View style={{backgroundColor:'#117AF5',padding:10,borderRadius:8,width:wp('90%'),alignSelf:'center',alignItems:'center'}}>
@@ -333,16 +360,17 @@ const Signin=({navigation})=>{
         <ActivityIndicator size="large" color="white"></ActivityIndicator>}
     </View>
     </TouchableOpacity>
-            <View style={{flexDirection:'row',marginLeft:hp('5%'),marginTop:hp('7%')}}>
+            <View style={{flexDirection:'row',marginLeft:hp('2%'),marginTop:hp('7%')}}>
                 <Text style={{fontWeight:'200',color:'white'}}>By joining you agree to our</Text>
                 <TouchableOpacity onPress={()=>openTermofuse()}>
                 <Text style={{fontSize:15,fontWeight:'600',textDecorationLine:'underline',color:'white'}}> Privacy Policy</Text>
                 </TouchableOpacity>
-                <Text style={{fontWeight:'200',color:'white'}} > and</Text>
-            </View>
-            <TouchableOpacity onPress={()=>openTermofuse()}>
-            <Text style={{fontWeight:'600',color:'white',alignSelf:'center',textDecorationLine:'underline'}}>T&C</Text>
+                <Text style={{fontWeight:'200',color:'white'}} > and </Text>
+                <TouchableOpacity onPress={()=>openTermofuse()}>
+            <Text style={{fontWeight:'600',color:'white',alignSelf:'center',textDecorationLine:'underline'}}> T&C</Text>
             </TouchableOpacity>
+            </View>
+            
             </View>}
             </KeyboardAvoidingView>
             </ScrollView>

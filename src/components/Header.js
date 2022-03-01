@@ -4,16 +4,18 @@ import Path from '../constants/Imagepath';
 import { widthPercentageToDP as wp,heightPercentageToDP as hp } from '../utility';
 const Header=({login,navigate})=>{
     return(
-        <View style={{flexDirection:'row',margin:'3%'}}>
+        <View style={{flexDirection:'row',backgroundColor:'#0D111C'}}>
          {login?
+          <TouchableOpacity onPress={()=>navigate.goBack()} style={{margin:'3%',alignItems:'center',top:'2.5%'}}>
           <View style={{flexDirection:'row',margin:'3%',alignItems:'center'}}>
-            <TouchableOpacity onPress={()=>navigate.goBack()}>
+           
             <Image source={Path.back} style={{alignSelf:'center'}}></Image>
-            </TouchableOpacity>
+            
             <Text style={{color:'white',marginLeft:wp('5%'),fontSize:13,fontWeight:'300'}}>Back</Text>
-          </View>:null}
+          </View>
+          </TouchableOpacity>:null}
         
-          <View style={login?{marginLeft:wp('10%')}:{marginLeft:wp('25%'),marginTop:5}} >
+          <View style={login?{alignSelf:'center'}:{marginTop:5,marginLeft:wp('28.5%')}} >
           <Image source={Path.logohd} style={{alignSelf:'center'}} resizeMode="center" ></Image>
           </View>
         </View>

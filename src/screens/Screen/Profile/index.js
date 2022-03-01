@@ -19,7 +19,7 @@ const Profile = ({navigation}) => {
   }
   return (
       <View>
-          <ProfileHeader/>
+          <ProfileHeader navigate={()=>navigation.navigate('SettingScreen')}/>
           <ScrollView style={{backgroundColor:'black',height:'100%'}}>
           <View style={{flexDirection:'row',justifyContent:'space-evenly',margin:heightPercentageToDP('2%')}}>
             <View>

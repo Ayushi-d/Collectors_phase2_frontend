@@ -34,7 +34,16 @@ const ImagePath = {
     Open:require('../assets/open.png'),
     Nopost:require('../assets/nopost.png'),
     Setting:require('../assets/Setting.png'),
-
+    eyeClose:require('../assets/eye-slash.png'),
+    eyeOpen:require('../assets/eye.png'),
+    Snotification:require('../assets/snotification.png'),
+    Slock:require('../assets/slock.png'),
+    Shelp:require('../assets/shelp.png'),
+    Sterm:require('../assets/sterm.png'),
+    Sabout:require('../assets/sabout.png'),
+    Logout:require('../assets/logout.png'),
+    Sarrow:require('../assets/sarrow.png'),
+    Sedit:require('../assets/sedit.png'),
   };
   
   export default ImagePath;
