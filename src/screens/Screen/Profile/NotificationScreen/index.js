@@ -3,7 +3,7 @@ import {View,Text} from 'react-native';
 const NotificationScreen =()=>{
     return(
         <View>
-            <Text></Text>
+            <Text>Notifications ScrollView</Text>
         </View>
     )
 }

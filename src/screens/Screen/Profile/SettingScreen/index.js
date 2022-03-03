@@ -14,8 +14,8 @@ const SeetingScreen = ({ navigation }) => {
                 <Text style={{ color: '#E9F0FA', fontSize: 24, fontWeight: '800', marginLeft: wp('3%') }}>Settings</Text>
             </View>
             <ScrollView style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
-                <View style={{ flexDirection: 'row', width: wp('60%'), justifyContent: 'space-evenly', }}>
-                    <View>
+                <View style={{ flexDirection: 'row', width: wp('60%'), justifyContent: 'space-evenly',marginTop:hp('2%') }}>
+                    <View >
                         <Text style={{ color: '#E9F0FA', fontSize: 13, fontWeight: '600' }}>ENGLISH</Text>
                     </View>
                     <View>
@@ -31,10 +31,10 @@ const SeetingScreen = ({ navigation }) => {
                         <Text style={{ color: '#E9F0FA70', fontSize: 13, fontWeight: '600' }}>ESPANOL</Text>
                     </View>
                 </View>
-                <View style={{ marginLeft: wp('3%') }}>
+                <View style={{ marginLeft: wp('3%'),marginTop:hp('2%') }}>
                     <Text style={{ color: '#E9F0FA70', fontSize: 13, fontWeight: '600' }}>GENERAL</Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Notification')}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ width: wp('20%') }}>
                             <Image source={Path.Snotification} resizeMode="center"></Image>
@@ -48,7 +48,7 @@ const SeetingScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('ChangePassword')}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ width: wp('20%') }}>
                             <Image source={Path.Slock} resizeMode="center"></Image>

@@ -36,6 +36,7 @@ const Signin=({navigation})=>{
    const loginApi=async()=>{
     // navigation.navigate('BottomTab')
     setLoading(!loading)
+    try{
     if(loginuserName && loginPassword){
       let body=JSON.stringify({
         name:fullName,
@@ -66,51 +67,23 @@ const Signin=({navigation})=>{
         Alert.alert("Something wrong into server side");
       }
     }
-    else{
-      setLoading(!loading)
-      Alert.alert("something parameter is missing");
-      
-    }
+  
+  }catch(error){
+    console.log(error);
+  }
+  
    }
    const registerApi=async()=>{
-    setLoadingRegister(!loadingRegister)
-    if(Utility.isValidEmail(emailid)){
-      Alert.alert("EMail is not Valid")
-    }
-    else if(emailid && fullName && password){
-      let body=JSON.stringify({
-        name:fullName,
-        email:emailid,
-        phone_number:mobile,
-        password:password
-       })
-        let headers = {
-          'Content-Type': 'multipart/form-data',
-          Accept: 'application/json',
-      };
-       console.log("user body is..",body);
-      let response=await axios.post(
-        'http://3.138.124.101:9000/register', 
-        {
-          name:fullName,
-          email:emailid,
-          phone_number:mobile,
-          password:password
-        },
-    );
-      console.log('befire', response.status);
-      if(response.status===200){
-        await Utility.setInLocalStorge('user_email',emailid)
-        setLoadingRegister(!loadingRegister)
-        navigation.navigate('SignupOtp')
-      }
-      else if(response.status===400){
-        Alert.alert("Something wrong into server side");
-      }
-    }
-    else{
-      Alert.alert("something parameter is missing");
-    }
+    axios.post('http://3.138.124.101:9000/register',
+    {
+      "name":"amit",
+      "email":"amgg",
+      "phone_number":"",
+      "password":"123456"
+  }
+  ).then((res)=>{
+  console.log("AMit sir??...../////jkdjgjhgdhkjhhj.....",res.data);
+  })
    }
    const openTermofuse=()=>{
     navigation.navigate('Termofuse')
@@ -118,21 +91,12 @@ const Signin=({navigation})=>{
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
             <Header/>
-            {/* <Loader isLoading={loading}></Loader> */}
             <ScrollView>
               <KeyboardAvoidingView>
             <View style={{flexDirection:'row',justifyContent:'space-evenly',backgroundColor:'#0D111C',padding:5}}>
                 <TouchableOpacity onPress={()=>setAuthData('Login')} style={{alignItems:'center'}}>
                 <View ><Text style={Authdata=="Login"?{color:'white',fontFamily:'Poppins'}:{color:'#E9F0FA70',fontWeight:'400',fontSize:14,fontFamily:'Poppins'}}>LOGIN</Text></View>
-                {/* <View
-            style={{
-              borderBottomColor: '#117AF5',
-              borderBottomWidth: .25,
-              width: wp('50%'),
-              marginTop: 5,
-              // marginLeft:5
-            }}
-          /> */}
+            
           {Authdata=="Login"?
                 <View
             style={{
@@ -140,22 +104,13 @@ const Signin=({navigation})=>{
               borderBottomWidth: 5,
               width: wp('10%'),
               borderRadius:30
-              // marginTop: 5,
-              // marginLeft:5
+             
             }}
           />:null}
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>setAuthData('Signup')} style={{alignItems:'center'}}>
                 <View><Text style={Authdata=="Signup"?{color:'white'}:{color:'#E9F0FA70',fontWeight:'400',fontSize:14}}>SIGNUP</Text></View>
-                {/* <View
-            style={{
-              borderBottomColor: '#117AF5',
-              borderBottomWidth: .25,
-              width: wp('50%'),
-              marginTop: 5,
-              // marginLeft:5
-            }}
-          /> */}
+               
           {Authdata=="Signup"?
                 <View
             style={{
@@ -163,8 +118,7 @@ const Signin=({navigation})=>{
               borderBottomWidth: 5,
               width: wp('10%'),
               borderRadius:30
-              // marginTop: 5,
-              // marginLeft:5
+         
             }}
           />:null}
                 </TouchableOpacity>
