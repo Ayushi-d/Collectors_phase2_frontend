@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import {View,Text,TouchableOpacity,StyleSheet} from 'react-native';
+import {View,Text,TouchableOpacity,StyleSheet, Alert} from 'react-native';
 import Header from '../../../../components/Header';
 import {
   CodeField,
@@ -36,27 +36,15 @@ const styles = StyleSheet.create({
 const CELL_COUNT = 4;
 const SigninOTp=({navigation})=>{
   const [value, setValue] = useState('');
-  const [email,setEmail]=useState('tvikas6523@gmail.com');
+  const [email,setEmail]=useState();
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
         setValue,
     });
     const callOtpVerifyAPi=async()=>{
-      console.log("VIkassss");
-      // console.log(text);
+    try{
       if (value && email) {
-        // console.log(text);
-        let body = JSON.stringify({
-          // email: text,
-          email:email,
-          otp:value
-        })
-        let headers = {
-          'Content-Type': 'multipart/form-data',
-          Accept: 'application/json',
-        };
-        console.log("user body is..", body);
         let response = await axios.post(
           'http://3.138.124.101:9000/verifyOtp',
           {
@@ -65,25 +53,29 @@ const SigninOTp=({navigation})=>{
           },
         );
         console.log('befire', response.data);
-        if (response.data.code == "200") {
+        console.log("email..",email)
+        if (response.data.code ==200) {
           await Utility.setInLocalStorge("user_id",response.data.user_id);
-          console.log("out put come");
           navigation.navigate('SigninPassword')
         }
         else {
-          Alert.alert("Something wrong into server side");
+          Alert.alert(response.data.msg);
         }
   
       }
       else{
-        Alert.alert("Otp is missing");
+        Alert.alert("Parameter is missing");
       }
+    }catch(error){
+      Alert.alert(error);
+    }
     }
     useEffect(()=>{
       getEmail()
     })
     const getEmail=async()=>{
       var email=await Utility.getFromLocalStorge('user_email');
+      console.log(":bb.....",email);
       setEmail(email);
     }
     return(

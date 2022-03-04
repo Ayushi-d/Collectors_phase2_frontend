@@ -25,7 +25,6 @@ const SignupUsername=({navigation})=>{
     });
   }
   const onUsernameApihit=async()=>{
-   
     if (text && image) {
       console.log(text);
       let body = JSON.stringify({
@@ -37,9 +36,9 @@ const SignupUsername=({navigation})=>{
       };
       await Utility.setInLocalStorge('userProfile',image);
       await Utility.setInLocalStorge('userName',text)
-      var data = new FormData();
+    var data = new FormData();
     data.append('username',text);
-    data.append('user_id',user_id);
+    data.append('userId',user_id);
     data.append('recfile',
       {
          uri:image,
@@ -50,18 +49,17 @@ const SignupUsername=({navigation})=>{
       navigation.navigate('BottomTab')
       let response = await axios.post(
         'http://3.138.124.101:9000/upload-images',{data
-      }       
+      } ,headers      
       );
       console.log("bbgg",response);
       console.log('befire', response.data);
-      if (response.data.code == "200") {
+      if (response.data.code == 200) {
         console.log("out put come");
-        
+        navigation.navigate('BottomTab') 
       }
       else {
         navigation.navigate('BottomTab')
       }
-
     }
     else{
       Alert.alert("Something parameter is missing");
@@ -79,8 +77,8 @@ const SignupUsername=({navigation})=>{
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
             <Header login="true" navigate={navigation}/>
-            <View style={{alignSelf:'center',alignItems:'flex-end'}}>
-              {image?<Image source={{uri:image}} style={{height:150,width:150,borderRadius:70}}></Image>:
+            <View style={{alignSelf:'center',alignItems:'flex-end',marginTop:hp('2%')}}>
+              {image?<Image source={{uri:image}} style={{height:100,width:100,borderRadius:50}}></Image>:
                 <Image source={Path.userImage}></Image>}
                 <TouchableOpacity onPress={()=>openGallary()}>
                 <Image source={Path.camera} style={{marginTop:hp('-3%')}}></Image>

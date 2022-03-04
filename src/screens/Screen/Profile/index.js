@@ -32,13 +32,13 @@ const Profile = ({navigation}) => {
                     <Text style={{fontSize:16,fontWeight:'600',lineHeight:24,color:'#E9F0FA'}}>0</Text>
               </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.navigate('Following')}>
               <View style={{alignItems:'center',marginLeft:widthPercentageToDP('3%')}}>
                 <Text style={{fontSize:12,fontWeight:'400',color:'#9CA6B6'}}>Followers</Text>
                 <Text style={{fontSize:16,fontWeight:'600',lineHeight:24,color:'#E9F0FA'}}>12</Text>
                 </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Following')}>
                 <View style={{alignItems:'center',marginLeft:widthPercentageToDP('3%')}}>
                     <Text style={{fontSize:12,fontWeight:'400',color:'#9CA6B6'}}>Following</Text>
                     <Text style={{fontSize:16,fontWeight:'600',lineHeight:24,color:'#E9F0FA'}}>47</Text>

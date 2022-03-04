@@ -43,12 +43,12 @@ const SigninPassword=({navigation})=>{
         },
       );
       console.log('befire', response.data);
-      if (response.data.code == "200") {
+      if (response.data.msg =="Success! Password updated.") {
         console.log("out put come");
         navigation.navigate('Signin')
       }
       else {
-        Alert.alert("Something wrong into server side");
+        Alert.alert(response.data.msg);
       }
     }
     else{

@@ -14,10 +14,10 @@ const ProfileHeader=({name,navigate})=>{
     }
     return(
         <View style={{backgroundColor:'black',flexDirection:'row',justifyContent:'space-between'}}>
-            <View style={{margin:'2%'}}>
+            <View style={{margin:'3%'}}>
             <Text style={{color:'white'}}>{Loginusername}</Text>
             </View>
-            <View style={{marginRight:Utility.widthPercentageToDP('5%'),margin:'2%'}}>
+            <View style={{marginRight:Utility.widthPercentageToDP('5%'),margin:'3%'}}>
                 <TouchableOpacity onPress={navigate}>
                 <Image source={Path.Setting}></Image>
                 </TouchableOpacity>

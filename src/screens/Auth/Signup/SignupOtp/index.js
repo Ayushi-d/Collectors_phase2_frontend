@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {View,Text,TouchableOpacity,StyleSheet} from 'react-native';
+import {View,Text,TouchableOpacity,StyleSheet,Alert} from 'react-native';
 import Header from '../../../../components/Header';
 import {
   CodeField,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 const CELL_COUNT = 4;
 const SignupOTp=({navigation})=>{
    
-    const [email,setEmail]=useState('tvikas6523@gmail.com');
+    const [email,setEmail]=useState('');
   const [value, setValue] = useState('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -61,18 +61,18 @@ const SignupOTp=({navigation})=>{
           let response = await axios.post(
             'http://3.138.124.101:9000/verifyOtp',
             {
-            email:email,
-            otp:value
+            "email":email,
+            "otp":value
             },
           );
-          console.log('befire', response.data);
-          if (response.data.code == "200") {
+          console.log('befire.SIgnup OTP', response.data.user_id);
+          if (response.data.code == 200) {
             await Utility.setInLocalStorge("user_id",response.data.user_id);
             console.log("out put come");
             navigation.navigate('SignupUsername')
           }
           else {
-            Alert.alert("Something wrong into server side");
+            Alert.alert(response.data.msg);
           }
     
         }
@@ -82,13 +82,27 @@ const SignupOTp=({navigation})=>{
       }
       useEffect(()=>{
         getEmail()
-      })
+      },[])
       const getEmail=async()=>{
         var email=await Utility.getFromLocalStorge('user_email');
         setEmail(email);
       }
-      const resendOtpAPi=()=>{
-        
+      const resendOtpAPi=async()=>{
+        let response = await axios.post(
+          'http://3.138.124.101:9000/forgotPassword',
+          {
+            email: email,
+          },
+        );
+        // console.log('befire', response.data);
+        if (response.data.code == "200") {
+          await Utility.setInLocalStorge('user_email',email);
+          setLoading(false);
+          navigation.navigate('SigninOTp')
+        }
+        else {
+          Alert.alert(response.data.msg)
+      }
       }
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>

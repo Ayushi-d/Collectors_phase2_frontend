@@ -10,40 +10,16 @@ const Splash=({navigation})=>{
         }, 1000);
       }, []);
       const retrieveData = async () => {
-        navigation.navigate('BottomTab')
-        // let user_id = await Utility.getFromLocalStorge('user_id');
-        // let is_profile_completed = await Utility.getFromLocalStorge('is_profile_completed');
-        // let student_id = await Utility.getFromLocalStorge('student_id');
-        // let Token = await Utility.getFromLocalStorge('Token');
-    
-        // let Type = await Utility.getFromLocalStorge('socialtype')
-        // console.log("Type==>", Type)
-    
-        
-        
-        // console.log("is_profile_completed",is_profile_completed)
-        // console.log("user_id",user_id)
-    
-        // console.log("Token",Token)
-    
-        // if(is_profile_completed==true){
-        
-       
-        // return  navigation.navigate("BottomTab")
-        // }
-        // if(Token!==null && user_id!==null){
-        //   return navigation.navigate('BottomTab');
-        // }
-        // else{
-        //  return navigation.navigate('Login');
-        // }
+        // navigation.navigate('Authdetails')
+        navigation.navigate('Authdetails')
+      
         
       };
     return(
         <View style={{flex:1}}>
             <ImageBackground source={Path.backgroundImage} style={{height:hp('100%'),width:wp('100%')}}>
-                <View style={{alignSelf:'center',marginTop:hp('50%')}}>
-                    <Image source={Path.logo}></Image>
+                <View style={{alignSelf:'center',marginTop:hp('40%')}}>
+                    <Image source={Path.logohd} style={{width:140,height:50}}></Image>
                 </View>
                 <View style={{marginTop:hp('30%'),alignSelf:'center'}}>
                     <Image source={Path.logoTextlong} resizeMode="center" style={{height:hp('10%'),width:wp('80%')}}></Image>

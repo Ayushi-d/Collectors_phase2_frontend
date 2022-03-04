@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput,Alert,ActivityIndicator} from 'react-native';
 import Header from "../../../../components/Header";
 import axios from "axios";
 import * as Utility from '../../../../utility/index';
@@ -7,6 +7,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "../../../
 const SigninForgot = ({ navigation }) => {
   const [text, setText] = useState();
   const [isClick, setIsclick] = useState(false);
+  const [loading,setLoading]=useState(false);
   const onChangeText = (text) => {
     setText(text);
   };
@@ -14,22 +15,12 @@ const SigninForgot = ({ navigation }) => {
     return !text.includes('@');
   };
   const callForgotAPi = async () => {
-    
-    console.log("VIkassss");
-    console.log(text);
-    if(Utility.isValidEmail(text)){
-      Alert.alert("Please enter valid email");
+    setLoading(false);
+    try{
+    if(!text){
+      Alert.alert("Please Enter Email");
     }
-    else  if (text) {
-      console.log(text);
-      let body = JSON.stringify({
-        email: text,
-      })
-      let headers = {
-        'Content-Type': 'multipart/form-data',
-        Accept: 'application/json',
-      };
-      console.log("user body is..", body);
+    else {
       let response = await axios.post(
         'http://3.138.124.101:9000/forgotPassword',
         {
@@ -37,19 +28,19 @@ const SigninForgot = ({ navigation }) => {
         },
       );
       console.log('befire', response.data);
-      if (response.data.code == "200") {
-        await Utility.setInLocalStorge('user_email',response.data.email);
-        console.log("out put come");
+      if (response.data.msg =="Otp sent successfully.") {
+        await Utility.setInLocalStorge('user_email',text);
+        setLoading(false);
         navigation.navigate('SigninOTp')
       }
       else {
-        Alert.alert("Something wrong into server side");
-      }
-
+        Alert.alert(response.data.msg)
     }
-    else{
-      Alert.alert("Username E-mail is missing");
-    }
+  }
+  }catch(error){
+    Alert.alert(error);
+    setLoading(false);
+  }
   }
   return (
     <View style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
@@ -96,7 +87,9 @@ const SigninForgot = ({ navigation }) => {
       </View>
       <TouchableOpacity onPress={() => callForgotAPi()}>
         <View style={{ backgroundColor: '#117AF5', padding: 10, borderRadius: 8, width: wp('87%'), alignSelf: 'center', alignItems: 'center' }}>
-          <Text style={{ lineHeight: 28, color: 'white', fontSize: 13, fontWeight: '600',fontFamily:'Poppins' }}>VERIFY</Text>
+          {!loading?
+          <Text style={{ lineHeight: 28, color: 'white', fontSize: 13, fontWeight: '600',fontFamily:'Poppins' }}>VERIFY</Text>:
+          <ActivityIndicator size="large" color="white"></ActivityIndicator>}
         </View>
       </TouchableOpacity>
     </View>

@@ -21,7 +21,7 @@ const SeetingScreen = ({ navigation }) => {
                     <View>
                         <Switch
                             trackColor={{ false: "#767577", true: "#81b0ff" }}
-                            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                            thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
                             ios_backgroundColor="#3e3e3e"
                             onValueChange={toggleSwitch}
                             value={isEnabled}
@@ -67,12 +67,12 @@ const SeetingScreen = ({ navigation }) => {
                         <View style={{ width: wp('20%') }}>
                             <Image source={Path.Shelp} resizeMode="center"></Image>
                         </View>
-                        <View style={{ width: wp('50%') }}>
+                        <View style={{ width: wp('48%') }}>
                             <Text style={{ color: '#E9F0FA', fontSize: 14, fontWeight: '600', lineHeight: 26 }}>Help & Support</Text>
                             <Text style={{ color: '#E9F0FA70', fontSize: 13, fontWeight: '600' }}>Stuck? Write us!</Text>
                         </View>
-                        <View style={{ width: wp('10%') }}>
-                            <Image source={Path.Sarrow} resizeMode="center"></Image>
+                        <View style={{ width: wp('15%') }}>
+                            <Image source={Path.Sedit} resizeMode="center"></Image>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -104,8 +104,7 @@ const SeetingScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Signin')}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ width: wp('20%') }}>
                             <Image source={Path.Logout} resizeMode="center"></Image>

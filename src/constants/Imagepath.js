@@ -44,6 +44,7 @@ const ImagePath = {
     Logout:require('../assets/logout.png'),
     Sarrow:require('../assets/sarrow.png'),
     Sedit:require('../assets/sedit.png'),
+    FollowUser:require('../assets/followuser.png'),
   };
   
   export default ImagePath;
