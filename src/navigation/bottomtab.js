@@ -33,7 +33,7 @@ tabBarOptions={{
     tabBarLabel: 'Home',
     tabBarIcon: ({ color, size }) => (
       // <MaterialCommunityIcons name="home" color={color} size={size} />
-      <Image source={Path.Hometab}></Image>
+      <Image source={Path.Hometab} resizeMode="center"></Image>
     ),
   }}
 />
@@ -44,7 +44,7 @@ tabBarOptions={{
     tabBarLabel: 'Messages',
     tabBarIcon: ({ color, size }) => (
       // <MaterialCommunityIcons name="message" color={color} size={size} />
-      <Image source={Path.Chattab}></Image>
+      <Image source={Path.Chattab} resizeMode="center"></Image>
     ),
   }}
 />
@@ -65,10 +65,10 @@ tabBarOptions={{
   name="Notification"
   component={Notification}
   options={{
-    tabBarLabel: 'Notification',
+    tabBarLabel: 'Stores',
     tabBarIcon: ({ color, size }) => (
       // <MaterialCommunityIcons name="notification-clear-all" color={color} size={size} />
-      <Image source={Path.NotificationTab}></Image>
+      <Image source={Path.NotificationTab} resizeMode="center"></Image>
     ),
   }}
 />
@@ -79,7 +79,7 @@ tabBarOptions={{
     tabBarLabel: 'Profile',
     tabBarIcon: ({ color, size }) => (
       // <MaterialCommunityIcons name="account" color={color} size={size} />
-      <Image source={Path.ProfileTab} resizeMode="contain"></Image>
+      <Image source={Path.ProfileTab} resizeMode="contain" resizeMode="center"></Image>
     ),
   }}
 />

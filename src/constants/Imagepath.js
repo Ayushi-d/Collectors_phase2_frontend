@@ -45,6 +45,7 @@ const ImagePath = {
     Sarrow:require('../assets/sarrow.png'),
     Sedit:require('../assets/sedit.png'),
     FollowUser:require('../assets/followuser.png'),
+    Plus1:require('../assets/plus1.png')
   };
   
   export default ImagePath;

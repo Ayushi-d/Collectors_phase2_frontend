@@ -8,11 +8,13 @@ import { widthPercentageToDP as wp,heightPercentageToDP as hp } from '../../../.
 import Header from '../../../../components/Header';
 import * as Utility from '../../../../utility/index';
 // import { ActivityIndicator } from 'react-native-paper';
-const EditProfile=({navigation})=>{
+const EditProfile=({navigation,route})=>{
+  const {user_id} = route.params;
+  console.log("edit pe id..",user_id);
   const [isClick,setIsclick]=useState(false);
   const [isClick1,setIsclick1]=useState(false);
   const [isClick2,setIsClick2]=useState(false);
-  const [userId,setUserId]=useState('1033');
+  const [userId,setUserId]=useState(userId);
   const [userName,setUserName]=useState('');
   const [userImage,setUserImage]=useState();
   const [fullName,setFullName]=useState();
@@ -41,17 +43,15 @@ const EditProfile=({navigation})=>{
         let response = await axios.post(
           'http://3.138.124.101:9000/getUserInfo',
           {
-         
-            "user_id":userId
+            "user_id":user_id
           },
         );
         console.log("Edit profile..",response.data.code);
         if(response.data.code==200){
-          // console.log("Imagehgfgghf",response.data.userDetails)
+         
           setFullName(response.data.userDetails.name)
           setUserEmail(response.data.userDetails.email)
-          // setUserImage(response.data.userDetails.profile_image)
-          // setUserName(response.data.userDetails.username)
+        
           const userImage=await Utility.getFromLocalStorge('userProfile')
           setUserImage(userImage);
           setLoader(false);

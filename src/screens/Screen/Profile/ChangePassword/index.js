@@ -136,7 +136,7 @@ const ChangePassword = ({ navigation }) => {
         <TouchableOpacity onPress={() => ChnagePassword()} style={{ margin: hp('5%') }}>
           <View style={{ backgroundColor: '#117AF5', padding: 10, borderRadius: 8, width: wp('90%'), alignSelf: 'center', alignItems: 'center' }}>
             {!loading ?
-              <Text style={{ color: 'white', lineHeight: 28, fontWeight: '600', fontSize: 13 }}>CREATE ACCOUNT</Text> :
+              <Text style={{ color: 'white', lineHeight: 28, fontWeight: '600', fontSize: 13 }}>CHANGE PASSWORD</Text> :
               <ActivityIndicator size="large" color="white"></ActivityIndicator>}
           </View>
         </TouchableOpacity>

@@ -1,6 +1,6 @@
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef,useEffect} from 'react';
 import Homeheader from '../../../components/Homeheader';
-import {View,Text, StyleSheet, Image, TouchableOpacity,ScrollView,Modal} from 'react-native';
+import {View,Text, StyleSheet, Image, TouchableOpacity,ScrollView,Modal,Alert,BackHandler} from 'react-native';
 import Path from '../../../constants/Imagepath';
 import ReadMore from '@fawazahmed/react-native-read-more';
 import FbGrid from "react-native-fb-image-grid";
@@ -12,6 +12,27 @@ const MainHome = () => {
   const refRBSheet = useRef();
      const onPress = (url, index, event) => {
     }
+    useEffect(() => {
+      const backAction = () => {
+        Alert.alert("Hold on!", "Are you sure you want to go back?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel"
+          },
+          { text: "YES", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+      };
+  
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+  
+      return () => backHandler.remove();
+    }, []);
+  
 
   return (
       <View style={ styles.containerStyle}>
@@ -84,7 +105,7 @@ const MainHome = () => {
             <Image source={Path.like}></Image>
             </TouchableOpacity>
             <TouchableOpacity>
-            <Image source={Path.Chat}></Image>
+            <Image source={Path.Chat} resizeMode="center"></Image>
             </TouchableOpacity>
           </View>
           <View>

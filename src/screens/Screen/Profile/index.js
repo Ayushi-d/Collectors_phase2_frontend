@@ -8,13 +8,17 @@ import * as Utility from '../../../utility/index';
 const Profile = ({navigation}) => {
   const [userImage,setUserImage]=useState();
   const [userName,setUserName]=useState();
+  const [user_id,setUser_id]=useState();
   useEffect(()=>{
     getUserData()
   },[])
   const getUserData=async()=>{
-    var ProfileImage=await Utility.getFromLocalStorge('userProfile');
+    var ProfileImage=await Utility.getFromLocalStorge("userProfile");
     setUserImage(ProfileImage);
-    var UserName=await Utility.getFromLocalStorge('userName')
+    var UserName=await Utility.getFromLocalStorge("userName")
+    var userId=await Utility.getFromLocalStorge("user_id")
+    setUser_id(userId);
+    console.log("user id is .././.",userId);
     setUserName(UserName);
   }
   return (
@@ -52,7 +56,7 @@ const Profile = ({navigation}) => {
             <View style={{marginLeft:'5%'}}>
               <Text style={{fontSize:12,fontWeight:'300',color:'#E9F0FA',lineHeight:24,width:widthPercentageToDP('80%')}}>Take CE Quiz and start trading to get a rank, activate leaderboard gain reviews!</Text>
             </View>
-            <TouchableOpacity onPress={()=>navigation.navigate('EditProfile')}>
+            <TouchableOpacity onPress={()=>navigation.navigate('EditProfile',{user_id:user_id})}>
             <View style={{borderWidth:1,borderColor:'#E9F0FA',padding:4,borderRadius:10,width:widthPercentageToDP('90%'),alignSelf:'center',margin:'5%'}}>
               <Text style={{fontSize:13,fontWeight:'600',color:'white',lineHeight:28,alignSelf:'center'}}>EDIT PROFILE</Text>
             </View>

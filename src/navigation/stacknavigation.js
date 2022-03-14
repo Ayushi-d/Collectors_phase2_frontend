@@ -16,7 +16,9 @@ import Termsofuse from '../screens/BasicDetails/Termsofuse';
 import ChangePassword from '../screens/Screen/Profile/ChangePassword';
 import SeetingScreen from '../screens/Screen/Profile/SettingScreen';
 import Followings from '../screens/Screen/Profile/Following';
-import Notification from '../screens/Screen/Profile/NotificationScreen'
+import Notification from '../screens/Screen/Profile/NotificationScreen';
+import PostCategory from '../screens/Screen/NewPost/PostCategory';
+import PostSubCategory from '../screens/Screen/NewPost/PostSubCategory';
 // import { Settings } from 'react-native';
 const Stack = createNativeStackNavigator();
 const StackNavigtaion=()=>{
@@ -38,6 +40,8 @@ const StackNavigtaion=()=>{
     <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown:false}}/>
       <Stack.Screen name="SettingScreen" component={SeetingScreen} options={{headerShown:false}}/>
       <Stack.Screen name="Notification" component={Notification} options={{headerShown:false}}/>
+      <Stack.Screen name="PostCategory" component={PostCategory} options={{headerShown:false}}/>
+      <Stack.Screen name="PostSubCategory" component={PostSubCategory} options={{headerShown:false}}/>
   </Stack.Navigator>
     )
 }

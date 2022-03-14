@@ -85,7 +85,7 @@ const SigninOTp=({navigation})=>{
             <Text style={{color:'white',fontWeight:'700',fontSize:32}}>OTP Verification</Text>
             </View>
             <View style={{margin:wp('3%'),width:wp('90%')}}>
-                <Text style={{color:'white',fontFamily:'Poppins',fontSize:13,fontWeight:'400'}}>Enter the One Time Password sent to your contact number ending with 90 to verify.</Text>
+                <Text style={{color:'white',fontFamily:'Poppins',fontSize:13,fontWeight:'400'}}>Enter the One Time Password that is sent to your registered E-mail id.</Text>
             </View>
             <View style={{marginLeft:wp('22%'),marginRight:wp('22%'),margin:hp('5%')}}>
             <CodeField

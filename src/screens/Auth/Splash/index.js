@@ -2,6 +2,7 @@ import React,{useEffect} from "react";
 import {View,Text, ImageBackground,Image} from 'react-native';
 import Path from '../../../constants/Imagepath';
 import { widthPercentageToDP  as wp ,heightPercentageToDP as hp} from "../../../utility";
+import * as Utility from '../../../utility/index';
 
 const Splash=({navigation})=>{
     useEffect(() => {
@@ -10,9 +11,13 @@ const Splash=({navigation})=>{
         }, 1000);
       }, []);
       const retrieveData = async () => {
+          let user_id=await Utility.getFromLocalStorge("user_id");
+          if(user_id){
+            navigation.navigate('BottomTab');
+          }else{
         // navigation.navigate('Authdetails')
         navigation.navigate('Authdetails')
-      
+          }
         
       };
     return(

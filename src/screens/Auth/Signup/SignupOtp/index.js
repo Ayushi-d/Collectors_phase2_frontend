@@ -111,10 +111,9 @@ const SignupOTp=({navigation})=>{
             <Text style={{color:'white',fontWeight:'700',fontSize:32}}>OTP Verification</Text>
             </View>
             <View style={{margin:wp('3%')}}>
-                <Text style={{color:'white'}}>Don’t worry, we’ve got you covered! Enter your registered contact to reset your password.</Text>
+                <Text style={{color:'white'}}>Enter the One Time Password that is sent to your registered E-mail id..</Text>
             </View>
             <View style={{marginLeft:wp('22%'),marginRight:wp('22%'),margin:hp('5%')}}>
-
             <CodeField
                     ref={ref}
                     {...props}
