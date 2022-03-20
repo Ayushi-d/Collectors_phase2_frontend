@@ -81,11 +81,11 @@ const ChangePassword = ({ navigation }) => {
             </View>
             <View style={{ width: wp('20%') }}>
               {resgisterPasswordeye ?
-                <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: '-5%' }}>
+                <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: hp('-1.5%') }}>
                   <Image source={Path.eyeClose} resizeMode="center"></Image>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: '-5%' }}>
+                <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: hp('-1.5%') }}>
                   <Image source={Path.eyeOpen} resizeMode="center"></Image>
                 </TouchableOpacity>
               }
@@ -101,11 +101,11 @@ const ChangePassword = ({ navigation }) => {
             <View style={{ width: wp('20%') }}>
               {resgisterPasswordeye1 ?
 
-                <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: '-5%' }}>
+                <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: hp('-1.5%') }}>
                   <Image source={Path.eyeClose} resizeMode="center"></Image>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: '-5%' }}>
+                <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: hp('-1.5%') }}>
                   <Image source={Path.eyeOpen} resizeMode="center"></Image>
                 </TouchableOpacity>
 
@@ -122,11 +122,11 @@ const ChangePassword = ({ navigation }) => {
             </View>
             <View style={{ width: wp('20%') }}>
               {resgisterPasswordeye2 ?
-                <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: '-5%', }}>
+                <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: hp('-1.5%'), }}>
                   <Image source={Path.eyeClose} resizeMode="center"></Image>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: '-5%' }}>
+                <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: hp('-1.5%') }}>
                   <Image source={Path.eyeOpen} resizeMode="center"></Image>
                 </TouchableOpacity>
               }

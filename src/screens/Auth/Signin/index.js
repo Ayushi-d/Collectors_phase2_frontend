@@ -149,11 +149,11 @@ const Signin = ({ navigation }) => {
                   <View style={{ width: wp('20%') }}>
 
                     {loginpasswordEye ?
-                      <TouchableOpacity onPress={() => setLoginPasswordEye(!loginpasswordEye)} style={{ top: '-5%' }}>
+                      <TouchableOpacity onPress={() => setLoginPasswordEye(!loginpasswordEye)} style={{ top: hp('-1.5%') }}>
                         <Image source={Path.eyeClose} resizeMode="center"></Image>
                       </TouchableOpacity>
                       :
-                      <TouchableOpacity onPress={() => setLoginPasswordEye(!loginpasswordEye)} style={{ top: '-5%' }}>
+                      <TouchableOpacity onPress={() => setLoginPasswordEye(!loginpasswordEye)} style={{ top: hp('-1.5%') }}>
                         <Image source={Path.eyeOpen} resizeMode="center"></Image>
                       </TouchableOpacity>
                     }
