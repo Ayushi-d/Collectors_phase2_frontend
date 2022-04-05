@@ -4,17 +4,22 @@ import Header from '../../../../components/Header';
 import ProfileHeader from '../../../../components/profileHeader';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../../../utility';
 import Path from '../../../../constants/Imagepath';
+import * as utility from '../../../../utility/index';
 const SeetingScreen = ({ navigation }) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const logoutAction=()=>{
+        utility.setInLocalStorge('user_id','')
+        navigation.navigate('Signin')
+    }
     return (
         <View>
-            <Header login="true" navigate={navigation} />
+            <Header login="true" navigate={navigation} hideLogo="true" />
             <View style={{ backgroundColor: '#0D111C', padding: 5 }}>
-                <Text style={{ color: '#E9F0FA', fontSize: 24, fontWeight: '800', marginLeft: wp('3%') }}>Settings</Text>
+                <Text style={{ color: '#E9F0FA', fontSize: 24, fontWeight: '800', marginLeft: wp('4%') }}>Settings</Text>
             </View>
             <ScrollView style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
-                <View style={{ flexDirection: 'row', width: wp('60%'), justifyContent: 'space-evenly',marginTop:hp('2%') }}>
+                <View style={{ flexDirection: 'row', width: wp('52%'), justifyContent: 'space-evenly',marginTop:hp('5%'),marginLeft:wp('3%') }}>
                     <View >
                         <Text style={{ color: '#E9F0FA', fontSize: 13, fontWeight: '600' }}>ENGLISH</Text>
                     </View>
@@ -31,12 +36,12 @@ const SeetingScreen = ({ navigation }) => {
                         <Text style={{ color: '#E9F0FA70', fontSize: 13, fontWeight: '600' }}>ESPANOL</Text>
                     </View>
                 </View>
-                <View style={{ marginLeft: wp('3%'),marginTop:hp('2%') }}>
+                <View style={{ marginLeft: wp('5%'),marginTop:hp('2%') }}>
                     <Text style={{ color: '#E9F0FA70', fontSize: 13, fontWeight: '600' }}>GENERAL</Text>
                 </View>
                 <TouchableOpacity onPress={()=>navigation.navigate('Notification')}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View style={{ width: wp('20%') }}>
+                        <View style={{ width: wp('5%') }}>
                             <Image source={Path.Snotification} resizeMode="center"></Image>
                         </View>
                         <View style={{ width: wp('50%') }}>
@@ -50,7 +55,7 @@ const SeetingScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>navigation.navigate('ChangePassword')}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View style={{ width: wp('20%') }}>
+                        <View style={{ width: wp('5%') }}>
                             <Image source={Path.Slock} resizeMode="center"></Image>
                         </View>
                         <View style={{ width: wp('50%') }}>
@@ -64,7 +69,7 @@ const SeetingScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View style={{ width: wp('20%') }}>
+                        <View style={{ width: wp('7%') }}>
                             <Image source={Path.Shelp} resizeMode="center"></Image>
                         </View>
                         <View style={{ width: wp('48%') }}>
@@ -78,7 +83,7 @@ const SeetingScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View style={{ width: wp('20%') }}>
+                        <View style={{ width: wp('5%') }}>
                             <Image source={Path.Sterm} resizeMode="center"></Image>
                         </View>
                         <View style={{ width: wp('50%') }}>
@@ -92,7 +97,7 @@ const SeetingScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View style={{ width: wp('20%') }}>
+                        <View style={{ width: wp('5%') }}>
                             <Image source={Path.Sabout} resizeMode="center"></Image>
                         </View>
                         <View style={{ width: wp('50%') }}>
@@ -104,9 +109,9 @@ const SeetingScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate('Signin')}>
+                <TouchableOpacity onPress={()=>logoutAction()}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View style={{ width: wp('20%') }}>
+                        <View style={{ width: wp('5%') }}>
                             <Image source={Path.Logout} resizeMode="center"></Image>
                         </View>
                         <View style={{ width: wp('50%') }}>

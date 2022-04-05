@@ -1,13 +1,41 @@
 import React from 'react';
 // import ';
-import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity} from 'react-native';
+import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity,BackHandler} from 'react-native';
 import Header from '../../../../components/Header';
 import { widthPercentageToDP as wp ,heightPercentageToDP as hp } from '../../../../utility';
 import Path from '../../../../constants/Imagepath';
+import {
+  useFocusEffect
+ } from '@react-navigation/native';
 const PostCategory = ({navigation}) => {
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        // setModalVisible(!isModalVisible);
+        navigation.navigate('BottomTab');
+        // Return true to stop default back navigaton
+        // Return false to keep default back navigaton
+        return true;
+      };
+
+      // Add Event Listener for hardwareBackPress
+      BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress
+      );
+
+      return () => {
+        // Once the Screen gets blur Remove Event Listener
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          onBackPress
+        );
+      };
+    }, []),
+  );
   return (
       <View>
-        <Header login="true" navigate={navigation}/>
+        <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>
         <ScrollView style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
         <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
     <View

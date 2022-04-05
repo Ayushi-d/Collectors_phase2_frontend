@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image, ActivityIndicator, Alert, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, Alert, TextInput,StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "../../../utility";
 import Header from "../../../components/Header";
 import { Box, FormControl, Input, KeyboardAvoidingView, ScrollView, WarningOutlineIcon } from 'native-base';
@@ -29,6 +29,11 @@ const Signin = ({ navigation }) => {
   const [isCheckPassword1, setIsChcekPassword1] = useState(false);
   const [loginpasswordEye, setLoginPasswordEye] = useState(false);
   const [resgisterPasswordeye, setRegisterPasswordeye] = useState(false);
+  const [loginuserNameactive,setLoginuserNameactive]=useState(false);
+  const [loginPasswordactive,setLoginUserPasswordactive]=useState(false);
+  const [registername,setRegisterName]=useState(false);
+  const [registerEmail,setRegisterEmail]=useState(false);
+  const [registerPassword,setRegisterPassword]=useState(false);
   const onChangeText = text => setText(text);
   const hasErrors = () => {
     return !text.includes('@');
@@ -99,6 +104,15 @@ const Signin = ({ navigation }) => {
   const openTermofuse = () => {
     navigation.navigate('Termofuse')
   }
+  const onFocusAction=(a)=>{
+    setLoginuserNameactive(false);
+    setLoginUserPasswordactive(false);
+    setRegisterName(false);
+    setRegisterEmail(false);
+    setRegisterPassword(false);
+    a(true);
+
+  }
   return (
     <View style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
       <Header />
@@ -136,15 +150,15 @@ const Signin = ({ navigation }) => {
           </View>
           {Authdata == "Login" ?
             <View>
-              <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('9%') }} >
+              <View style={loginuserNameactive?styles.textInputViewWithFocus:styles.textInputView}>
                 <Text style={loginIsClick1 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Username</Text>
-                <TextInput selectionColor="black" value={loginuserName} onTouchStart={() => setLoginIsCLick(!loginIsClick1)} onChangeText={(e) => setLoginuserName(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+                <TextInput selectionColor="black" onFocus={()=>onFocusAction(setLoginuserNameactive)} value={loginuserName} onTouchStart={() => setLoginIsCLick(!loginIsClick1)} onChangeText={(e) => setLoginuserName(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
               </View>
-              <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('9%') }} >
+              <View style={loginPasswordactive?styles.textInputViewWithFocus:styles.textInputView} >
                 <Text style={loginIsClick12 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Password</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <View style={{ width: wp('70%') }}>
-                    <TextInput value={loginPassword} secureTextEntry={loginpasswordEye} onTouchStart={() => setLoginIsCLick2(!loginIsClick12)} onChangeText={(e) => setLoginPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+                    <TextInput value={loginPassword} onFocus={()=>onFocusAction(setLoginUserPasswordactive)} secureTextEntry={loginpasswordEye} onTouchStart={() => setLoginIsCLick2(!loginIsClick12)} onChangeText={(e) => setLoginPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
                   </View>
                   <View style={{ width: wp('20%') }}>
 
@@ -291,14 +305,14 @@ const Signin = ({ navigation }) => {
                 </View>
               </View>
 
-              <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '10%' }} >
+              <View style={registername?styles.textInputViewWithFocus:styles.textInputView} >
                 <Text style={isCheckfullName ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Full Name *</Text>
-                <TextInput value={fullName} onTouchStart={() => setIsCheckfullName(!isCheckfullName)} onChangeText={(e) => setFullname(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+                <TextInput value={fullName} onFocus={()=>onFocusAction(setRegisterName)} onTouchStart={() => setIsCheckfullName(!isCheckfullName)} onChangeText={(e) => setFullname(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
               </View>
 
-              <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '10%' }} >
+              <View style={registerEmail?styles.textInputViewWithFocus:styles.textInputView} >
                 <Text style={isCheckEmail ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Email ID *</Text>
-                <TextInput value={emailid} onTouchStart={() => setIsCheckEMail(!isCheckEmail)} onChangeText={(e) => setEmailid(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+                <TextInput value={emailid} onFocus={()=>onFocusAction(setRegisterEmail)} onTouchStart={() => setIsCheckEMail(!isCheckEmail)} onChangeText={(e) => setEmailid(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
               </View>
 
               {/* <View style={{flexDirection:'row'}}>
@@ -313,10 +327,10 @@ const Signin = ({ navigation }) => {
         <TextInput value={mobile} onTouchStart={() => setIsCheckMobile(!isCheckMobile)} onChangeText={(e) => setMobile(e)} keyboardType="number-pad"  style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
       </View>
         </View> */}
-              <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '10%' }} >
+              <View style={registerPassword?styles.textInputViewWithFocus:styles.textInputView} >
                 <Text style={isCheckPassword1 ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Password *</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <TextInput value={password} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+                  <TextInput value={password} onFocus={()=>onFocusAction(setRegisterPassword)} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
                   {resgisterPasswordeye ?
                     <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: '-5%' }}>
                       <Image source={Path.eyeClose} resizeMode="center"></Image>
@@ -353,3 +367,30 @@ const Signin = ({ navigation }) => {
   )
 }
 export default Signin;
+
+const styles = StyleSheet.create({ 
+  textInputView: {
+    marginTop: hp('5%'), 
+    backgroundColor: '#1F232E', 
+    borderRadius: 10, 
+    borderColor: '#161F37', 
+    borderWidth: 1, 
+    padding: 6, 
+    marginLeft: '5%', 
+    marginRight: '5%', 
+    height: hp('9%')
+
+},
+textInputViewWithFocus: {
+  marginTop: hp('5%'), 
+  backgroundColor: '#1F232E', 
+  borderRadius: 10, 
+  // borderColor: '#117AF5', 
+  borderColor:'#117AF5',
+  borderWidth: 1, 
+  padding: 6, 
+  marginLeft: '5%', 
+  marginRight: '5%', 
+  height: hp('9%')
+}
+});

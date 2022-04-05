@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from "react";
-import {View,Text,TouchableOpacity,TextInput, Alert} from 'react-native';
+import {View,Text,TouchableOpacity,TextInput, Alert,StyleSheet} from 'react-native';
 import Header from "../../../../components/Header";
 import * as Utility from '../../../../utility/index';
 import axios from "axios";
@@ -9,6 +9,8 @@ const SigninPassword=({navigation})=>{
     const [isClick,setIsclick]=useState();
     const [isClick1,setIsclick1]=useState();
     const [password,setPassword]=useState();
+    const [passwordActive,setpasswordActive]=useState(false)
+    const [confirmPasswordActive,setConfirmPasswordActive]=useState(false);
     const [confirmPassword,setConfirmPassword]=useState()
     const [user_id,setUser_id]=useState();
     const onChangeText = text => setPassword(text);
@@ -55,19 +57,25 @@ const SigninPassword=({navigation})=>{
       Alert.alert("Something is missing");
     }
   }
+  const onFocusAction=(a)=>{
+    setpasswordActive(false);
+    setConfirmPasswordActive(false);
+    a(true);
+
+  }
     return(
         <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
             <Header  login="true" navigate={navigation}/>
             <View style={{margin:hp('3%')}}>
             <Text style={{color:'white',fontSize:24,lineHeight:32,fontWeight:'400'}}>Set New Password</Text>
             </View>
-            <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%',height:hp('8%')}} >
+            <View style={passwordActive?styles.textInputViewWithFocus:styles.textInputView} >
         <Text style={isClick ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Set New Password</Text>
-        <TextInput value={password} onTouchStart={() => setIsclick(!isClick)} onChangeText={(e) => onChangeText(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+        <TextInput value={password} onFocus={()=>onFocusAction(setpasswordActive)} onTouchStart={() => setIsclick(!isClick)} onChangeText={(e) => onChangeText(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
       </View>
-      <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%',height:hp('8%')}} >
+      <View style={confirmPasswordActive?styles.textInputViewWithFocus:styles.textInputView} >
         <Text style={isClick ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Confirm New Password</Text>
-        <TextInput value={confirmPassword} onTouchStart={() => setIsclick(!isClick)} onChangeText={(e) => onChangeText1(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+        <TextInput value={confirmPassword} onFocus={()=>onFocusAction(setConfirmPasswordActive)} onTouchStart={() => setIsclick(!isClick)} onChangeText={(e) => onChangeText1(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
 
       </View>
     <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
@@ -108,3 +116,30 @@ const SigninPassword=({navigation})=>{
     )
 }
 export default SigninPassword;
+
+const styles = StyleSheet.create({ 
+  textInputView: {
+    marginTop: hp('5%'), 
+    backgroundColor: '#1F232E', 
+    borderRadius: 10, 
+    borderColor: '#161F37', 
+    borderWidth: 1, 
+    padding: 6, 
+    marginLeft: '5%', 
+    marginRight: '5%', 
+    height: hp('9%')
+
+},
+textInputViewWithFocus: {
+  marginTop: hp('5%'), 
+  backgroundColor: '#1F232E', 
+  borderRadius: 10, 
+  // borderColor: '#117AF5', 
+  borderColor:'#117AF5',
+  borderWidth: 1, 
+  padding: 6, 
+  marginLeft: '5%', 
+  marginRight: '5%', 
+  height: hp('9%')
+}
+});

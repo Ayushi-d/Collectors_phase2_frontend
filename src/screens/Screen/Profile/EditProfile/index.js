@@ -59,7 +59,7 @@ const EditProfile=({navigation,route})=>{
       }
     return(
         <View style={{backgroundColor:'black',width:'100%',height:'100%'}}>
-           <Header login="true" navigate={navigation}/>
+           <Header login="true" navigate={navigation} hideLogo="true"/>
            {loader?
            <ActivityIndicator size="large" color="white"></ActivityIndicator>:null}
            <ScrollView>
@@ -92,7 +92,7 @@ const EditProfile=({navigation,route})=>{
       </View>
     
       <TouchableOpacity>
-      <View style={{backgroundColor:'#117AF5',padding:10,width:wp('90%'),borderRadius:15,margin:'5%',alignItems:'center'}}>
+      <View style={{backgroundColor:'#117AF5',padding:10,width:wp('90%'),borderRadius:15,margin:'5%',alignItems:'center',marginTop:hp('5%')}}>
         <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>SAVE CHANGES</Text>
       </View>
       </TouchableOpacity>

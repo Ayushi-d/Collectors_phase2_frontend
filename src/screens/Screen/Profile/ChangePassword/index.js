@@ -20,6 +20,7 @@ const ChangePassword = ({ navigation }) => {
   const [resgisterPasswordeye2, setRegisterPasswordeye2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [user_id,setUser_id]=useState();
+  const [oldPasswordactive,setOldpasswordActive]=useState(false);
   useEffect(()=>{
     getUserId()
   },[])
@@ -68,7 +69,7 @@ const ChangePassword = ({ navigation }) => {
 
   return (
     <View>
-      <Header login="true" navigate={navigation} />
+      <Header login="true" navigate={navigation} hideLogo="true"/>
       <ScrollView style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
         <View style={{ margin: hp('3%'), marginLeft: wp('5%') }}>
           <Text style={{ fontSize: 20, fontWeight: '700', lineHeight: 28, color: '#E9F0FA' }}>Change Password</Text>
@@ -79,7 +80,7 @@ const ChangePassword = ({ navigation }) => {
             <View style={{ width: wp('70%') }}>
               <TextInput value={oldpassword} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsOldPassword(!isOldpassword)} onChangeText={(e) => setOldpassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
             </View>
-            <View style={{ width: wp('20%') }}>
+            <View style={{ width: wp('10%') }}>
               {resgisterPasswordeye ?
                 <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: hp('-1.5%') }}>
                   <Image source={Path.eyeClose} resizeMode="center"></Image>
@@ -98,7 +99,7 @@ const ChangePassword = ({ navigation }) => {
             <View style={{ width: wp('70%') }}>
               <TextInput value={password} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsOldPassword(!isOldpassword)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
             </View>
-            <View style={{ width: wp('20%') }}>
+            <View style={{ width: wp('10%') }}>
               {resgisterPasswordeye1 ?
 
                 <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: hp('-1.5%') }}>
@@ -120,7 +121,7 @@ const ChangePassword = ({ navigation }) => {
             <View style={{ width: wp('70%') }}>
               <TextInput value={confirmPassword} secureTextEntry={resgisterPasswordeye2} onTouchStart={() => setIsOldPassword(!isConfirmPassword)} onChangeText={(e) => setConfirmPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
             </View>
-            <View style={{ width: wp('20%') }}>
+            <View style={{ width: wp('10%') }}>
               {resgisterPasswordeye2 ?
                 <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: hp('-1.5%'), }}>
                   <Image source={Path.eyeClose} resizeMode="center"></Image>

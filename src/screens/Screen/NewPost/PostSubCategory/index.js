@@ -7,7 +7,7 @@ import Path from '../../../../constants/Imagepath';
 const PostSubCategory = ({navigation}) => {
   return (
       <View>
-        <Header login="true" navigate={navigation}/>
+        <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>
         <ScrollView style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
         <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
     <View
@@ -44,7 +44,7 @@ const PostSubCategory = ({navigation}) => {
     <View style={{height:hp('30%')}}>
 
     </View>
-    <TouchableOpacity style={{marginTop:hp('1%'),marginLeft:wp('4%')}} onPress={()=>navigation.navigate('PostSubCategory')}>
+    <TouchableOpacity style={{marginTop:hp('1%'),marginLeft:wp('4%')}} onPress={()=>navigation.navigate('BottomTab')}>
     <View style={{backgroundColor:'#117AF5',width:wp('90%'),padding:10,borderRadius:10,alignItems:'center',padding:16}}>
       <Text style={styles.textColor}>NEXT</Text>
     </View>

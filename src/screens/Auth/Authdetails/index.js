@@ -15,16 +15,17 @@ const Authdetails=({navigation})=>{
             <View style={{alignSelf:'center',marginTop:hp('10%')}}>
                 <Image source={Path.logohd}  style={{height:40,width:110}}></Image>
             </View>
+          
             <View style={{margin:hp('2%'),marginTop:hp('15%')}}>
-                <Text style={{fontSize:32,fontWeight:'500',color:'white',lineHeight:40,fontFamily:'Poppins'}}>A trusted market-place for buying and selling unique collectibles!</Text>
+                <Text style={{fontSize:32,color:'white',lineHeight:40,fontfamily:"Poppins-Medium"}}>A trusted market-place for buying and selling unique collectibles!</Text>
             </View>
             <View style={{margin:hp('2%')}}>
-                <Text style={{fontSize:14,fontWeight:'300',color:'white',lineHeight:22,fontFamily:'Poppins'}}>Make an offer, discuss over chat and trade, it’s that simple!</Text>
+                <Text style={{fontSize:14,color:'white',lineHeight:22,fontfamily:'Poppins-Bold'}}>Make an offer, discuss over chat and trade, it’s that simple!</Text>
             </View>
             <TouchableOpacity onPress={()=>navigation.navigate('Signin')}>
             <View style={{backgroundColor:'#117AF5',padding:12,width:wp('90%'),borderRadius:8,alignSelf:'center',alignItems:'center',marginTop:hp('14%')}}>
                
-                <Text style={{fontSize:14,fontWeight:'600',color:'white',lineHeight:28,fontFamily:'Poppins'}}>LOGIN/SIGNUP</Text>
+                <Text style={{fontSize:14,color:'white',lineHeight:28,fontFamily:'Poppins-Regular'}}>LOGIN/SIGNUP</Text>
                 
             </View>
             </TouchableOpacity>

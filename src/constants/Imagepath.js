@@ -23,9 +23,13 @@ const ImagePath = {
     like:require('../assets/like.png'),
     openFolder:require('../assets/openfolder.png'),
     Hometab:require('../assets/Hometab.png'),
+    HometabG:require('../assets/Hometabg.png'),
     Chattab:require('../assets/Chattab.png'),
+    ChattabG:require('../assets/Chattabg.png'),
     NotificationTab:require('../assets/Notificationtab.png'),
+    NotificationTabG:require('../assets/Notificationtabg.png'),
     ProfileTab:require('../assets/Profiletab.png'),
+    ProfileTabG:require('../assets/Profiletabg.png'),
     menu:require('../assets/menu.png'),
     backReverse:require('../assets/backreverse.png'),
     CheckImage:require('../assets/check.png'),
@@ -45,7 +49,11 @@ const ImagePath = {
     Sarrow:require('../assets/sarrow.png'),
     Sedit:require('../assets/sedit.png'),
     FollowUser:require('../assets/followuser.png'),
-    Plus1:require('../assets/plus1.png')
+    Plus1:require('../assets/plus1.png'),
+    BidingMOney:require('../assets/bidingImage.png'),
+    BidingUsers:require('../assets/bidingUsers.png'),
+    ModalImage:require('../assets/modalImage.png'),
+    Tick:require('../assets/tick.png')
   };
   
   export default ImagePath;

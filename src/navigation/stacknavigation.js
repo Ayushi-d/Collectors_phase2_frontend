@@ -19,7 +19,8 @@ import Followings from '../screens/Screen/Profile/Following';
 import Notification from '../screens/Screen/Profile/NotificationScreen';
 import PostCategory from '../screens/Screen/NewPost/PostCategory';
 import PostSubCategory from '../screens/Screen/NewPost/PostSubCategory';
-// import { Settings } from 'react-native';
+import Search from '../screens/Screen/Search/index';
+
 const Stack = createNativeStackNavigator();
 const StackNavigtaion=()=>{
     return(
@@ -42,6 +43,7 @@ const StackNavigtaion=()=>{
       <Stack.Screen name="Notification" component={Notification} options={{headerShown:false}}/>
       <Stack.Screen name="PostCategory" component={PostCategory} options={{headerShown:false}}/>
       <Stack.Screen name="PostSubCategory" component={PostSubCategory} options={{headerShown:false}}/>
+      <Stack.Screen name="Search" component={Search} options={{headerShown:false}}/>
   </Stack.Navigator>
     )
 }

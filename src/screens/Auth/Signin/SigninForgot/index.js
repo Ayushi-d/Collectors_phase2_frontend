@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput,Alert,ActivityIndicator} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput,Alert,ActivityIndicator,StyleSheet} from 'react-native';
 import Header from "../../../../components/Header";
 import axios from "axios";
 import * as Utility from '../../../../utility/index';
@@ -8,6 +8,7 @@ const SigninForgot = ({ navigation }) => {
   const [text, setText] = useState();
   const [isClick, setIsclick] = useState(false);
   const [loading,setLoading]=useState(false);
+  const [emailActive,setEmailACtive]=useState(false);
   const onChangeText = (text) => {
     setText(text);
   };
@@ -51,9 +52,9 @@ const SigninForgot = ({ navigation }) => {
       <View style={{ marginLeft: hp('3%'), marginRight: hp('3%') }}>
         <Text style={{ color: 'white', lineHeight: 22, fontSize: 14, fontWeight: '200' ,fontFamily:'Poppins'}}>Don’t worry, we’ve got you covered! Enter your registered contact to reset your password.</Text>
       </View>
-      <View style={{ marginTop: hp('5%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: '8%' }} >
+      <View style={emailActive?styles.textInputViewWithFocus:styles.textInputView} >
         <Text style={isClick ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>E-mail ID</Text>
-        <TextInput value={text} onTouchStart={() => setIsclick(!isClick)} onChangeText={(e) => onChangeText(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
+        <TextInput onFocus={()=>setEmailACtive(true)} value={text} onTouchStart={() => setIsclick(!isClick)} onChangeText={(e) => onChangeText(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
 
       </View>
       <View style={{ flexDirection: 'row', alignSelf: 'center', margin: hp('1%'), marginTop: hp('10%') }}>
@@ -96,3 +97,30 @@ const SigninForgot = ({ navigation }) => {
   )
 }
 export default SigninForgot;
+
+const styles = StyleSheet.create({ 
+  textInputView: {
+    marginTop: hp('5%'), 
+    backgroundColor: '#1F232E', 
+    borderRadius: 10, 
+    borderColor: '#161F37', 
+    borderWidth: 1, 
+    padding: 6, 
+    marginLeft: '5%', 
+    marginRight: '5%', 
+    height: hp('9%')
+
+},
+textInputViewWithFocus: {
+  marginTop: hp('5%'), 
+  backgroundColor: '#1F232E', 
+  borderRadius: 10, 
+  // borderColor: '#117AF5', 
+  borderColor:'#117AF5',
+  borderWidth: 1, 
+  padding: 6, 
+  marginLeft: '5%', 
+  marginRight: '5%', 
+  height: hp('9%')
+}
+});

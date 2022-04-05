@@ -30,7 +30,7 @@ const NotificationScreen =({navigation})=>{
 
     return(
         <View>
-             <Header login="true" navigate={navigation} />
+             <Header login="true" navigate={navigation} hideLogo="true" />
              <ScrollView style={{width:wp('100%'),height:hp('100%'),backgroundColor:'black'}}>
                  <View style={{marginLeft:wp('5%'),margin:hp('2%')}}>
                      <Text style={{color:'#E9F0FA',fontSize:20,lineHeight:29,fontWeight:'800'}}>Notifications</Text>

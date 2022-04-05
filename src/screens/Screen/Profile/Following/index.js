@@ -33,16 +33,38 @@ const Followings=({navigation})=>{
     }
     return(
         <View>
-            <Header login="true" navigate={navigation}/>
+            <Header login="true" navigate={navigation} hideLogo="true"/>
             <View style={{backgroundColor:'#0D111C',flexDirection:'row',justifyContent:'space-evenly',padding:10}}>
                 <TouchableOpacity onPress={()=>setFollow('Follower')}>
                 <View>
-            <Text style={follow=='Follower'?{color:'#E9F0FA'}:{color:'#E9F0FA20'}}>FOLLOWERS</Text>
+            <Text style={follow=='Follower'?{color:'#E9F0FA'}:{color:'#E9F0FA90'}}>FOLLOWERS</Text>
+            {follow=='Follower'?
+            <View
+                  style={{
+                    borderBottomColor: 'white',
+                    borderBottomWidth: 5,
+                    borderRadius: 5,
+                    width:wp('10%'),
+                    alignSelf:'center',
+                    marginTop:hp('1%')
+                  }}
+                />:null}
             </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>setFollow('Following')}>
             <View>
-                <Text style={follow=='Following'?{color:'#E9F0FA'}:{color:'#E9F0FA20'}}>FOLLOWING</Text>
+                <Text style={follow=='Following'?{color:'#E9F0FA'}:{color:'#E9F0FA90'}}>FOLLOWING</Text>
+                {follow=='Following'?
+            <View
+                  style={{
+                    borderBottomColor: 'white',
+                    borderBottomWidth: 5,
+                    borderRadius: 5,
+                    width:wp('10%'),
+                    alignSelf:'center',
+                    marginTop:hp('1%')
+                  }}
+                />:null}
             </View>
             </TouchableOpacity>
             </View>
