@@ -6,11 +6,11 @@ import Notification from "../screens/Screen/Notification";
 import Profile from "../screens/Screen/Profile";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import NewPost from '../screens/Screen/NewPost';
+import BottomPost from '../screens/Screen/BottomPost';
 import Path from '../constants/Imagepath';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "../utility";
 const Tab = createBottomTabNavigator();
-const BottomTabNavigator = () => {
+const BottomTabNavigator = ({navigation}) => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
@@ -91,16 +91,17 @@ const BottomTabNavigator = () => {
       //   ),
       // }}
       />
-
       <Tab.Screen
         name="NewPost"
-        component={NewPost}
+        component={BottomPost}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
+            <TouchableOpacity onPress={()=>navigation.navigate('NewPost')}>
             <View style={{ backgroundColor: '#117AF5', padding: 5, borderRadius: 30, top: -20, height: 50, width: 50, alignItems: 'center' }}>
               <MaterialCommunityIcons name="plus" color="white" size={size} style={{ marginTop: 5 }} />
             </View>
+            </TouchableOpacity>
           ),
         }}
       />

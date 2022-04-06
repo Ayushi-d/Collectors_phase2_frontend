@@ -46,11 +46,11 @@ const MainHome = ({navigation}) => {
                     <Image source={Path.Profile}></Image>
                     <Text style={{ color: '#E9F0FA', marginLeft: '6%', fontWeight: 'bold', fontSize: 13, lineHeight: 18 }}>liamnorris</Text>
                   </View>
-                  <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row',width:wp('20%') }}>
+                  <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row',width:wp('21%') }}>
                     <TouchableOpacity>
                       <Text style={{ color: '#E9F0FA', fontWeight: 'bold', textDecorationLine: 'underline', fontSize: 12 }}>FOLLOW</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => refRBSheet.current.open()} style={{ marginLeft: wp('2%') }}>
+                    <TouchableOpacity onPress={() => refRBSheet.current.open()} style={{ marginLeft: wp('1%') }}>
                       <Image source={Path.menu}></Image>
                     </TouchableOpacity>
                   </View>
@@ -83,7 +83,7 @@ const MainHome = ({navigation}) => {
                   <Text style={{ color: '#9CA6B6', fontWeight: 'bold', fontSize: 13, fontWeight: '400', lineHeight: 20 }}>Exceptions to the rule of face value b-eing higher than content value also content value also...more</Text>
                 </View>
                 <View style={{flexDirection:'row',justifyContent:'space-between',width:wp('95%')}}>
-                  <View style={{alignItems:'center'}}>
+                  <View style={{alignItems:'center',marginLeft:'-2%'}}>
                     <View style={{top:hp('1%')}}>
                       <Text style={styles.bidingText}>Bidding</Text>
                       </View>

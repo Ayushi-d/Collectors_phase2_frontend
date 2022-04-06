@@ -111,7 +111,7 @@ const NewPost = ({navigation}) => {
   }
   return (
       <View>
-          <Header hideLogo="true" textData="                   Post"/>
+          <Header login="true" hideLogo="true" textData=" Post" navigate={navigation}/>
                    <ScrollView style={{width:'100%',height:'100%',backgroundColor:'black'}}>   
           <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
     <View

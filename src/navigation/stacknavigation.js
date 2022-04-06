@@ -20,6 +20,7 @@ import Notification from '../screens/Screen/Profile/NotificationScreen';
 import PostCategory from '../screens/Screen/NewPost/PostCategory';
 import PostSubCategory from '../screens/Screen/NewPost/PostSubCategory';
 import Search from '../screens/Screen/Search/index';
+import NewPost from '../screens/Screen/NewPost/index';
 
 const Stack = createNativeStackNavigator();
 const StackNavigtaion=()=>{
@@ -44,7 +45,9 @@ const StackNavigtaion=()=>{
       <Stack.Screen name="PostCategory" component={PostCategory} options={{headerShown:false}}/>
       <Stack.Screen name="PostSubCategory" component={PostSubCategory} options={{headerShown:false}}/>
       <Stack.Screen name="Search" component={Search} options={{headerShown:false}}/>
+      <Stack.Screen name="NewPost" component={NewPost} options={{headerShown:false}}/>
   </Stack.Navigator>
+
     )
 }
 export default StackNavigtaion;

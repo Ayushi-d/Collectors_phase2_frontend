@@ -229,7 +229,7 @@ const Signin = ({ navigation }) => {
                   </View>
                 </TouchableOpacity>
               </View>
-              <View style={{ flexDirection: 'row', marginLeft: hp('2%') }}>
+              <View style={{ flexDirection: 'row', marginLeft: hp('5%'),width:wp('90%') }}>
                 <Text style={{ fontWeight: '200', color: 'white' }}>By joining you agree to our</Text>
                 <TouchableOpacity onPress={() => openTermofuse()}>
                   <Text style={{ fontSize: 15, fontWeight: '600', textDecorationLine: 'underline', color: 'white' }}> Privacy Policy</Text>
@@ -349,7 +349,7 @@ const Signin = ({ navigation }) => {
                     <ActivityIndicator size="large" color="white"></ActivityIndicator>}
                 </View>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', marginLeft: hp('2%'), marginTop: hp('7%') }}>
+              <View style={{ flexDirection: 'row', marginLeft: hp('10%'), marginTop: hp('7%') }}>
                 <Text style={{ fontWeight: '200', color: 'white' }}>By joining you agree to our</Text>
                 <TouchableOpacity onPress={() => openTermofuse()}>
                   <Text style={{ fontSize: 15, fontWeight: '600', textDecorationLine: 'underline', color: 'white' }}> Privacy Policy</Text>
