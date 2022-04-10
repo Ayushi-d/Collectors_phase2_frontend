@@ -1,17 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, ActivityIndicator, Alert } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../../../utility';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+} from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from '../../../../utility';
 import Path from '../../../../constants/Imagepath';
 import Header from '../../../../components/Header';
 import axios from 'axios';
 import * as Utility from '../../../../utility/index';
-const ChangePassword = ({ navigation }) => {
+import {TextInput} from 'react-native-paper';
+
+const ChangePassword = ({navigation}) => {
   const [isOldpassword, setIsOldPassword] = useState(false);
   const [isPassword, setIspassword] = useState(false);
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
-  const [oldpassword, setOldpassword] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [oldpassword, setOldpassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [check, setCheck] = useState(false);
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
@@ -19,130 +33,259 @@ const ChangePassword = ({ navigation }) => {
   const [resgisterPasswordeye1, setRegisterPasswordeye1] = useState(false);
   const [resgisterPasswordeye2, setRegisterPasswordeye2] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [user_id,setUser_id]=useState();
-  const [oldPasswordactive,setOldpasswordActive]=useState(false);
-  useEffect(()=>{
-    getUserId()
-  },[])
+  const [user_id, setUser_id] = useState();
+  const [oldPasswordactive, setOldpasswordActive] = useState(false);
+  const [notMatchErr, setNotMatchErr] = useState(false);
+  useEffect(() => {
+    getUserId();
+  }, []);
 
-  const getUserId=async()=>{
-    var user_id=await Utility.getFromLocalStorge('user_id');
+  const getUserId = async () => {
+    var user_id = await Utility.getFromLocalStorge('user_id');
     setUser_id(user_id);
-
-  }
+  };
   const ChnagePassword = async () => {
-    setLoading(true)
+    onFocusAction(setCheck);
+    setNotMatchErr(false);
+    if (password !== confirmPassword) {
+      setNotMatchErr(true);
+      return;
+    }
+
+    setLoading(true);
     try {
       if (!password && !confirmPassword) {
-        Alert.alert("Parameters is missing");
+        Alert.alert('Parameters is missing');
         setLoading(false);
-      }
-      else if (password == !confirmPassword) {
-        Alert.alert("Password mismatched")
+      } else if (password == !confirmPassword) {
+        Alert.alert('Password mismatched');
         setLoading(false);
-      }
-      else {
+      } else {
         let response = await axios.post(
           'http://3.138.124.101:9000/changePassword',
           {
-
-            "oldPassword": oldpassword,
-            "newPassword": password,
-            "user_id": user_id
+            oldPassword: oldpassword,
+            newPassword: password,
+            user_id: user_id,
           },
         );
         console.log(response.data);
-        if(response.data.code==200){
-          navigation.navigate('SettingScreen')
-        setLoading(false);
+        if (response.data.code == 200) {
+          navigation.navigate('SettingScreen');
+          setLoading(false);
+        } else {
+          setLoading(false);
+          Alert.alert(response.data.msg);
         }
-        else{
-          Alert.alert(response.data.msg)
-        }
-
       }
     } catch (error) {
       Alert.alert(error);
       setLoading(false);
     }
-  }
+  };
+
+  const onFocusAction = a => {
+    setIsOldPassword(false);
+    setIspassword(false);
+    setIsConfirmPassword(false);
+
+    a(true);
+  };
 
   return (
     <View>
-      <Header login="true" navigate={navigation} hideLogo="true"/>
-      <ScrollView style={{ backgroundColor: 'black', height: hp('100%'), width: wp('100%') }}>
-        <View style={{ margin: hp('3%'), marginLeft: wp('5%') }}>
-          <Text style={{ fontSize: 20, fontWeight: '700', lineHeight: 28, color: '#E9F0FA' }}>Change Password</Text>
+      <Header login="true" navigate={navigation} hideLogo="true" />
+      <ScrollView
+        style={{
+          backgroundColor: 'black',
+          height: hp('100%'),
+          width: wp('100%'),
+        }}>
+        <View style={{margin: hp('3%'), marginHorizontal: 20}}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontFamily: 'Poppins-Bold',
+              lineHeight: 28,
+              color: '#E9F0FA',
+            }}>
+            Change Password
+          </Text>
         </View>
-        <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('9%') }} >
-          <Text style={isOldpassword ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Old Password *</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ width: wp('70%') }}>
-              <TextInput value={oldpassword} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsOldPassword(!isOldpassword)} onChangeText={(e) => setOldpassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
-            </View>
-            <View style={{ width: wp('10%') }}>
-              {resgisterPasswordeye ?
-                <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: hp('-1.5%') }}>
-                  <Image source={Path.eyeClose} resizeMode="center"></Image>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)} style={{ top: hp('-1.5%') }}>
-                  <Image source={Path.eyeOpen} resizeMode="center"></Image>
-                </TouchableOpacity>
-              }
-            </View>
-          </View>
-        </View>
-        <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('9%') }} >
-          <Text style={isPassword ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Set New Password *</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ width: wp('70%') }}>
-              <TextInput value={password} secureTextEntry={resgisterPasswordeye} onTouchStart={() => setIsOldPassword(!isOldpassword)} onChangeText={(e) => setPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
-            </View>
-            <View style={{ width: wp('10%') }}>
-              {resgisterPasswordeye1 ?
 
-                <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: hp('-1.5%') }}>
-                  <Image source={Path.eyeClose} resizeMode="center"></Image>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)} style={{ top: hp('-1.5%') }}>
-                  <Image source={Path.eyeOpen} resizeMode="center"></Image>
-                </TouchableOpacity>
+        <TextInput
+          theme={{
+            colors: {
+              text: 'white',
+              primary: '#9CA6B6',
+              placeholder: '#9CA6B6',
+            },
+          }}
+          value={oldpassword}
+          secureTextEntry={resgisterPasswordeye}
+          onFocus={() => onFocusAction(setIsOldPassword)}
+          onChangeText={e => setOldpassword(e)}
+          label={'Old Password'}
+          style={[
+            styles.inputStyle,
+            {borderColor: isOldpassword ? '#117AF5' : '#1F232E'},
+          ]}
+          right={
+            <TextInput.Icon
+              forceTextInputFocus={false}
+              color={'#117AF5'}
+              onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)}
+              name={resgisterPasswordeye ? Path.eye : Path.eyeBlue}
+            />
+          }
+        />
+        <View
+          style={{
+            marginTop: -3,
+            borderTopColor: isOldpassword ? '#117AF5' : '#1F232E',
+            borderTopWidth: 3,
+            marginHorizontal: 26,
+            overflow: 'hidden',
+          }}
+        />
+        <TextInput
+          theme={{
+            colors: {
+              text: 'white',
+              primary: '#9CA6B6',
+              placeholder: '#9CA6B6',
+            },
+          }}
+          value={password}
+          secureTextEntry={resgisterPasswordeye1}
+          onFocus={() => onFocusAction(setIspassword)}
+          onChangeText={e => setPassword(e)}
+          label={'Set New Password'}
+          style={[
+            styles.inputStyle,
+            {borderColor: isPassword ? '#117AF5' : '#1F232E'},
+          ]}
+          right={
+            <TextInput.Icon
+              forceTextInputFocus={false}
+              color={'#117AF5'}
+              onPress={() => setRegisterPasswordeye1(!resgisterPasswordeye1)}
+              name={resgisterPasswordeye1 ? Path.eye : Path.eyeBlue}
+            />
+          }
+        />
+        <View
+          style={{
+            marginTop: -3,
+            borderTopColor: isPassword ? '#117AF5' : '#1F232E',
+            borderTopWidth: 3,
+            marginHorizontal: 26,
+            overflow: 'hidden',
+          }}
+        />
 
-              }
-            </View>
+        <TextInput
+          theme={{
+            colors: {
+              text: 'white',
+              primary: '#9CA6B6',
+              placeholder: '#9CA6B6',
+            },
+          }}
+          value={confirmPassword}
+          secureTextEntry={resgisterPasswordeye2}
+          onFocus={() => onFocusAction(setIsConfirmPassword)}
+          onChangeText={e => setConfirmPassword(e)}
+          label={'Confirm New Password'}
+          style={[
+            styles.inputStyle,
+            {
+              borderColor: isConfirmPassword
+                ? '#117AF5'
+                : notMatchErr
+                ? '#D02B29'
+                : '#1F232E',
+            },
+          ]}
+          right={
+            <TextInput.Icon
+              forceTextInputFocus={false}
+              color={'#117AF5'}
+              onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)}
+              name={resgisterPasswordeye2 ? Path.eye : Path.eyeBlue}
+            />
+          }
+        />
 
-          </View>
-        </View>
-        <View style={{ marginTop: hp('2%'), backgroundColor: '#1F232E', borderRadius: 10, borderColor: '#117AF5', borderWidth: 1, padding: 6, marginLeft: '5%', marginRight: '5%', height: hp('9%') }} >
-          <Text style={isConfirmPassword ? { color: '#9CA6B6', top: 0, marginLeft: 10, fontSize: 12 } : { color: '#9CA6B6', top: 10, marginLeft: 10, fontSize: 12 }}>Confirm New Password *</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ width: wp('70%') }}>
-              <TextInput value={confirmPassword} secureTextEntry={resgisterPasswordeye2} onTouchStart={() => setIsOldPassword(!isConfirmPassword)} onChangeText={(e) => setConfirmPassword(e)} style={{ color: '#E9F0FA', padding: 5, marginLeft: 5, marginBottom: hp('1.5%'), fontSize: 14 }} />
-            </View>
-            <View style={{ width: wp('10%') }}>
-              {resgisterPasswordeye2 ?
-                <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: hp('-1.5%'), }}>
-                  <Image source={Path.eyeClose} resizeMode="center"></Image>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={() => setRegisterPasswordeye2(!resgisterPasswordeye2)} style={{ top: hp('-1.5%') }}>
-                  <Image source={Path.eyeOpen} resizeMode="center"></Image>
-                </TouchableOpacity>
-              }
-            </View>
-          </View>
-        </View>
-        <TouchableOpacity onPress={() => ChnagePassword()} style={{ margin: hp('5%') }}>
-          <View style={{ backgroundColor: '#117AF5', padding: 10, borderRadius: 8, width: wp('90%'), alignSelf: 'center', alignItems: 'center' }}>
-            {!loading ?
-              <Text style={{ color: 'white', lineHeight: 28, fontWeight: '600', fontSize: 13 }}>CHANGE PASSWORD</Text> :
-              <ActivityIndicator size="large" color="white"></ActivityIndicator>}
+        <View
+          style={{
+            marginTop: -3,
+            borderTopColor: isConfirmPassword
+              ? '#117AF5'
+              : notMatchErr
+              ? '#D02B29'
+              : '#1F232E',
+            borderTopWidth: 3,
+            marginHorizontal: 26,
+            overflow: 'hidden',
+          }}
+        />
+        {notMatchErr ? (
+          <Text style={styles.errMsg}>
+            Passwords do not match please try again.
+          </Text>
+        ) : null}
+        <TouchableOpacity
+          onPress={() => ChnagePassword()}
+          style={{marginHorizontal: 20, marginTop: 60}}>
+          <View
+            style={{
+              backgroundColor: '#117AF5',
+              height: 48,
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {!loading ? (
+              <Text
+                style={{
+                  color: 'white',
+                  lineHeight: 28,
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 13,
+                }}>
+                CHANGE PASSWORD
+              </Text>
+            ) : (
+              <ActivityIndicator size="large" color="white"></ActivityIndicator>
+            )}
           </View>
         </TouchableOpacity>
       </ScrollView>
     </View>
-  )
-}
+  );
+};
 export default ChangePassword;
+
+const styles = StyleSheet.create({
+  inputStyle: {
+    marginHorizontal: 20,
+    marginTop: 20,
+    height: 56,
+    borderRadius: 10,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    backgroundColor: '#1F232E',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+    borderWidth: 1.5,
+    overflow: 'hidden',
+  },
+  errMsg: {
+    marginHorizontal: 28,
+    color: '#D02B29',
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 11,
+    marginTop: 9,
+  },
+});

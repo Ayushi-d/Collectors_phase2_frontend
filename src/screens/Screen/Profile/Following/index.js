@@ -3,6 +3,8 @@ import {View,Text, TouchableOpacity, ScrollView,FlatList,Image} from 'react-nati
 import Header from '../../../../components/Header';
 import Path from '../../../../constants/Imagepath';
 import { widthPercentageToDP as wp,heightPercentageToDP as hp } from '../../../../utility';
+
+
 const Followings=({navigation})=>{
     const [follow,setFollow]=useState('Follower');
     const [data,setData]=useState([
@@ -33,8 +35,8 @@ const Followings=({navigation})=>{
     }
     return(
         <View>
-            <Header login="true" navigate={navigation} hideLogo="true"/>
-            <View style={{backgroundColor:'#0D111C',flexDirection:'row',justifyContent:'space-evenly',padding:10}}>
+            <Header back = {''} backgroundColor = {'#0D111C'}  login="true" navigate={navigation} hideLogo="true"/>
+            <View style={{backgroundColor:'#0D111C',flexDirection:'row',justifyContent:'space-evenly'}}>
                 <TouchableOpacity onPress={()=>setFollow('Follower')}>
                 <View>
             <Text style={follow=='Follower'?{color:'#E9F0FA'}:{color:'#E9F0FA90'}}>FOLLOWERS</Text>
@@ -42,9 +44,9 @@ const Followings=({navigation})=>{
             <View
                   style={{
                     borderBottomColor: 'white',
-                    borderBottomWidth: 5,
+                    borderBottomWidth: 3,
                     borderRadius: 5,
-                    width:wp('10%'),
+                    width: 20,
                     alignSelf:'center',
                     marginTop:hp('1%')
                   }}
@@ -58,9 +60,9 @@ const Followings=({navigation})=>{
             <View
                   style={{
                     borderBottomColor: 'white',
-                    borderBottomWidth: 5,
+                    borderBottomWidth: 3,
                     borderRadius: 5,
-                    width:wp('10%'),
+                    width: 20,
                     alignSelf:'center',
                     marginTop:hp('1%')
                   }}

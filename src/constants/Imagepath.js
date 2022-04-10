@@ -53,7 +53,11 @@ const ImagePath = {
     BidingMOney:require('../assets/bidingImage.png'),
     BidingUsers:require('../assets/bidingUsers.png'),
     ModalImage:require('../assets/modalImage.png'),
-    Tick:require('../assets/tick.png')
+    Tick:require('../assets/tick.png') ,
+    eye:require('../assets/eye.png') ,
+    eyeBlue:require('../assets/eyeBlue.png')
+
+
   };
   
   export default ImagePath;

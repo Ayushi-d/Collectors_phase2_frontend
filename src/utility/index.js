@@ -9,13 +9,13 @@ export const getPageLimit = () => {
   return 10;
 };
 
-export const isFieldEmpty = (text) => {
+export const isFieldEmpty = text => {
   if (text == '') {
     return true;
   }
   return false;
 };
-export const passwordPattern = (password) => {
+export const passwordPattern = password => {
   const reg = /.*[0-9]+.*/i;
   if (reg.test(password) === true) {
     return true;
@@ -23,22 +23,23 @@ export const passwordPattern = (password) => {
   return false;
 };
 
-export const isValidEmail = (email) => {
-  var reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+export const isValidEmail = email => {
+  var reg =
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   if (reg.test(email) != true) {
     return true;
   }
   return false;
 };
 
-export let isValidOtp = (otp) => {
+export let isValidOtp = otp => {
   if (otp.length < 4) {
     return false;
   }
   return true;
 };
 
-export const isValidPhoneNumber = (phoneNo) => {
+export const isValidPhoneNumber = phoneNo => {
   if (phoneNo.length < 8) {
     return false;
   }
@@ -58,7 +59,7 @@ export const getOS = () => {
   return 'android';
 };
 
-export const showAlert = (message) => {
+export const showAlert = message => {
   Alert.alert(
     titles.APP_NAME,
     message,
@@ -111,7 +112,7 @@ export const removeAuthKey = async (key: String) => {
     console.log('removeToken Error', err);
   }
 };
-export const widthPercentageToDP = (widthPercent) => {
+export const widthPercentageToDP = widthPercent => {
   // console.log("Vikas ne dia  width check kar ",widthPercent)
   const screenWidth = Dimensions.get('window').width;
   // console.log("device width",screenWidth);
@@ -119,17 +120,23 @@ export const widthPercentageToDP = (widthPercent) => {
   // console.log("bad ka width",PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100))
   return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
 };
-export const heightPercentageToDP = (heightPercent) => {
+export const heightPercentageToDP = heightPercent => {
   const screenHeight = Dimensions.get('window').height;
   // Convert string input to decimal number
   const elemHeight = parseFloat(heightPercent);
   return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
 };
-export const AuthToken = async (key: String) => {
+export const AuthToken = async (key) => {
   try {
     const token = await AsyncStorage.getItem(key);
     return token ? JSON.parse(token) : null;
   } catch (err) {
     console.log('authToken Error', err);
   }
+};
+
+export const addAlpha = (color, opacity) => {
+  // coerce values so ti is between 0 and 1.
+  const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + _opacity.toString(16).toUpperCase();
 };
