@@ -16,7 +16,6 @@ import {
   widthPercentageToDP as wp,
 } from '../../../utility';
 import Header from '../../../components/Header';
-// import { HelperText, TextInput } from 'react-native-paper';
 import Path from '../../../constants/Imagepath';
 import Loader from '../../../components/loader';
 import {TextInput} from 'react-native-paper';
@@ -42,8 +41,8 @@ const Signin = ({navigation}) => {
   const [isCheckCode, setIsCheckCode] = useState(false);
   const [isCheckMobile, setIsCheckMobile] = useState(false);
   const [isCheckPassword1, setIsChcekPassword1] = useState(false);
-  const [loginpasswordEye, setLoginPasswordEye] = useState(false);
-  const [resgisterPasswordeye, setRegisterPasswordeye] = useState(false);
+  const [loginpasswordEye, setLoginPasswordEye] = useState(true);
+  const [resgisterPasswordeye, setRegisterPasswordeye] = useState(true);
   const [loginuserNameactive, setLoginuserNameactive] = useState(false);
   const [loginPasswordactive, setLoginUserPasswordactive] = useState(false);
   const [registername, setRegisterName] = useState(false);

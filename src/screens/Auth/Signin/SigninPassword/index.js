@@ -19,8 +19,8 @@ import {TextInput} from 'react-native-paper';
 import ImagePath from '../../../../constants/Imagepath';
 
 const SigninPassword = ({navigation}) => {
-  const [isClick, setIsclick] = useState(false);
-  const [isClick1, setIsclick1] = useState(false);
+  const [isClick, setIsclick] = useState(true);
+  const [isClick1, setIsclick1] = useState(true);
   const [password, setPassword] = useState();
   const [passwordActive, setpasswordActive] = useState(false);
   const [confirmPasswordActive, setConfirmPasswordActive] = useState(false);
