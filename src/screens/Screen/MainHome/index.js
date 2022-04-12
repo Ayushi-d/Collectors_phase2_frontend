@@ -13,6 +13,7 @@ import {
   RefreshControl,
   Dimensions,
   FlatList,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Path from '../../../constants/Imagepath';
 import ReadMore from '@fawazahmed/react-native-read-more';
@@ -58,8 +59,7 @@ const MainHome = ({navigation}) => {
   const handleRefresh = () => {
     setRefresh(true);
     setTimeout(() => {
-    setRefresh(false);
-      
+      setRefresh(false);
     }, 2000);
   };
 
@@ -176,7 +176,7 @@ const MainHome = ({navigation}) => {
                       <FlatList
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
-                        data={['', '', '', '']}
+                        data={['', '']}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({item, index}) => {
                           return (
@@ -224,7 +224,15 @@ const MainHome = ({navigation}) => {
                           lineHeight: 20,
                         }}>
                         Exceptions to the rule of face value b-eing higher than
-                        content value also content value also...more
+                        content value also content value also...{' '}
+                        <Text
+                          style={{
+                            textDecorationLine: 'underline',
+                            color: 'white',
+                            fontFamily: 'Poppins-Regular',
+                          }}>
+                          more
+                        </Text>
                       </Text>
                     </View>
                     <View
@@ -324,7 +332,7 @@ const MainHome = ({navigation}) => {
                         </View>
 
                         <View style={{marginLeft: 10}}>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={()=>navigation.navigate('Comments')} >
                             <Image
                               source={Path.Chat}
                               style={{height: 20, width: 20}}></Image>
@@ -343,7 +351,7 @@ const MainHome = ({navigation}) => {
                           </View>
                         </View>
                       </View>
-                      <TouchableOpacity>
+                      <TouchableOpacity onPress={()=>navigation.navigate('PostDetail')} >
                         <View
                           style={{
                             borderWidth: 1,
@@ -422,72 +430,64 @@ const MainHome = ({navigation}) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <View
-            style={{
-              alignSelf: 'center',
-              marginTop: hp('50%'),
-              borderRadius: 10,
-            }}>
-            <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-              <View
-                style={{
-                  width: wp('12%'),
-                  backgroundColor: '#30B754',
-                  alignItems: 'center',
-                  borderTopLeftRadius: 20,
-                  borderBottomLeftRadius: 20,
-                }}>
-                <Image
-                  source={Path.CheckImage}
-                  style={{marginTop: hp('3%')}}></Image>
-              </View>
-              <View
-                style={{
-                  width: wp('70%'),
-                  padding: 5,
-                  backgroundColor: 'black',
-                  borderTopRightRadius: 20,
-                  borderBottomEndRadius: 20,
-                }}>
-                <Text
+          onRequestClose={() => console.log('dkfjbdk')}>
+          <View style={{flex: 1}}>
+            <View
+              style={{
+                alignSelf: 'center',
+                marginTop: hp('50%'),
+                borderRadius: 10,
+              }}>
+              <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+                <View
                   style={{
-                    color: '#9CA6B6',
-                    fontSize: 12,
-                    fontWeight: '400',
-                    lineHeight: 22,
+                    width: wp('12%'),
+                    backgroundColor: '#30B754',
+                    alignItems: 'center',
+                    borderTopLeftRadius: 20,
+                    borderBottomLeftRadius: 20,
+                    justifyContent: 'center',
                   }}>
-                  This post has been reported by you. We’ll verify and work on
-                  it. Thanks!
-                </Text>
-                <TouchableOpacity
-                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Image source={Path.CheckImage}></Image>
+                </View>
+                <View
+                  style={{
+                    width: wp('70%'),
+                    padding: 5,
+                    backgroundColor: 'black',
+                    borderTopRightRadius: 20,
+                    borderBottomEndRadius: 20,
+                  }}>
                   <Text
                     style={{
-                      color: 'white',
-                      fontWeight: '600',
-                      fontSize: 13,
-                      lineHeight: 19,
+                      color: '#9CA6B6',
+                      fontSize: 12,
+                      fontWeight: '400',
+                      lineHeight: 22,
                     }}>
-                    UNDO
+                    This post has been reported by you. We’ll verify and work on
+                    it. Thanks!
                   </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: '600',
+                        fontSize: 13,
+                        lineHeight: 19,
+                      }}>
+                      UNDO
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
         </Modal>
       </ScrollView>
 
-      <ActionSheet
-        ref={bottomRef}
-        containerStyle={{height: 100, backgroundColor: 'red'}}>
-        <View>
-          <Text>jhdsfjhdsbfhs</Text>
-        </View>
-      </ActionSheet>
+    
     </View>
   );
 };

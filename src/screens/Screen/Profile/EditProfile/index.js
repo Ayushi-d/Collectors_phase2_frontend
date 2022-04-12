@@ -174,7 +174,7 @@ const EditProfile = ({navigation, route}) => {
             ]}
             right={
               <TextInput.Affix
-                text={`${userBio.length}/200`}
+                text={`${userBio.length}/150`}
                 textStyle={styles.affixText}
               />
             }

@@ -233,257 +233,275 @@ const Signin = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <KeyboardAwareScrollView style={{flexGrow: 1}} enableOnAndroid={true}>
+      <View style={{flex: 1}}>
         {Authdata == 'Login' ? (
-          <View>
-            <TextInput
-              mode="flat"
-              theme={{
-                colors: {
-                  text: 'white',
-                  primary: '#9CA6B6',
-                  placeholder: '#9CA6B6',
-                },
-              }}
-              onChangeText={e => setLoginuserName(e)}
-              style={{
-                marginTop: 70,
-                height: 56,
-                color: '#E9F0FA',
-                fontSize: 14,
-                marginHorizontal: 20,
-                borderRadius: 10,
-                borderWidth: 1.5,
-                borderColor:
-                  loginuserNameactive && !emailErr
-                    ? '#117AF5'
-                    : emailErr
-                    ? '#D02B29'
-                    : '#1F232E',
-                backgroundColor: '#1F232E',
-                borderTopRightRadius: 10,
-                borderTopLeftRadius: 10,
-                overflow: 'hidden',
-                fontFamily: 'Poppins-Regular',
-              }}
-              underlineColor="transparent"
-              underlineColorAndroid="transparent"
-              selectionColor="white"
-              onFocus={() => onFocusAction(setLoginuserNameactive)}
-              label="Username or E-mail ID"
-              value={loginuserName}
-            />
-
-            <View
-              style={{
-                marginTop: -4,
-                borderTopColor:
-                  loginuserNameactive && !emailErr
-                    ? '#117AF5'
-                    : emailErr
-                    ? '#D02B29'
-                    : '#1F232E',
-                borderTopWidth: 3,
-                marginHorizontal: 24,
-              }}
-            />
-
-            <TextInput
-              onChangeText={e => setLoginPassword(e)}
-              theme={{
-                colors: {
-                  text: 'white',
-                  primary: '#9CA6B6',
-                  placeholder: '#9CA6B6',
-                },
-              }}
-              style={{
-                marginTop: 20,
-                height: 56,
-                color: 'white',
-                fontSize: 14,
-                marginHorizontal: 20,
-                borderRadius: 10,
-                borderWidth: 1.5,
-                fontFamily: 'Poppins-Regular',
-                borderColor:
-                  loginPasswordactive && !passErr
-                    ? '#117AF5'
-                    : passErr
-                    ? '#D02B29'
-                    : '#1F232E',
-                backgroundColor: '#1F232E',
-                borderTopRightRadius: 10,
-                borderTopLeftRadius: 10,
-                overflow: 'hidden',
-              }}
-              onFocus={() => onFocusAction(setLoginUserPasswordactive)}
-              underlineColor="transparent"
-              selectionColor="white"
-              secureTextEntry={loginpasswordEye}
-              label="Password"
-              right={
-                <TextInput.Icon
-                  onPress={() => setLoginPasswordEye(!loginpasswordEye)}
-                  forceTextInputFocus={false}
-                  color={'#117AF5'}
-                  name={loginpasswordEye ? ImagePath.eye : ImagePath.eyeBlue}
-                />
-              }
-              value={loginPassword}
-            />
-
-            <View
-              style={{
-                marginTop: -4,
-                borderTopColor:
-                  loginPasswordactive && !passErr
-                    ? '#117AF5'
-                    : passErr
-                    ? '#D02B29'
-                    : '#1F232E',
-                borderTopWidth: 3,
-                marginHorizontal: 24,
-              }}
-            />
-
-            {isError ? (
-              <Text style={styles.warningText}>{errorMessage}</Text>
-            ) : null}
-
-            <TouchableOpacity
-              disabled={
-                loginuserName.length && loginPassword.length ? false : true
-              }
-              style={{marginTop: 50, marginHorizontal: 20}}
-              onPress={() => loginApi()}>
-              <View
+          <View style={{flex: 1}}>
+            <View style={{flex: 0.7}}>
+              <TextInput
+                mode="flat"
+                theme={{
+                  colors: {
+                    text: 'white',
+                    primary: '#9CA6B6',
+                    placeholder: '#9CA6B6',
+                  },
+                  fonts: {regular: 'Poppins-Regular'},
+                }}
+                onChangeText={e => setLoginuserName(e)}
                 style={{
-                  backgroundColor:
-                    loginuserName.length && loginPassword.length
+                  marginTop: 50,
+                  height: 56,
+                  color: '#E9F0FA',
+                  fontSize: 14,
+                  marginHorizontal: 20,
+                  borderRadius: 10,
+                  borderWidth: 1.5,
+                  borderColor:
+                    loginuserNameactive && !emailErr
                       ? '#117AF5'
-                      : '#2D313C',
-                  padding: 12,
-                  borderRadius: 8,
+                      : emailErr
+                      ? '#D02B29'
+                      : '#1F232E',
+                  backgroundColor: '#1F232E',
+                  borderTopRightRadius: 10,
+                  borderTopLeftRadius: 10,
+                  overflow: 'hidden',
+                }}
+                fontFamily="Poppins-Regular"
+                underlineColor="transparent"
+                underlineColorAndroid="transparent"
+                selectionColor="white"
+                onFocus={() => onFocusAction(setLoginuserNameactive)}
+                label="Username or E-mail ID"
+                value={loginuserName}
+              />
 
-                  alignItems: 'center',
-                }}>
-                {!loading ? (
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontFamily: 'Poppins-SemiBold',
-                      lineHeight: 28,
-                    }}>
-                    LOGIN
-                  </Text>
-                ) : (
-                  <ActivityIndicator size="large" color="white" />
-                )}
-              </View>
-            </TouchableOpacity>
-
-            <View style={{marginTop: 20, alignItems: 'center'}}>
-              <Text
-                style={{
-                  color: '#9CA6B6',
-
-                  fontSize: 13,
-                  fontFamily: 'Poppins-Regular',
-                }}>
-                Forgot your password?{' '}
-                <Text
-                  onPress={() => navigation.navigate('SigninForgot')}
-                  style={[styles.pressTextStyle, {fontSize: 13}]}>
-                  GET HELP
-                </Text>
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                alignSelf: 'center',
-                marginTop: 100,
-              }}>
               <View
                 style={{
-                  borderBottomColor: '#526086',
-                  borderBottomWidth: 1,
-                  width: wp('20%'),
-                  alignSelf: 'center',
-                  marginTop: 5,
-                }}></View>
-              <View style={{alignItems: 'center'}}>
+                  marginTop: -4,
+                  borderTopColor:
+                    loginuserNameactive && !emailErr
+                      ? '#117AF5'
+                      : emailErr
+                      ? '#D02B29'
+                      : '#1F232E',
+                  borderTopWidth: 3,
+                  marginHorizontal: 24,
+                }}
+              />
+
+              <TextInput
+                onChangeText={e => setLoginPassword(e)}
+                theme={{
+                  colors: {
+                    text: 'white',
+                    primary: '#9CA6B6',
+                    placeholder: '#9CA6B6',
+                  },
+                  fonts: {regular: 'Poppins-Regular'},
+                }}
+                style={{
+                  marginTop: 20,
+                  height: 56,
+                  color: 'white',
+                  fontSize: 14,
+                  marginHorizontal: 20,
+                  borderRadius: 10,
+                  borderWidth: 1.5,
+                  fontFamily: 'Poppins-Regular',
+                  borderColor:
+                    loginPasswordactive && !passErr
+                      ? '#117AF5'
+                      : passErr
+                      ? '#D02B29'
+                      : '#1F232E',
+                  backgroundColor: '#1F232E',
+                  borderTopRightRadius: 10,
+                  borderTopLeftRadius: 10,
+                  overflow: 'hidden',
+                }}
+                onFocus={() => onFocusAction(setLoginUserPasswordactive)}
+                underlineColor="transparent"
+                selectionColor="white"
+                fontFamily="Poppins-Regular"
+                secureTextEntry={loginpasswordEye}
+                label="Password"
+                right={
+                  <TextInput.Icon
+                    onPress={() => setLoginPasswordEye(!loginpasswordEye)}
+                    forceTextInputFocus={false}
+                    color={'#117AF5'}
+                    name={loginpasswordEye ? ImagePath.eye : ImagePath.eyeBlue}
+                  />
+                }
+                value={loginPassword}
+              />
+
+              <View
+                style={{
+                  marginTop: -4,
+                  borderTopColor:
+                    loginPasswordactive && !passErr
+                      ? '#117AF5'
+                      : passErr
+                      ? '#D02B29'
+                      : '#1F232E',
+                  borderTopWidth: 3,
+                  marginHorizontal: 24,
+                }}
+              />
+
+              {isError ? (
+                <Text style={styles.warningText}>{errorMessage}</Text>
+              ) : null}
+
+              <TouchableOpacity
+                disabled={
+                  loginuserName.length && loginPassword.length ? false : true
+                }
+                style={{marginTop: 50, marginHorizontal: 20}}
+                onPress={() => loginApi()}>
+                <View
+                  style={{
+                    backgroundColor:
+                      loginuserName.length && loginPassword.length
+                        ? '#117AF5'
+                        : '#2D313C',
+                    padding: 12,
+                    borderRadius: 8,
+
+                    alignItems: 'center',
+                  }}>
+                  {!loading ? (
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontFamily: 'Poppins-SemiBold',
+                        lineHeight: 28,
+                      }}>
+                      LOGIN
+                    </Text>
+                  ) : (
+                    <ActivityIndicator size="large" color="white" />
+                  )}
+                </View>
+              </TouchableOpacity>
+
+              <View style={{marginTop: 20, alignItems: 'center'}}>
                 <Text
                   style={{
                     color: '#9CA6B6',
-                    alignSelf: 'center',
-                    marginLeft: '5%',
-                    marginRight: '5%',
+
+                    fontSize: 13,
                     fontFamily: 'Poppins-Regular',
                   }}>
-                  or login using
+                  Forgot your password?{' '}
+                  <Text
+                    onPress={() => navigation.navigate('SigninForgot')}
+                    style={[styles.pressTextStyle, {fontSize: 13}]}>
+                    GET HELP
+                  </Text>
                 </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'flex-end',
+                flex: 0.3,
+                paddingBottom: 50,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                }}>
+                <View
+                  style={{
+                    borderBottomColor: '#526086',
+                    borderBottomWidth: 1,
+                    width: wp('20%'),
+                    alignSelf: 'center',
+                    marginTop: 5,
+                  }}></View>
+                <View style={{alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      color: '#9CA6B6',
+                      alignSelf: 'center',
+                      marginLeft: '5%',
+                      marginRight: '5%',
+                      fontFamily: 'Poppins-Regular',
+                    }}>
+                    or login using
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    borderBottomColor: '#526086',
+                    borderBottomWidth: 1,
+                    alignSelf: 'center',
+                    width: wp('20%'),
+                    marginTop: 5,
+                  }}></View>
               </View>
               <View
                 style={{
-                  borderBottomColor: '#526086',
-                  borderBottomWidth: 1,
-                  alignSelf: 'center',
-                  width: wp('20%'),
-                  marginTop: 5,
-                }}></View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginHorizontal: 20,
+                  flexDirection: 'row',
+                  marginHorizontal: 20,
 
-                justifyContent: 'space-between',
+                  justifyContent: 'space-between',
 
-                marginTop: 20,
-              }}>
-              <TouchableOpacity style={{flex: 0.48}}>
-                <View
-                  style={{
-                    backgroundColor: '#161F37',
-                    padding: 5,
+                  marginTop: 20,
+                }}>
+                <TouchableOpacity style={{flex: 0.48}}>
+                  <View
+                    style={{
+                      backgroundColor: '#161F37',
+                      padding: 5,
 
-                    alignItems: 'center',
-                    borderRadius: 8,
-                  }}>
-                  <Image source={Path.Applelogohd} resizeMode="center"></Image>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={{flex: 0.48}}>
-                <View
-                  style={{
-                    backgroundColor: '#161F37',
-                    padding: 5,
+                      alignItems: 'center',
+                      borderRadius: 8,
+                      height: 44,
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      source={Path.Applelogohd}
+                      style={{height: 20, width: 17}}></Image>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex: 0.48}}>
+                  <View
+                    style={{
+                      backgroundColor: '#161F37',
+                      padding: 5,
 
-                    alignItems: 'center',
-                    borderRadius: 8,
-                  }}>
-                  <Image source={Path.googlehd} resizeMode="center"></Image>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={{alignItems: 'center', marginTop: 40}}>
-              <Text style={styles.bottomText}>
-                By joining you agree to our{' '}
-                <Text onPress={openTermofuse} style={styles.pressTextStyle}>
-                  {' '}
-                  Privacy Policy{' '}
-                </Text>{' '}
-                and{' '}
-                <Text onPress={openTermofuse} style={styles.pressTextStyle}>
-                  {' '}
-                  T&C
+                      alignItems: 'center',
+                      borderRadius: 8,
+                      justifyContent: 'center',
+                      height: 44,
+                    }}>
+                    <Image
+                      source={Path.googlehd}
+                      style={{height: 18, width: 18}}></Image>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={{alignItems: 'center', marginTop: 40}}>
+                <Text style={styles.bottomText}>
+                  By joining you agree to our{' '}
+                  <Text onPress={openTermofuse} style={styles.pressTextStyle}>
+                    {' '}
+                    Privacy Policy{' '}
+                  </Text>{' '}
+                  and{' '}
+                  <Text onPress={openTermofuse} style={styles.pressTextStyle}>
+                    {' '}
+                    T&C
+                  </Text>
                 </Text>
-              </Text>
+              </View>
             </View>
-            <View style={{alignSelf: 'center'}}></View>
           </View>
         ) : (
           <View>
@@ -540,7 +558,9 @@ const Signin = ({navigation}) => {
                   alignItems: 'center',
                   borderRadius: 8,
                 }}>
-                <Image source={Path.Applelogohd} resizeMode="center"></Image>
+                <Image
+                  source={Path.Applelogohd}
+                  style={{height: 20, width: 17}}></Image>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{
@@ -551,7 +571,9 @@ const Signin = ({navigation}) => {
                   alignItems: 'center',
                   borderRadius: 8,
                 }}>
-                <Image source={Path.googlehd} resizeMode="center"></Image>
+                <Image
+                  source={Path.googlehd}
+                  style={{height: 18, width: 18}}></Image>
               </TouchableOpacity>
             </View>
 
@@ -599,6 +621,7 @@ const Signin = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
+                fonts: {regular: 'Poppins-Regular'},
               }}
               underlineColor="transparent"
               underlineColorAndroid="transparent"
@@ -610,6 +633,7 @@ const Signin = ({navigation}) => {
               ]}
               onFocus={() => onFocusAction(setRegisterName)}
               value={fullName}
+              fontFamily="Poppins-Regular"
               onChangeText={e => setFullname(e)}
               onTouchStart={() => setIsCheckfullName(!isCheckfullName)}
             />
@@ -631,6 +655,7 @@ const Signin = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
+                fonts: {regular: 'Poppins-Regular'},
               }}
               underlineColor="transparent"
               underlineColorAndroid="transparent"
@@ -641,6 +666,7 @@ const Signin = ({navigation}) => {
                 {borderColor: registerEmail ? '#117AF5' : '#1F232E'},
               ]}
               value={emailid}
+              fontFamily="Poppins-Regular"
               onChangeText={e => setEmailid(e)}
               onFocus={() => onFocusAction(setRegisterEmail)}
               onTouchStart={() => setIsCheckEMail(!isCheckEmail)}
@@ -663,6 +689,7 @@ const Signin = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
+                fonts: {regular: 'Poppins-Regular'},
               }}
               underlineColor="transparent"
               underlineColorAndroid="transparent"
@@ -677,6 +704,7 @@ const Signin = ({navigation}) => {
               onFocus={() => onFocusAction(setRegisterPassword)}
               secureTextEntry={resgisterPasswordeye}
               onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)}
+              fontFamily="Poppins-Regular"
               right={
                 <TextInput.Icon
                   onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)}
@@ -730,7 +758,7 @@ const Signin = ({navigation}) => {
                     style={{
                       color: 'white',
                       lineHeight: 28,
-                      fontFamily: 'Poppins-Bold',
+                      fontFamily: 'Poppins-SemiBold',
                       fontSize: 13,
                     }}>
                     CREATE ACCOUNT
@@ -759,7 +787,7 @@ const Signin = ({navigation}) => {
             </View>
           </View>
         )}
-      </KeyboardAwareScrollView>
+      </View>
     </View>
   );
 };

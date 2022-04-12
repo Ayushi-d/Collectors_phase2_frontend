@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomPost from '../screens/Screen/BottomPost';
 import Path from '../constants/Imagepath';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "../utility";
+import ChatScreen from "../screens/Screen/Chat/ChatScreen";
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = ({navigation}) => {
   return (
@@ -60,7 +61,7 @@ const BottomTabNavigator = ({navigation}) => {
       />
       <Tab.Screen
         name="Message"
-        component={Message}
+        component={ChatScreen}
         options={{
           tabBarLabel: 'Message',
           tabBarIcon: ({ focused }) => {

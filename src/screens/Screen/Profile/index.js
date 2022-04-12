@@ -39,25 +39,28 @@ const Profile = ({navigation}) => {
       <ScrollView style={{backgroundColor: 'black', height: '100%'}}>
         <View
           style={{flexDirection: 'row', marginHorizontal: 20, marginTop: 25}}>
-          {!userImage ? (
-            <View>
-              <Image
-                source={Path.userImage}
-                style={{height: 100, width: 100, borderRadius: 50}}></Image>
-            </View>
-          ) : (
-            <View>
-              <Image
-                source={{uri: userImage}}
-                style={{height: 100, width: 100, borderRadius: 50}}></Image>
-            </View>
-          )}
+          <View style={{flex: 0.35}}>
+            {!userImage ? (
+              <View>
+                <Image
+                  source={Path.userImage}
+                  style={{height: 100, width: 100, borderRadius: 50}}></Image>
+              </View>
+            ) : (
+              <View>
+                <Image
+                  source={{uri: userImage}}
+                  style={{height: 100, width: 100, borderRadius: 50}}></Image>
+              </View>
+            )}
+          </View>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               alignItems: 'center',
-              marginLeft: wp('10%'),
+
+              flex: 0.65,
             }}>
             <TouchableOpacity>
               <View style={{alignItems: 'center'}}>
@@ -77,7 +80,7 @@ const Profile = ({navigation}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Following')}>
-              <View style={{alignItems: 'center', marginLeft: wp('3%')}}>
+              <View style={{alignItems: 'center'}}>
                 <Text
                   style={{fontSize: 12, fontWeight: '400', color: '#9CA6B6'}}>
                   Followers
@@ -94,7 +97,7 @@ const Profile = ({navigation}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Following')}>
-              <View style={{alignItems: 'center', marginLeft: wp('3%')}}>
+              <View style={{alignItems: 'center'}}>
                 <Text
                   style={{fontSize: 12, fontWeight: '400', color: '#9CA6B6'}}>
                   Following

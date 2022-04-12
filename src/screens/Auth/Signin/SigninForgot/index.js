@@ -95,9 +95,13 @@ const SigninForgot = ({navigation}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts: {
+                regular: 'Poppins-Regular',
+              },
             }}
             onFocus={() => setEmailACtive(true)}
             value={text}
+            fontFamily="Poppins-Regular"
             onTouchStart={() => setIsclick(!isClick)}
             onChangeText={e => onChangeText(e)}
             label={'E-mail ID'}
@@ -105,6 +109,15 @@ const SigninForgot = ({navigation}) => {
               styles.inputStyle,
               {borderColor: emailActive ? '#117AF5' : '#1F232E'},
             ]}
+          />
+
+          <View
+            style={{
+              marginTop: -4,
+              borderTopColor: emailActive ? '#117AF5' : '#1F232E',
+              borderTopWidth: 3,
+              marginHorizontal: 24,
+            }}
           />
         </View>
         <View style={{flex: 0.3, justifyContent: 'flex-end', marginBottom: 40}}>

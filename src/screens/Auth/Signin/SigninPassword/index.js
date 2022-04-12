@@ -105,18 +105,23 @@ const SigninPassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts : {
+              regular : 'Poppins-Regular',
+            
+            }
           }}
           onFocus={() => onFocusAction(setpasswordActive)}
           secureTextEntry={isClick}
           onChangeText={e => onChangeText(e)}
           label={'Set New Password'}
+          fontFamily = 'Poppins-Regular'
           style={[
             styles.inputStyle,
             {borderColor: passwordActive ? '#117AF5' : '#1F232E'},
           ]}
           right={
             <TextInput.Icon
-              name={isClick ? ImagePath.eyeBlue : ImagePath.eye}
+              name={isClick ? ImagePath.eye : ImagePath.eyeBlue}
               forceTextInputFocus={false}
               color={'#117AF5'}
               onPress={() => setIsclick(!isClick)}
@@ -139,11 +144,16 @@ const SigninPassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts : {
+              regular : 'Poppins-Regular',
+            
+            }
           }}
           onFocus={() => onFocusAction(setConfirmPasswordActive)}
           onChangeText={e => onChangeText1(e)}
           label={'Confirm New Password'}
           secureTextEntry={isClick1}
+          fontFamily = 'Poppins-Regular'
           style={[
             styles.inputStyle,
             {
@@ -156,7 +166,7 @@ const SigninPassword = ({navigation}) => {
           ]}
           right={
             <TextInput.Icon
-              name={isClick1 ? ImagePath.eyeBlue : ImagePath.eye}
+              name={isClick1 ? ImagePath.eye : ImagePath.eyeBlue}
               forceTextInputFocus={false}
               color={'#117AF5'}
               onPress={() => setIsclick1(!isClick1)}

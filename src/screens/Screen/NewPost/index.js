@@ -54,11 +54,16 @@ const NewPost = ({navigation}) => {
       width: 300,
       height: 400,
       cropping: true,
-    }).then(image => {
-      console.log('image,,,', image.path);
-      setImage1(image.path);
-      setImageStatus(true);
-    });
+    })
+      .then(image => {
+        console.log('image,,,', image.path);
+
+        setImage1(image.path);
+        setImageStatus(true);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
   const postCreateApi = () => {
     if (
@@ -127,7 +132,7 @@ const NewPost = ({navigation}) => {
         hideLogo="true"
         textData=" Post"
         navigate={navigation}
-        backgroundColor = '#0D111C'
+        backgroundColor="#0D111C"
       />
 
       <ScrollView
@@ -203,6 +208,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -221,12 +228,7 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => chooseImages(setImage2, setImageStatus3)}
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}>
+                    onPress={() => chooseImages(setImage2, setImageStatus3)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
                 )}
@@ -244,6 +246,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -262,12 +266,7 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => chooseImages(setImage3, setImageStatus4)}
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}>
+                    onPress={() => chooseImages(setImage3, setImageStatus4)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
                 )}
@@ -285,6 +284,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -303,12 +304,7 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => chooseImages(setImage4, setImageStatus5)}
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}>
+                    onPress={() => chooseImages(setImage4, setImageStatus5)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
                 )}
@@ -334,6 +330,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -352,11 +350,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage5, setImageStatus6)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -375,6 +368,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -393,11 +388,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage6, setImageStatus7)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -416,6 +406,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -434,11 +426,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage7, setImageStatus8)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -457,6 +444,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -475,11 +464,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage8, setAllDone)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -513,7 +497,7 @@ const NewPost = ({navigation}) => {
 
         <View style={[styles.designleft, styles.designTop]}>
           <Text style={[styles.textColor, {fontFamily: 'Poppins-SemiBold'}]}>
-            POST FOR;
+            POST FOR :
           </Text>
         </View>
         <View
@@ -560,11 +544,11 @@ const NewPost = ({navigation}) => {
                     : {
                         color: 'white',
                         fontSize: 14,
-                        fontWeight: '400',
+                        fontFamily: 'Poppins-Regular',
                         lineHeight: 24,
                       }
                 }>
-                Buy
+                Sell
               </Text>
             </View>
           </View>
@@ -605,7 +589,7 @@ const NewPost = ({navigation}) => {
                     : {
                         color: 'white',
                         fontSize: 14,
-                        fontWeight: '400',
+                        fontFamily: 'Poppins-Regular',
                         lineHeight: 24,
                       }
                 }>

@@ -42,7 +42,8 @@ const Authdetails = ({navigation}) => {
                 <Text style={styles.lightText}>A</Text> trusted market-place{' '}
                 <Text style={styles.lightText}>for</Text> buying{' '}
                 <Text style={styles.lightText}>and</Text> selling{' '}
-                <Text style={styles.lightText}>unique</Text> collectibles!
+                <Text style={styles.lightText}>unique </Text>collectibles
+                <Text style={styles.lightText}>!</Text>
               </Text>
             </View>
             <View style={{marginHorizontal: 20, marginTop: 10}}>

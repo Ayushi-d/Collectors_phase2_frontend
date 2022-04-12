@@ -22,6 +22,10 @@ import PostSubCategory from '../screens/Screen/NewPost/PostSubCategory';
 import Search from '../screens/Screen/Search/index';
 import NewPost from '../screens/Screen/NewPost/index';
 import FollowProfile from '../screens/Screen/FollowProfile/FollowProfile';
+import PostDetail from '../screens/Screen/MainHome/PostDetail';
+import Comments from '../screens/Screen/MainHome/Comments';
+import ChatScreen from '../screens/Screen/Chat/ChatScreen';
+import Chats from '../screens/Screen/Chat/Chats';
 
 const Stack = createNativeStackNavigator();
 const StackNavigtaion = () => {
@@ -132,6 +136,22 @@ const StackNavigtaion = () => {
         component={FollowProfile}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+      name="PostDetail"
+      component={PostDetail}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+    name="Comments"
+    component={Comments}
+    options={{headerShown: false}}
+  />
+  <Stack.Screen
+  name="Chats"
+  component={Chats}
+  options={{headerShown: false}}
+/>
+
     </Stack.Navigator>
   );
 };
