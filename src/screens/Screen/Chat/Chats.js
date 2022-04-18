@@ -10,13 +10,14 @@ import React, {useRef, useState} from 'react';
 import ImagePath from '../../../constants/Imagepath';
 import ActionSheet from 'react-native-actions-sheet';
 import ChatAcceptModal from '../../../components/ChatAcceptModal';
+import WrapperContainer from '../../../components/WrapperContainer';
 
 const Chats = ({navigation}) => {
   const bottomRef = useRef();
 
   const [isModal, setIsModal] = useState(true);
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
+    <WrapperContainer statusBarColor='#0D111C'>
       <View style={styles.topiew}>
         <View
           style={{
@@ -120,7 +121,7 @@ const Chats = ({navigation}) => {
           onPressContinue={() => setIsModal(false)}
         />
       ) : null}
-    </View>
+    </WrapperContainer>
   );
 };
 

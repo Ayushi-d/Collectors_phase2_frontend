@@ -4,9 +4,10 @@ import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity} from
 import Header from '../../../../components/Header';
 import { widthPercentageToDP as wp ,heightPercentageToDP as hp } from '../../../../utility';
 import Path from '../../../../constants/Imagepath';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const PostSubCategory = ({navigation}) => {
   return (
-      <View>
+      <WrapperContainer>
         <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>
         <ScrollView style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
         <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
@@ -52,7 +53,7 @@ const PostSubCategory = ({navigation}) => {
     
         </ScrollView>
         {/* <Homeheader/> */}
-      </View>
+      </WrapperContainer>
   );
 };
 
@@ -64,7 +65,8 @@ flexDirection:'row',
 alignItems:'center',borderRadius:10,
 width:wp('90%'),
 alignSelf:'center',
-marginTop:hp('4%')
+marginTop:hp('4%'),
+height : 48
 },
 searchIcon:{
   marginLeft:wp('3%')
@@ -73,7 +75,8 @@ searchText:{
   fontSize:13,
   lineHeight:20,
   fontWeight:'400',
-  color:'white'
+  color:'white',
+  height : 48
 },
 categoriesText:{
   fontSize:14,

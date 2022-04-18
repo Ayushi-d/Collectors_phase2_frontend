@@ -26,6 +26,7 @@ import {
 import RBSheet from 'react-native-raw-bottom-sheet';
 import PhotoGrid from 'react-native-thumbnail-grid';
 import ActionSheet from 'react-native-actions-sheet';
+import WrapperContainer from '../../../components/WrapperContainer';
 const MainHome = ({navigation}) => {
   const [HomeData, setHomeData] = useState([{id: 1}, {id: 2}, {id: 3}]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -99,7 +100,7 @@ const MainHome = ({navigation}) => {
 
   const width = Dimensions.get('window').width;
   return (
-    <View style={styles.containerStyle}>
+    <WrapperContainer statusBarColor="#0D111C" bodyColor='#00040E'>
       <Homeheader
         showNotification={false}
         navigate={() => navigation.navigate('Search')}
@@ -332,7 +333,8 @@ const MainHome = ({navigation}) => {
                         </View>
 
                         <View style={{marginLeft: 10}}>
-                          <TouchableOpacity onPress={()=>navigation.navigate('Comments')} >
+                          <TouchableOpacity
+                            onPress={() => navigation.navigate('Comments')}>
                             <Image
                               source={Path.Chat}
                               style={{height: 20, width: 20}}></Image>
@@ -351,7 +353,8 @@ const MainHome = ({navigation}) => {
                           </View>
                         </View>
                       </View>
-                      <TouchableOpacity onPress={()=>navigation.navigate('PostDetail')} >
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('PostDetail')}>
                         <View
                           style={{
                             borderWidth: 1,
@@ -486,9 +489,7 @@ const MainHome = ({navigation}) => {
           </View>
         </Modal>
       </ScrollView>
-
-    
-    </View>
+    </WrapperContainer>
   );
 };
 

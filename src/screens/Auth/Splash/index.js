@@ -27,7 +27,7 @@ const Splash=({navigation})=>{
                     <Image source={Path.logohd} style={{width:140,height:50}}></Image>
                 </View>
                 <View style={{marginTop:hp('30%'),alignSelf:'center'}}>
-                    <Image source={Path.logoTextlong} resizeMode="center" style={{height:hp('10%'),width:wp('80%')}}></Image>
+                    <Image source={Path.logoTextlong} resizeMode="center" style={{height:hp('10%'),width:wp('90%')}}></Image>
                 </View>
                 <View style={{alignSelf:'center'}}>
                     <Text style={{fontSize:15,color:'#E9F0FA',fontFamily:'Poppins-Regular'}}>Version 0.2</Text>

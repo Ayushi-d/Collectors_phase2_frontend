@@ -24,7 +24,7 @@ const Authdetails = ({navigation}) => {
     <View style={{flex: 1}}>
       <ImageBackground
         source={Path.backgroundImage}
-        style={{height: hp('100%'), width: wp('100%'), flex: 1}}>
+        style={{height: hp('100%'), width: wp('100%'), flex: 1, paddingVertical : '10%'}}>
         <View style={{flex: 0.6, justifyContent: 'space-between'}}>
           <View style={{alignSelf: 'center', marginTop: 20}}>
             <Image source={Path.logohd} style={{height: 20, width: 55}}></Image>

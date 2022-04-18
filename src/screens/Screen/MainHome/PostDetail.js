@@ -16,6 +16,7 @@ import CommentList from '../../../components/CommentList';
 import OfferListComp from '../../../components/OfferListComp';
 import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
+import WrapperContainer from '../../../components/WrapperContainer';
 
 const PostDetail = ({navigation}) => {
   const [Authdata, setAuthData] = useState('activity');
@@ -89,7 +90,6 @@ const PostDetail = ({navigation}) => {
       <View>
         <View
           style={{
-            marginTop: 30,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -459,113 +459,115 @@ const PostDetail = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={styles.containerStyle}>
-      {Authdata === 'activity' ? (
-        <FlatList
-          data={['', '']}
-          ListHeaderComponent={combineHeader}
-          ListFooterComponent={_footerComp}
-          renderItem={({item, index}) => {
-            return <CommentList />;
-          }}
-        />
-      ) : (
-        <FlatList
-          data={['', '']}
-          ListHeaderComponent={listOfferCombine}
-          ListFooterComponent={_listFooterOffer}
-          renderItem={() => {
-            return <OfferListComp />;
-          }}
-        />
-      )}
-      <ActionSheet
-        onClose={() => bottomRef.current.setModalVisible(false)}
-        indicatorColor={'#4F5461'}
-        statusBarTranslucent
-        ref={bottomRef}>
-        <View style={styles.bottomView}>
-          <View style={styles.indicator} />
-          <Text style={styles.settingText}>POST SETTINGS</Text>
-          <TouchableOpacity
-            style={{marginTop: 25}}
-            onPress={() => {
-              bottomRef.current.setModalVisible(false);
-              setTimeout(() => {
-                setDeleteModal(true);
-              }, 300);
-            }}>
-            <Text style={styles.deleteText}>Delete Post</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginTop: 25}}
-            onPress={() => {
-              bottomRef.current.setModalVisible(false);
-              setTimeout(() => {
-                setCloseModal(true);
-              }, 300);
-            }}>
-            <Text style={styles.deleteText}>Close Bidding for this post</Text>
-          </TouchableOpacity>
-          {/* report post in case post is not of user */}
-        </View>
-      </ActionSheet>
+    <WrapperContainer>
+      <ScrollView style={styles.containerStyle}>
+        {Authdata === 'activity' ? (
+          <FlatList
+            data={['', '']}
+            ListHeaderComponent={combineHeader}
+            ListFooterComponent={_footerComp}
+            renderItem={({item, index}) => {
+              return <CommentList />;
+            }}
+          />
+        ) : (
+          <FlatList
+            data={['', '']}
+            ListHeaderComponent={listOfferCombine}
+            ListFooterComponent={_listFooterOffer}
+            renderItem={() => {
+              return <OfferListComp />;
+            }}
+          />
+        )}
+        <ActionSheet
+          onClose={() => bottomRef.current.setModalVisible(false)}
+          indicatorColor={'#4F5461'}
+          statusBarTranslucent
+          ref={bottomRef}>
+          <View style={styles.bottomView}>
+            <View style={styles.indicator} />
+            <Text style={styles.settingText}>POST SETTINGS</Text>
+            <TouchableOpacity
+              style={{marginTop: 25}}
+              onPress={() => {
+                bottomRef.current.setModalVisible(false);
+                setTimeout(() => {
+                  setDeleteModal(true);
+                }, 300);
+              }}>
+              <Text style={styles.deleteText}>Delete Post</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{marginTop: 25}}
+              onPress={() => {
+                bottomRef.current.setModalVisible(false);
+                setTimeout(() => {
+                  setCloseModal(true);
+                }, 300);
+              }}>
+              <Text style={styles.deleteText}>Close Bidding for this post</Text>
+            </TouchableOpacity>
+            {/* report post in case post is not of user */}
+          </View>
+        </ActionSheet>
 
-      <ActionSheet
-        indicatorColor={'#4F5461'}
-        onClose={() => bottomRefOffer.current.setModalVisible(false)}
-        ref={bottomRefOffer}>
-        <View style={styles.bottomView}>
-          <View style={styles.indicator} />
-          <Text style={styles.settingText}>SORT BIDS BY</Text>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 25,
-            }}>
-            <Text style={styles.deleteText}>Top Buy Bids</Text>
-            <Image source={ImagePath.next} style={{width: 20, height: 20}} />
-          </TouchableOpacity>
+        <ActionSheet
+          indicatorColor={'#4F5461'}
+          onClose={() => bottomRefOffer.current.setModalVisible(false)}
+          ref={bottomRefOffer}>
+          <View style={styles.bottomView}>
+            <View style={styles.indicator} />
+            <Text style={styles.settingText}>SORT BIDS BY</Text>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 25,
+              }}>
+              <Text style={styles.deleteText}>Top Buy Bids</Text>
+              <Image source={ImagePath.next} style={{width: 20, height: 20}} />
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 25,
-            }}>
-            <Text style={styles.deleteText}>Top Exchange + Buy Bids</Text>
-            <Image source={ImagePath.next} style={{width: 20, height: 20}} />
-          </TouchableOpacity>
-        </View>
-      </ActionSheet>
-      {deleteModal ? (
-        <CustomModal
-          mainText={'Delete'}
-          mainText2={' this post?'}
-          warningText={'This would be an irreversible action!'}
-          leftButton={'NO'}
-          rightButton={'YES, DELETE'}
-          isVisible={deleteModal}
-          onPressLeft={() => setDeleteModal(false)}
-        />
-      ) : null}
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 25,
+              }}>
+              <Text style={styles.deleteText}>Top Exchange + Buy Bids</Text>
+              <Image source={ImagePath.next} style={{width: 20, height: 20}} />
+            </TouchableOpacity>
+          </View>
+        </ActionSheet>
+        {deleteModal ? (
+          <CustomModal
+            mainText={'Delete'}
+            mainText2={' this post?'}
+            warningText={'This would be an irreversible action!'}
+            leftButton={'NO'}
+            rightButton={'YES, DELETE'}
+            isVisible={deleteModal}
+            onPressLeft={() => setDeleteModal(false)}
+          />
+        ) : null}
 
-      {closeModal ? (
-        <CustomModal
-          mainText={'Close Bidding '}
-          mainText2={'for this post?'}
-          warningText={'Post will no longer be visible to others.'}
-          leftButton={'NO'}
-          rightButton={'CLOSE BIDDING'}
-          isVisible={closeModal}
-          onPressLeft={() => setCloseModal(false)}
-          backgroundColor="#117AF5"
-        />
-      ) : null}
-    </ScrollView>
+        {closeModal ? (
+          <CustomModal
+            mainText={'Close Bidding '}
+            mainText2={'for this post?'}
+            warningText={'Post will no longer be visible to others.'}
+            leftButton={'NO'}
+            rightButton={'CLOSE BIDDING'}
+            isVisible={closeModal}
+            onPressLeft={() => setCloseModal(false)}
+            backgroundColor="#117AF5"
+          />
+        ) : null}
+      </ScrollView>
+    </WrapperContainer>
   );
 };
 

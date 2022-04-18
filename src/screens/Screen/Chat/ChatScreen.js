@@ -12,12 +12,13 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import ImagePath from '../../../constants/Imagepath';
 import ChatList from '../../../components/ChatList';
 import EmptyComp from '../../../components/EmptyComp';
+import WrapperContainer from '../../../components/WrapperContainer';
 
 const ChatScreen = ({navigation}) => {
   const [Authdata, setAuthData] = useState('sent');
 
   return (
-    <View style={styles.containerStyle}>
+    <WrapperContainer statusBarColor='#0D111C'>
       <View style={{backgroundColor: '#0D111C'}}>
         <View style={styles.inputStyle}>
           <Image source={ImagePath.Search} />
@@ -160,17 +161,13 @@ const ChatScreen = ({navigation}) => {
           />
         )}
       </View>
-    </View>
+    </WrapperContainer>
   );
 };
 
 export default ChatScreen;
 
 const styles = StyleSheet.create({
-  containerStyle: {
-    backgroundColor: '#00040E',
-    flex: 1,
-  },
   inputStyle: {
     flexDirection: 'row',
     height: 44,

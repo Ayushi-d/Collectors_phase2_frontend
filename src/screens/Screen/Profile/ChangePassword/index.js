@@ -18,6 +18,7 @@ import Header from '../../../../components/Header';
 import axios from 'axios';
 import * as Utility from '../../../../utility/index';
 import {TextInput} from 'react-native-paper';
+import WrapperContainer from '../../../../components/WrapperContainer';
 
 const ChangePassword = ({navigation}) => {
   const [isOldpassword, setIsOldPassword] = useState(false);
@@ -93,7 +94,7 @@ const ChangePassword = ({navigation}) => {
   };
 
   return (
-    <View>
+    <WrapperContainer>
       <Header login="true" navigate={navigation} hideLogo="true" />
       <ScrollView
         style={{
@@ -262,7 +263,7 @@ const ChangePassword = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </WrapperContainer>
   );
 };
 export default ChangePassword;

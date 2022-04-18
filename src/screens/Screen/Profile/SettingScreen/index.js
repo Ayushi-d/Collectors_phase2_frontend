@@ -15,6 +15,7 @@ import {
 } from '../../../../utility';
 import Path from '../../../../constants/Imagepath';
 import * as utility from '../../../../utility/index';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const SeetingScreen = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -23,7 +24,7 @@ const SeetingScreen = ({navigation}) => {
     navigation.navigate('Signin');
   };
   return (
-    <View>
+    <WrapperContainer statusBarColor='#0D111C'>
       <Header
         login="true"
         backgroundColor="#0D111C"
@@ -262,7 +263,7 @@ const SeetingScreen = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </WrapperContainer>
   );
 };
 export default SeetingScreen;

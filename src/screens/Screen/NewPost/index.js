@@ -21,6 +21,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import WrapperContainer from '../../../components/WrapperContainer';
 const NewPost = ({navigation}) => {
   const [imageCount, setImageCount] = useState(0);
   const [imageStatus1, setImageStatus1] = useState(false);
@@ -126,7 +127,7 @@ const NewPost = ({navigation}) => {
     setModalVisible(!isModalVisible);
   };
   return (
-    <View>
+    <WrapperContainer statusBarColor='#0D111C'>
       <Header
         login="true"
         hideLogo="true"
@@ -481,6 +482,8 @@ const NewPost = ({navigation}) => {
               borderColor: '#9CA6B6',
               color: '#9CA6B6',
               width: wp('90%'),
+              height : 44,
+              marginTop : 10
             }}></TextInput>
         </View>
         <View style={styles.designleft}>
@@ -492,6 +495,8 @@ const NewPost = ({navigation}) => {
               borderColor: '#9CA6B6',
               color: '#9CA6B6',
               width: wp('90%'),
+              height : 44,
+              marginTop : 10
             }}></TextInput>
         </View>
 
@@ -620,6 +625,7 @@ const NewPost = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              height : 44
             }}>
             <View style={{marginLeft: wp('3%'), width: wp('10%')}}>
               <Text style={styles.textColor}>$ |</Text>
@@ -723,7 +729,7 @@ const NewPost = ({navigation}) => {
           </View>
         </View>
       </Modal>
-    </View>
+    </WrapperContainer>
   );
 };
 

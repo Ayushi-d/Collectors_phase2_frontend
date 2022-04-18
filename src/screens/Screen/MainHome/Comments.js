@@ -11,6 +11,7 @@ import React, {useRef} from 'react';
 import CommentList from '../../../components/CommentList';
 import ImagePath from '../../../constants/Imagepath';
 import ActionSheet from 'react-native-actions-sheet';
+import WrapperContainer from '../../../components/WrapperContainer';
 
 const Comments = ({navigation}) => {
   const onOpen = () => {
@@ -30,7 +31,7 @@ const Comments = ({navigation}) => {
 
   const _listHead = () => {
     return (
-      <View style={{marginTop: 30}}>
+      <View>
         <View style={{marginHorizontal: 20}}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={ImagePath.back} />
@@ -42,7 +43,7 @@ const Comments = ({navigation}) => {
   };
 
   return (
-    <View style={{flex: 1, paddingBottom: 20, backgroundColor: 'black'}}>
+    <WrapperContainer>
       <FlatList
         data={['', '', '']}
         ListHeaderComponent={_listHead}
@@ -83,7 +84,7 @@ const Comments = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ActionSheet>
-    </View>
+    </WrapperContainer>
   );
 };
 

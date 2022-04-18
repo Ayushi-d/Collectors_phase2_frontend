@@ -7,6 +7,7 @@ import Path from '../../../../constants/Imagepath';
 import {
   useFocusEffect
  } from '@react-navigation/native';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const PostCategory = ({navigation}) => {
   useFocusEffect(
     React.useCallback(() => {
@@ -34,7 +35,7 @@ const PostCategory = ({navigation}) => {
     }, []),
   );
   return (
-      <View>
+      <WrapperContainer>
         <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>
         <ScrollView style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
         <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
@@ -75,7 +76,7 @@ const PostCategory = ({navigation}) => {
     </TouchableOpacity>
         </ScrollView>
         {/* <Homeheader/> */}
-      </View>
+      </WrapperContainer>
   );
 };
 
@@ -96,7 +97,8 @@ searchText:{
   fontSize:13,
   lineHeight:20,
   fontWeight:'400',
-  color:'white'
+  color:'white',
+  height: 48
 },
 categoriesText:{
   fontSize:14,

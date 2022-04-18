@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
 } from '../../../utility';
 import Path from '../../../constants/Imagepath';
+import WrapperContainer from '../../../components/WrapperContainer';
 const Search = ({navigation}) => {
   const [data, setData] = useState([
     {
@@ -91,7 +92,7 @@ const Search = ({navigation}) => {
   };
   const [active, setActive] = useState(false);
   return (
-    <View>
+    <WrapperContainer statusBarColor="#0D111C">
       <Header
         backgroundColor="#0D111C"
         login="true"
@@ -109,6 +110,7 @@ const Search = ({navigation}) => {
               borderRadius: 10,
               alignItems: 'center',
               marginTop: hp('2%'),
+              height: 48,
             }}>
             <Image
               source={Path.Search}
@@ -209,7 +211,7 @@ const Search = ({navigation}) => {
           ) : null}
         </View>
       </ScrollView>
-    </View>
+    </WrapperContainer>
   );
 };
 export default Search;

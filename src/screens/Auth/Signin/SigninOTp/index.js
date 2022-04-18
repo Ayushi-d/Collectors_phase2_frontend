@@ -24,6 +24,7 @@ import {
   setInLocalStorge,
   widthPercentageToDP as wp,
 } from '../../../../utility';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const styles = StyleSheet.create({
   root: {flex: 1, padding: 10},
   title: {
@@ -91,6 +92,8 @@ const SigninOTp = ({navigation}) => {
     setEmail(email);
   };
   return (
+    <WrapperContainer statusBarColor='black' >
+ 
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
         style={{
@@ -244,6 +247,7 @@ const SigninOTp = ({navigation}) => {
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
+    </WrapperContainer>
   );
 };
 export default SigninOTp;

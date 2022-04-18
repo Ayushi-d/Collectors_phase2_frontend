@@ -19,6 +19,7 @@ import Header from '../../../../components/Header';
 import * as Utility from '../../../../utility/index';
 import {TextInput} from 'react-native-paper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import WrapperContainer from '../../../../components/WrapperContainer';
 
 const EditProfile = ({navigation, route}) => {
   const {user_id} = route.params;
@@ -66,7 +67,7 @@ const EditProfile = ({navigation, route}) => {
     }
   };
   return (
-    <View style={{backgroundColor: 'black', width: '100%', height: '100%'}}>
+    <WrapperContainer>
       <Header login="true" navigate={navigation} hideLogo="true" />
       {loader ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -211,7 +212,7 @@ const EditProfile = ({navigation, route}) => {
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       )}
-    </View>
+    </WrapperContainer>
   );
 };
 export default EditProfile;

@@ -16,6 +16,7 @@ import {
 import Path from '../../../constants/Imagepath';
 import * as Utility from '../../../utility/index';
 import {addAlpha} from '../../../utility/index';
+import WrapperContainer from '../../../components/WrapperContainer';
 const Profile = ({navigation}) => {
   const [userImage, setUserImage] = useState();
   const [userName, setUserName] = useState('');
@@ -34,7 +35,7 @@ const Profile = ({navigation}) => {
     setUserName(UserName);
   };
   return (
-    <View>
+    <WrapperContainer statusBarColor='#0D111C'>
       <ProfileHeader navigate={() => navigation.navigate('SettingScreen')} />
       <ScrollView style={{backgroundColor: 'black', height: '100%'}}>
         <View
@@ -301,7 +302,7 @@ const Profile = ({navigation}) => {
           </Text>
         </View>
       </ScrollView>
-    </View>
+    </WrapperContainer>
   );
 };
 

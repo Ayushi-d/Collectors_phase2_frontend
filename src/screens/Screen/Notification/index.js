@@ -15,6 +15,7 @@ import {
   heightPercentageToDP as hp,
 } from '../../../utility';
 import {listenerCount} from 'npm';
+import WrapperContainer from '../../../components/WrapperContainer';
 const Notification = ({navigation}) => {
   const [List, setList] = useState([
     {
@@ -88,7 +89,7 @@ const Notification = ({navigation}) => {
   ]);
 
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
+    <WrapperContainer  statusBarColor='#0D111C'>
       <Header login={false} hideLogo={true} />
       <View style={styles.NotificationHeadline}>
         <Text style={styles.NotificationHeadlineText}>
@@ -135,7 +136,7 @@ const Notification = ({navigation}) => {
           }}
         />
       </View>
-    </View>
+    </WrapperContainer>
   );
 };
 export default Notification;

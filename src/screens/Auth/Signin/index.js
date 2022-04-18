@@ -22,6 +22,7 @@ import {TextInput} from 'react-native-paper';
 import axios from 'axios';
 import * as Utility from '../../../utility/index';
 import ImagePath from '../../../constants/Imagepath';
+import WrapperContainer from '../../../components/WrapperContainer';
 const Signin = ({navigation}) => {
   const [Authdata, setAuthData] = useState('Login');
   const [loading, setLoading] = useState(false);
@@ -158,10 +159,8 @@ const Signin = ({navigation}) => {
     a(true);
   };
   return (
-    <View
-      style={{backgroundColor: 'black', height: hp('100%'), width: wp('100%')}}>
+    <WrapperContainer statusBarColor="#0D111C">
       <Header backgroundColor="#0D111C" />
-
       <View
         style={{
           flexDirection: 'row',
@@ -232,7 +231,6 @@ const Signin = ({navigation}) => {
           ) : null}
         </TouchableOpacity>
       </View>
-
       <View style={{flex: 1}}>
         {Authdata == 'Login' ? (
           <View style={{flex: 1}}>
@@ -788,7 +786,7 @@ const Signin = ({navigation}) => {
           </View>
         )}
       </View>
-    </View>
+    </WrapperContainer>
   );
 };
 export default Signin;

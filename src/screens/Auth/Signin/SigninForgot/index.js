@@ -18,6 +18,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../../../../utility';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const SigninForgot = ({navigation}) => {
   const [text, setText] = useState();
   const [isClick, setIsclick] = useState(false);
@@ -56,6 +57,8 @@ const SigninForgot = ({navigation}) => {
     }
   };
   return (
+    <WrapperContainer statusBarColor='black' >
+
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
         behavior="padding"
@@ -186,6 +189,7 @@ const SigninForgot = ({navigation}) => {
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
+    </WrapperContainer>
   );
 };
 export default SigninForgot;
