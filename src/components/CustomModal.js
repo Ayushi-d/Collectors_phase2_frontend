@@ -17,6 +17,7 @@ const CustomModal = ({
   onPressRight,
   mainText2,
   backgroundColor = '#D02B29',
+  image = ImagePath.ModalImage
 }) => {
   return (
     <Modal isVisible={isVisible} transparent={true}>
@@ -27,8 +28,8 @@ const CustomModal = ({
           borderRadius: 10,
           alignSelf: 'center',
         }}>
-        <View style={{alignSelf: 'center'}}>
-          <Image source={ImagePath.ModalImage} resizeMode="center"></Image>
+        <View style={{alignSelf: 'center', marginVertical : 10}}>
+          <Image source={image} style = {{height : 40 , width : 40}}></Image>
         </View>
         <View style={{alignSelf: 'center'}}>
           <Text
@@ -42,12 +43,13 @@ const CustomModal = ({
             <Text style={{fontFamily: 'Poppins-Regular'}}>{mainText2}</Text>
           </Text>
         </View>
-        <View style={{alignSelf: 'center'}}>
+        <View style={{alignSelf: 'center', paddingHorizontal : 15, marginBottom : 20, marginTop : 10}}>
           <Text
             style={{
               color: '#9CA6B6',
               fontSize: 14,
               fontFamily: 'Poppins-Regular',
+              textAlign : 'center'
             }}>
             {warningText}
           </Text>

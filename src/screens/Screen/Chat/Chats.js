@@ -5,19 +5,96 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  FlatList,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import ImagePath from '../../../constants/Imagepath';
 import ActionSheet from 'react-native-actions-sheet';
 import ChatAcceptModal from '../../../components/ChatAcceptModal';
 import WrapperContainer from '../../../components/WrapperContainer';
+import CustomModal from '../../../components/CustomModal';
+import {Rating, AirbnbRating} from 'react-native-ratings';
 
 const Chats = ({navigation}) => {
   const bottomRef = useRef();
 
+  const [closeChatModal, setCloseChatModal] = useState(false);
   const [isModal, setIsModal] = useState(true);
+  const [showFeedbackForm, setFeedBackForm] = useState(false);
+
+  const onCloseChat = () => {
+    bottomRef.current.setModalVisible(false);
+    setTimeout(() => {
+      setCloseChatModal(true);
+    }, 300);
+  };
+
+  const onFeedBack = () => {
+    setCloseChatModal(false);
+    setTimeout(() => {
+      setFeedBackForm(true);
+    }, 200);
+  };
+
+  const onPressSubmitFeedback = () => {
+    setFeedBackForm(false);
+  };
+
+  const footerComp = () => {
+    return (
+      <View>
+        {showFeedbackForm ? (
+          <View>
+            <View style={styles.box}>
+              <Text style={styles.requestText}>FEEDBACK REQUEST</Text>
+
+              <Text style={styles.howTrade}>How was the trade?!</Text>
+
+              <Text style={styles.helpText}>
+                Please help us to make Collectors Edition a safer place by
+                submitting your valuable feedback about{' '}
+                <Text style={{color: 'white'}}>Alexa.</Text>
+              </Text>
+              <View style={{marginVertical: 16}}>
+                <Rating
+                  type="custom"
+                  ratingCount={5}
+                  imageSize={30}
+                  ratingColor={'#117AF5'}
+                  ratingBackgroundColor={'white'}
+                  tintColor={'#15203A'}
+                  startingValue={5 / 5}
+                />
+              </View>
+
+              <Text style={styles.goodText}>Good Beheviour</Text>
+            </View>
+            <TextInput
+              style={styles.textInputStyle}
+              placeholder={'How was your experience?'}
+              placeholderTextColor={'#9CA6B6'}
+            />
+
+            <TouchableOpacity
+              onPress={onPressSubmitFeedback}
+              style={styles.button}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: 'Poppins-SemiBold',
+                  color: 'white',
+                }}>
+                SUBMIT FEEDBACK
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </View>
+    );
+  };
+
   return (
-    <WrapperContainer statusBarColor='#0D111C'>
+    <WrapperContainer statusBarColor="#0D111C">
       <View style={styles.topiew}>
         <View
           style={{
@@ -51,8 +128,32 @@ const Chats = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{color: 'white', fontSize: 30}}>CHATS HERE</Text>
+      <View style={{flex: 1}}>
+        <FlatList
+          data={[]}
+          renderItem={() => <View></View>}
+          contentContainerStyle={{flexGrow: 1}}
+          ListFooterComponent={footerComp}
+          ListEmptyComponent={() => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 20,
+                  }}>
+                  CHATS HERE
+                </Text>
+              </View>
+            );
+          }}
+        />
       </View>
       <View style={{paddingVertical: 20}}>
         <View style={styles.bottomview}>
@@ -81,12 +182,12 @@ const Chats = ({navigation}) => {
       <ActionSheet
         indicatorColor={'#4F5461'}
         onClose={() => bottomRef.current.setModalVisible(false)}
-      
         ref={bottomRef}>
         <View style={styles.bottomView}>
-        <View style={styles.indicator} />
+          <View style={styles.indicator} />
           <Text style={styles.settingText}>CHAT SETTINGS</Text>
           <TouchableOpacity
+            onPress={onCloseChat}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -119,6 +220,23 @@ const Chats = ({navigation}) => {
         <ChatAcceptModal
           isVisible={isModal}
           onPressContinue={() => setIsModal(false)}
+        />
+      ) : null}
+
+      {closeChatModal ? (
+        <CustomModal
+          image={ImagePath.handShake}
+          mainText={'Close '}
+          mainText2={'this chat?'}
+          warningText={
+            'Done with the trade? Close this chat to send a feedback request to Alexa! The chat will be deleted in 40 days permanantly.'
+          }
+          isVisible={closeChatModal}
+          backgroundColor={'#117AF5'}
+          leftButton={'NOT NOW'}
+          rightButton={'CLOSE CHAT'}
+          onPressLeft={() => setCloseChatModal(false)}
+          onPressRight={onFeedBack}
         />
       ) : null}
     </WrapperContainer>
@@ -187,7 +305,60 @@ const styles = StyleSheet.create({
     width: 40,
     backgroundColor: '#4F5461',
     alignSelf: 'center',
-    marginBottom : 10,
-    borderRadius : 100
+    marginBottom: 10,
+    borderRadius: 100,
+  },
+  box: {
+    height: 250,
+    backgroundColor: '#15203A',
+    borderRadius: 10,
+    marginHorizontal: 20,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  textInputStyle: {
+    height: 44,
+    backgroundColor: '#1F232E',
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+    marginHorizontal: 20,
+    marginTop: 10,
+    color: 'white',
+  },
+  button: {
+    backgroundColor: '#117AF5',
+    height: 40,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  requestText: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 13,
+    color: '#9CA6B6',
+  },
+  howTrade: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Bold',
+    color: 'white',
+    marginTop: 10,
+  },
+  helpText: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    color: '#9CA6B6',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  goodText: {
+    fontSize: 13,
+    fontFamily: 'Poppins-Regular',
+    fontStyle: 'italic',
+    color: '#E9F0FA',
   },
 });
