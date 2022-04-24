@@ -6,6 +6,8 @@ import {
   Image,
   TextInput,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import ImagePath from '../../../constants/Imagepath';
@@ -95,150 +97,159 @@ const Chats = ({navigation}) => {
 
   return (
     <WrapperContainer statusBarColor="#0D111C">
-      <View style={styles.topiew}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flex: 0.2,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={ImagePath.back} />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Image
-              source={ImagePath.userImage}
-              style={{height: 32, width: 32, borderRadius: 32 / 2}}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{flex: 0.7, paddingLeft: 20}}>
-          <Text style={styles.nametext}>johntrex</Text>
-          <Text style={styles.activetext}>
-            Active: <Text style={styles.msgText}>Razor gaming mouse</Text>
-          </Text>
-        </View>
-        <View
-          style={{flex: 0.1, alignItems: 'flex-end', justifyContent: 'center'}}>
-          <TouchableOpacity
-            onPress={() => bottomRef.current.setModalVisible(true)}>
-            <Image source={ImagePath.menu} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{flex: 1}}>
-        <FlatList
-          data={[]}
-          renderItem={() => <View></View>}
-          contentContainerStyle={{flexGrow: 1}}
-          ListFooterComponent={footerComp}
-          ListEmptyComponent={() => {
-            return (
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 20,
-                  }}>
-                  CHATS HERE
-                </Text>
-              </View>
-            );
-          }}
-        />
-      </View>
-      <View style={{paddingVertical: 20}}>
-        <View style={styles.bottomview}>
-          <TextInput
-            placeholder="Type message..."
-            placeholderTextColor={'#9CA6B6'}
-            style={styles.inputStyle}
-          />
-
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'height' : ''}
+        keyboardVerticalOffset={50}
+        style={{flex: 1}}>
+        <View style={styles.topiew}>
           <View
             style={{
-              flex: 0.2,
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              flex: 0.2,
               alignItems: 'center',
+              justifyContent: 'space-between',
             }}>
-            <TouchableOpacity>
-              <Image source={ImagePath.Send} />
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={ImagePath.back} />
             </TouchableOpacity>
+
             <TouchableOpacity>
-              <Image source={ImagePath.gallery} />
+              <Image
+                source={ImagePath.userImage}
+                style={{height: 32, width: 32, borderRadius: 32 / 2}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.7, paddingLeft: 20}}>
+            <Text style={styles.nametext}>johntrex</Text>
+            <Text style={styles.activetext}>
+              Active: <Text style={styles.msgText}>Razor gaming mouse</Text>
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.1,
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={() => bottomRef.current.setModalVisible(true)}>
+              <Image source={ImagePath.menu} />
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-      <ActionSheet
-        indicatorColor={'#4F5461'}
-        onClose={() => bottomRef.current.setModalVisible(false)}
-        ref={bottomRef}>
-        <View style={styles.bottomView}>
-          <View style={styles.indicator} />
-          <Text style={styles.settingText}>CHAT SETTINGS</Text>
-          <TouchableOpacity
-            onPress={onCloseChat}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 25,
-            }}>
-            <Text style={styles.deleteText}>
-              Close Chat
-              <Text style={{fontStyle: 'italic', color: '#9CA6B6'}}>
-                {' '}
-                to get feedback
-              </Text>
-            </Text>
-            <Image source={ImagePath.next} style={{width: 20, height: 20}} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 25,
-            }}>
-            <Text style={styles.deleteText}>Report Chat</Text>
-            <Image source={ImagePath.next} style={{width: 20, height: 20}} />
-          </TouchableOpacity>
+        <View style={{flex: 1}}>
+          <FlatList
+            data={[]}
+            renderItem={() => <View></View>}
+            contentContainerStyle={{flexGrow: 1}}
+            ListFooterComponent={footerComp}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontFamily: 'Poppins-Bold',
+                      fontSize: 20,
+                    }}>
+                    CHATS HERE
+                  </Text>
+                </View>
+              );
+            }}
+          />
         </View>
-      </ActionSheet>
-      {isModal ? (
-        <ChatAcceptModal
-          isVisible={isModal}
-          onPressContinue={() => setIsModal(false)}
-        />
-      ) : null}
+        <View style={{paddingVertical: 20}}>
+          <View style={styles.bottomview}>
+            <TextInput
+              placeholder="Type message..."
+              placeholderTextColor={'#9CA6B6'}
+              style={styles.inputStyle}
+            />
 
-      {closeChatModal ? (
-        <CustomModal
-          image={ImagePath.handShake}
-          mainText={'Close '}
-          mainText2={'this chat?'}
-          warningText={
-            'Done with the trade? Close this chat to send a feedback request to Alexa! The chat will be deleted in 40 days permanantly.'
-          }
-          isVisible={closeChatModal}
-          backgroundColor={'#117AF5'}
-          leftButton={'NOT NOW'}
-          rightButton={'CLOSE CHAT'}
-          onPressLeft={() => setCloseChatModal(false)}
-          onPressRight={onFeedBack}
-        />
-      ) : null}
+            <View
+              style={{
+                flex: 0.2,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity>
+                <Image source={ImagePath.Send} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={ImagePath.gallery} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <ActionSheet
+          indicatorColor={'#4F5461'}
+          onClose={() => bottomRef.current.setModalVisible(false)}
+          ref={bottomRef}>
+          <View style={styles.bottomView}>
+            <View style={styles.indicator} />
+            <Text style={styles.settingText}>CHAT SETTINGS</Text>
+            <TouchableOpacity
+              onPress={onCloseChat}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 25,
+              }}>
+              <Text style={styles.deleteText}>
+                Close Chat
+                <Text style={{fontStyle: 'italic', color: '#9CA6B6'}}>
+                  {' '}
+                  to get feedback
+                </Text>
+              </Text>
+              <Image source={ImagePath.next} style={{width: 20, height: 20}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 25,
+              }}>
+              <Text style={styles.deleteText}>Report Chat</Text>
+              <Image source={ImagePath.next} style={{width: 20, height: 20}} />
+            </TouchableOpacity>
+          </View>
+        </ActionSheet>
+        {isModal ? (
+          <ChatAcceptModal
+            isVisible={isModal}
+            onPressContinue={() => setIsModal(false)}
+          />
+        ) : null}
+
+        {closeChatModal ? (
+          <CustomModal
+            image={ImagePath.handShake}
+            mainText={'Close '}
+            mainText2={'this chat?'}
+            warningText={
+              'Done with the trade? Close this chat to send a feedback request to Alexa! The chat will be deleted in 40 days permanantly.'
+            }
+            isVisible={closeChatModal}
+            backgroundColor={'#117AF5'}
+            leftButton={'NOT NOW'}
+            rightButton={'CLOSE CHAT'}
+            onPressLeft={() => setCloseChatModal(false)}
+            onPressRight={onFeedBack}
+          />
+        ) : null}
+      </KeyboardAvoidingView>
     </WrapperContainer>
   );
 };

@@ -6,6 +6,8 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import React, {useRef} from 'react';
 import CommentList from '../../../components/CommentList';
@@ -32,7 +34,7 @@ const Comments = ({navigation}) => {
   const _listHead = () => {
     return (
       <View>
-        <View style={{marginHorizontal: 20}}>
+        <View style={{marginHorizontal: 20,justifyContent : 'center', marginTop : 10}}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={ImagePath.back} />
           </TouchableOpacity>
@@ -44,6 +46,10 @@ const Comments = ({navigation}) => {
 
   return (
     <WrapperContainer>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'height' : ''}
+    keyboardVerticalOffset={50}
+    style={{flex: 1}}>
       <FlatList
         data={['', '', '']}
         ListHeaderComponent={_listHead}
@@ -84,6 +90,7 @@ const Comments = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ActionSheet>
+      </KeyboardAvoidingView>
     </WrapperContainer>
   );
 };
