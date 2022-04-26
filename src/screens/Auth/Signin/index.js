@@ -243,7 +243,7 @@ const Signin = ({navigation}) => {
                     primary: '#9CA6B6',
                     placeholder: '#9CA6B6',
                   },
-                  fonts: {regular: 'Poppins-Regular'},
+                  fonts : {regular : ''}
                 }}
                 onChangeText={e => setLoginuserName(e)}
                 style={{
@@ -264,8 +264,9 @@ const Signin = ({navigation}) => {
                   borderTopRightRadius: 10,
                   borderTopLeftRadius: 10,
                   overflow: 'hidden',
+     
                 }}
-                fontFamily="Poppins-Regular"
+                fontFamily = 'Poppins-Regular'
                 underlineColor="transparent"
                 underlineColorAndroid="transparent"
                 selectionColor="white"
@@ -296,7 +297,7 @@ const Signin = ({navigation}) => {
                     primary: '#9CA6B6',
                     placeholder: '#9CA6B6',
                   },
-                  fonts: {regular: 'Poppins-Regular'},
+                  fonts : {regular : ''}
                 }}
                 style={{
                   marginTop: 20,
@@ -306,7 +307,7 @@ const Signin = ({navigation}) => {
                   marginHorizontal: 20,
                   borderRadius: 10,
                   borderWidth: 1.5,
-                  fontFamily: 'Poppins-Regular',
+
                   borderColor:
                     loginPasswordactive && !passErr
                       ? '#117AF5'
@@ -318,10 +319,10 @@ const Signin = ({navigation}) => {
                   borderTopLeftRadius: 10,
                   overflow: 'hidden',
                 }}
+                fontFamily = 'Poppins-Regular'
                 onFocus={() => onFocusAction(setLoginUserPasswordactive)}
                 underlineColor="transparent"
                 selectionColor="white"
-                fontFamily="Poppins-Regular"
                 secureTextEntry={loginpasswordEye}
                 label="Password"
                 right={
@@ -619,7 +620,7 @@ const Signin = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
-                fonts: {regular: 'Poppins-Regular'},
+                fonts : {regular : ''}
               }}
               underlineColor="transparent"
               underlineColorAndroid="transparent"
@@ -629,9 +630,9 @@ const Signin = ({navigation}) => {
                 styles.inputStyle,
                 {borderColor: registername ? '#117AF5' : '#1F232E'},
               ]}
+              fontFamily = 'Poppins-Regular'
               onFocus={() => onFocusAction(setRegisterName)}
               value={fullName}
-              fontFamily="Poppins-Regular"
               onChangeText={e => setFullname(e)}
               onTouchStart={() => setIsCheckfullName(!isCheckfullName)}
             />
@@ -653,7 +654,7 @@ const Signin = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
-                fonts: {regular: 'Poppins-Regular'},
+                fonts : {regular : ''}
               }}
               underlineColor="transparent"
               underlineColorAndroid="transparent"
@@ -663,8 +664,8 @@ const Signin = ({navigation}) => {
                 styles.inputStyle,
                 {borderColor: registerEmail ? '#117AF5' : '#1F232E'},
               ]}
+              fontFamily = 'Poppins-Regular'
               value={emailid}
-              fontFamily="Poppins-Regular"
               onChangeText={e => setEmailid(e)}
               onFocus={() => onFocusAction(setRegisterEmail)}
               onTouchStart={() => setIsCheckEMail(!isCheckEmail)}
@@ -687,7 +688,7 @@ const Signin = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
-                fonts: {regular: 'Poppins-Regular'},
+                fonts : {regular : ''}
               }}
               underlineColor="transparent"
               underlineColorAndroid="transparent"
@@ -701,8 +702,8 @@ const Signin = ({navigation}) => {
               onChangeText={e => setPassword(e)}
               onFocus={() => onFocusAction(setRegisterPassword)}
               secureTextEntry={resgisterPasswordeye}
+              fontFamily = 'Poppins-Regular'
               onTouchStart={() => setIsChcekPassword1(!isCheckPassword1)}
-              fontFamily="Poppins-Regular"
               right={
                 <TextInput.Icon
                   onPress={() => setRegisterPasswordeye(!resgisterPasswordeye)}
@@ -848,7 +849,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1.5,
     borderColor: '#117AF5',
-    fontFamily: 'Poppins-Regular',
 
     overflow: 'hidden',
   },
