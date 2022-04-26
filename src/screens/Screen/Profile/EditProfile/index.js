@@ -115,12 +115,16 @@ const EditProfile = ({navigation, route}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts : {
+                regular : ''
+              }
             }}
             label={'Username'}
             value={fullName}
             onTouchStart={() => setIsclick(!isClick)}
             onChangeText={e => setUserName(e)}
             style={styles.inputStyle}
+            fontFamily = 'Poppins-Regular'
           />
           <View
             style={{
@@ -139,8 +143,12 @@ const EditProfile = ({navigation, route}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts : {
+                regular : ''
+              }
             }}
             value={fullName}
+            fontFamily = 'Poppins-Regular'
             onTouchStart={() => setIsclick1(!isClick1)}
             onChangeText={e => setFullName(e)}
             label={'Full Name'}
@@ -164,8 +172,12 @@ const EditProfile = ({navigation, route}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts : {
+                regular : ''
+              }
             }}
             value={userBio}
+            fontFamily = 'Poppins-Regular'
             onTouchStart={() => setIsClick2(!isClick2)}
             onChangeText={e => setUserBio(e)}
             label={'Bio'}

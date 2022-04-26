@@ -117,9 +117,13 @@ const SignupUsername = ({navigation}) => {
                   primary: '#9CA6B6',
                   placeholder: '#9CA6B6',
                 },
+                fonts :{
+                  regular : ''
+                }
               }}
               label={'Username'}
               value={text}
+              fontFamily = 'Poppins-Regular'
               onTouchStart={() => setIsclick(!isClick)}
               onChangeText={e => onChangeText(e)}
               style={[

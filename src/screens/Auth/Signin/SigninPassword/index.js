@@ -108,7 +108,7 @@ const SigninPassword = ({navigation}) => {
                 placeholder: '#9CA6B6',
               },
               fonts: {
-                regular: 'Poppins-Regular',
+                regular: '',
               },
             }}
             onFocus={() => onFocusAction(setpasswordActive)}
@@ -146,7 +146,7 @@ const SigninPassword = ({navigation}) => {
                 placeholder: '#9CA6B6',
               },
               fonts: {
-                regular: 'Poppins-Regular',
+                regular: '',
               },
             }}
             onFocus={() => onFocusAction(setConfirmPasswordActive)}

@@ -121,12 +121,16 @@ const ChangePassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts: {
+              regular : ''
+            }
           }}
           value={oldpassword}
           secureTextEntry={resgisterPasswordeye}
           onFocus={() => onFocusAction(setIsOldPassword)}
           onChangeText={e => setOldpassword(e)}
           label={'Old Password'}
+          fontFamily = 'Poppins-Regular'
           style={[
             styles.inputStyle,
             {borderColor: isOldpassword ? '#117AF5' : '#1F232E'},
@@ -156,11 +160,15 @@ const ChangePassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts: {
+              regular : ''
+            }
           }}
           value={password}
           secureTextEntry={resgisterPasswordeye1}
           onFocus={() => onFocusAction(setIspassword)}
           onChangeText={e => setPassword(e)}
+          fontFamily = 'Poppins-Regular'
           label={'Set New Password'}
           style={[
             styles.inputStyle,
@@ -192,8 +200,12 @@ const ChangePassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts: {
+              regular : ''
+            }
           }}
           value={confirmPassword}
+          fontFamily = 'Poppins-Regular'
           secureTextEntry={resgisterPasswordeye2}
           onFocus={() => onFocusAction(setIsConfirmPassword)}
           onChangeText={e => setConfirmPassword(e)}
