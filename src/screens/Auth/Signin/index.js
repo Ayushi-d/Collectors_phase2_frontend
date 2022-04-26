@@ -70,7 +70,7 @@ const Signin = ({navigation}) => {
     setLoading(!loading);
     try {
       if (loginuserName && loginPassword) {
-        let response = await axios.post('http://3.138.124.101:9000/login', {
+        let response = await axios.post('http://13.233.246.19:9000/login', {
           logintype: 'email',
           emailOrUserName: loginuserName.trim(),
           password: loginPassword,
@@ -122,7 +122,7 @@ const Signin = ({navigation}) => {
     setPassLengthErr(false);
     setLoadingRegister(true);
     try {
-      let response = await axios.post('http://3.138.124.101:9000/register', {
+      let response = await axios.post('http://13.233.246.19:9000/register', {
         name: fullName,
         email: emailid.trim(),
         phone_number: '',

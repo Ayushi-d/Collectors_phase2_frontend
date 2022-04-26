@@ -1,0 +1,13 @@
+export const BaseUrl="http://13.233.246.19:9000/";
+export const Login="";
+export const Register="";
+export const HomeListing="";
+export const Search="/";
+export const socialLogin="";
+export const GetComment="";
+export const addComment="";
+export const addPost="";
+export const addBid="";
+export const editBid="";
+export const bidCunt="";
+export const closeBid=""; 

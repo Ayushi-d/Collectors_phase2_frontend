@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://3.138.124.101:9000/';
+export const BASE_URL = 'http://13.233.246.19:9000/';
 export const REGISTER = 'register';
 export const VERIFYOTP = 'verifyOtp';
 export const LOGIN = 'login';

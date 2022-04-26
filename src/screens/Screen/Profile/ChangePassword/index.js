@@ -63,7 +63,7 @@ const ChangePassword = ({navigation}) => {
         setLoading(false);
       } else {
         let response = await axios.post(
-          'http://3.138.124.101:9000/changePassword',
+          'http://13.233.246.19:9000/changePassword',
           {
             oldPassword: oldpassword,
             newPassword: password,

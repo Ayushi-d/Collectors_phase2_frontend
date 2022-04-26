@@ -53,7 +53,7 @@ const EditProfile = ({navigation, route}) => {
     setUserId(user_id);
   };
   const getUserRecords = async () => {
-    let response = await axios.post('http://3.138.124.101:9000/getUserInfo', {
+    let response = await axios.post('http://13.233.246.19:9000/getUserInfo', {
       user_id: user_id,
     });
     console.log('Edit profile..', response.data.code);

@@ -64,7 +64,7 @@ const SignupUsername = ({navigation}) => {
 
       navigation.navigate('BottomTab');
       let response = await axios.post(
-        'http://3.138.124.101:9000/upload-images',
+        'http://13.233.246.19:9000/upload-images',
         {data},
         headers,
       );
