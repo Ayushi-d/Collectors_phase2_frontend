@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState,useEffect}from 'react';
 // import ';
 import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity} from 'react-native';
 import Header from '../../../../components/Header';
@@ -6,6 +6,14 @@ import { widthPercentageToDP as wp ,heightPercentageToDP as hp } from '../../../
 import Path from '../../../../constants/Imagepath';
 import WrapperContainer from '../../../../components/WrapperContainer';
 const PostSubCategory = ({navigation}) => {
+  const [seubCategories,setSubCategories]=useState()
+  useEffect(()=>{
+    getCategoriesApi()
+    },[])
+    const getCategoriesApi=async()=>{
+      let response=await axios.get('');
+      console.log(response.data);
+    }
   return (
       <WrapperContainer>
         <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>

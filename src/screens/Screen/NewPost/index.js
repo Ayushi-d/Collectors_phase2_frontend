@@ -11,6 +11,7 @@ import {
   Button,
   BackHandler,
 } from 'react-native';
+import * as Utility from '../../../utility/index';
 import Path from '../../../constants/Imagepath';
 import {
   widthPercentageToDP as wp,
@@ -22,11 +23,13 @@ import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
 const NewPost = ({navigation}) => {
   const [imageCount, setImageCount] = useState(0);
   const [imageStatus1, setImageStatus1] = useState(false);
   const [imageStatus2, setImageStatus2] = useState(false);
   const [imageStatus3, setImageStatus3] = useState(false);
+  const [login_user_id,setlogin_user_id]=useState();
   const [imageStatus4, setImageStatus4] = useState(false);
   const [imageStatus5, setImageStatus5] = useState(false);
   const [imageStatus6, setImageStatus6] = useState(false);
@@ -45,6 +48,14 @@ const NewPost = ({navigation}) => {
   const [checkExchage, setCheckExchage] = useState(false);
   const [allDonse, setAllDone] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [title,setTitle]=useState();
+  const [description,setDescription]=useState();
+  const [price,setPrice]=useState();
+  const [bid_status,setBid_status]=useState('open');
+  const[bid,setBid]=useState();
+  const [excahange,setExchange]=useState();
+  const [bothbid,setBothBid]=useState();
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -66,20 +77,85 @@ const NewPost = ({navigation}) => {
         console.log('err', err);
       });
   };
-  const postCreateApi = () => {
+  const postCreateApi = async() => {
     if (
       image1 &&
       image2 &&
       image3 &&
-      image4 &&
-      image5 &&
-      image6 &&
-      image7 &&
-      image8
+      image4 
+      // image5 &&
+      // image6 &&
+      // image7 &&
+      // image8
     ) {
       setNextColor();
     }
-    navigation.navigate('PostCategory');
+    let body={
+      pic1:image1,
+      pic2:image2,
+      pic3:image3,
+      pic4:image4,
+      pic5:image5,
+      pic6:image6,
+      pic7:image7,
+      pic8:image8,
+      title:title,
+      userId:login_user_id,
+      description:description,
+      bid_status:bid_status,
+      price:price
+    }
+    const data = new FormData();
+      data.append('title', title);
+      data.append('userId', 6);
+      data.append('description','vikkkkkas post');
+      data.append('bid_status','open');
+      data.append('price','100');
+      // data.append('pic1', {
+      //   uri: image1,
+      //   name: 'pic1.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic2', {
+      //   uri: image2,
+      //   name: 'pic2.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic3', {
+      //   uri: image3,
+      //   name: 'pic3.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic4', {
+      //   uri: image4,
+      //   name: 'pic4.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic5', {
+      //   uri: image5,
+      //   name: 'pic5.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic6', {
+      //   uri: image6,
+      //   name: 'pic6.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic7', {
+      //   uri: image7,
+      //   name: 'pic7.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic8', {
+      //   uri: image8,
+      //   name: 'pic8.jpg',
+      //   type: 'image/jpg',
+      // });
+      data.append('bid_exchange','both');
+      console.log("vvvvvvv");
+      console.log("data is ....",data);
+      let response=await axios.post('https://collectorsapp.herokuapp.com/createPost',data);
+      console.log("bnbn",response.data);
   };
   const backAction = () => {
     console.log('Back button pressed');
@@ -125,7 +201,14 @@ const NewPost = ({navigation}) => {
     setImageStatus8(false);
 
     setModalVisible(!isModalVisible);
-  };
+  }; 
+  useEffect(()=>{
+    getuserIdfromStorage()
+  },[])
+  const getuserIdfromStorage=async()=>{
+    let user_id=await Utility.getFromLocalStorge('user_id');
+    setlogin_user_id(user_id);
+  }
   return (
     <WrapperContainer statusBarColor='#0D111C'>
       <Header
@@ -477,6 +560,7 @@ const NewPost = ({navigation}) => {
           <TextInput
             placeholder="Collectible Name"
             placeholderTextColor="#9CA6B6"
+            onChangeText={(e)=>setTitle(e)}
             style={{
               borderBottomWidth: 1,
               borderColor: '#9CA6B6',
@@ -490,6 +574,7 @@ const NewPost = ({navigation}) => {
           <TextInput
             placeholder="Short Description"
             placeholderTextColor="#9CA6B6"
+            onChangeText={(text)=>setDescription(text)}
             style={{
               borderBottomWidth: 1,
               borderColor: '#9CA6B6',
@@ -635,6 +720,7 @@ const NewPost = ({navigation}) => {
                 placeholder="00.00"
                 placeholderTextColor="#9CA6B6"
                 keyboardType="number-pad"
+                onChangeText={(e)=>setPrice(e)}
                 style={{color: 'white'}}></TextInput>
             </View>
           </View>
