@@ -1,5 +1,5 @@
 // import { ScrollView } from 'native-base';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,9 @@ import {
 } from '../../../utility';
 import Path from '../../../constants/Imagepath';
 import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
 const Search = ({navigation}) => {
+  const [value, setValue] =useState()
   const [data, setData] = useState([
     {
       id: 1,
@@ -91,6 +93,23 @@ const Search = ({navigation}) => {
     setData([]);
   };
   const [active, setActive] = useState(false);
+  
+  const SearchApi=async()=>{
+    let response=await axios.get(`https://collectorsapp.herokuapp.com/search?search=${value}`);
+    console.log("search data",response.data);
+    if(response.data.users){
+      setData(response.data.users);
+    }
+  }
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      // if(!value){
+     SearchApi()
+      // }
+    }, 2000)
+    // if this effect run again, because `value` changed, we remove the previous timeout
+    return () => clearTimeout(timeout)
+  }, [value])
   return (
     <WrapperContainer statusBarColor="#0D111C">
       <Header
@@ -120,6 +139,7 @@ const Search = ({navigation}) => {
                 onFocus={() => setActive(true)}
                 pointerEvents="none"
                 placeholderTextColor="white"
+                onChangeText={(text)=>setValue(text)}
                 style={{
                   marginLeft: wp('2%'),
                   fontSize: 12,
@@ -173,13 +193,21 @@ const Search = ({navigation}) => {
                     marginHorizontal: 20,
                   }}>
                   <View style={{width: wp('18%')}}>
+                    {item.profile_image==null?
                     <Image
-                      source={item.img}
+                      source={data[0].img}
                       style={{
                         height: 48,
                         width: 48,
                         borderRadius: 48 / 2,
-                      }}></Image>
+                      }}></Image>:
+                      <Image
+                      source={data[0].img}
+                      style={{
+                        height: 48,
+                        width: 48,
+                        borderRadius: 48 / 2,
+                      }}></Image>}
                   </View>
                   <View>
                     <Text
@@ -189,7 +217,7 @@ const Search = ({navigation}) => {
                         fontWeight: '400',
                         lineHeight: 20,
                       }}>
-                      {item.title}
+                      {item.username}
                     </Text>
                     <Text
                       style={{
@@ -198,7 +226,7 @@ const Search = ({navigation}) => {
                         fontWeight: '400',
                         lineHeight: 20,
                       }}>
-                      {item.subtitle}
+                      {item.email}
                     </Text>
                   </View>
                 </TouchableOpacity>

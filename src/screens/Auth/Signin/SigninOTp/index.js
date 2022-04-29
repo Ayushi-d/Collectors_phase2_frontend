@@ -64,7 +64,7 @@ const SigninOTp = ({navigation}) => {
   const callOtpVerifyAPi = async () => {
     try {
       if (value && email) {
-        let response = await axios.post('http://13.233.246.19:9000/verifyOtp', {
+        let response = await axios.post('https://collectorsapp.herokuapp.com/verifyOtp', {
           email: email,
           otp: value,
         });

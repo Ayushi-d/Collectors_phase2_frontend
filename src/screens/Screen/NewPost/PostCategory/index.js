@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 // import ';
 import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity,BackHandler} from 'react-native';
 import Header from '../../../../components/Header';
@@ -8,6 +8,7 @@ import {
   useFocusEffect
  } from '@react-navigation/native';
 import WrapperContainer from '../../../../components/WrapperContainer';
+import axios from 'axios';
 const PostCategory = ({navigation}) => {
   useFocusEffect(
     React.useCallback(() => {
@@ -34,6 +35,13 @@ const PostCategory = ({navigation}) => {
       };
     }, []),
   );
+useEffect(()=>{
+getCategoriesApi()
+},[])
+const getCategoriesApi=async()=>{
+  let response=await axios.get('');
+  console.log(response.data);
+}
   return (
       <WrapperContainer>
         <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>

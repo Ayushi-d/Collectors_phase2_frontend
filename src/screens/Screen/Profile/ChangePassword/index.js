@@ -63,7 +63,7 @@ const ChangePassword = ({navigation}) => {
         setLoading(false);
       } else {
         let response = await axios.post(
-          'http://13.233.246.19:9000/changePassword',
+          'https://collectorsapp.herokuapp.com/changePassword',
           {
             oldPassword: oldpassword,
             newPassword: password,

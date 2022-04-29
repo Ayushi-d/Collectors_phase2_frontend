@@ -9,13 +9,20 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef,useState,useEffect} from 'react';
 import CommentList from '../../../components/CommentList';
 import ImagePath from '../../../constants/Imagepath';
 import ActionSheet from 'react-native-actions-sheet';
 import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
+// import { useState } from 'react/cjs/react.production.min';
+import { Alert } from 'native-base';
+// import { useEffect } from 'react/cjs/react.production.min';
 
 const Comments = ({navigation}) => {
+  const [message,setMessage]=useState();
+  const [AllMessage,setAllMessage]=useState([]);
+  const [loader,setLoading]=useState([]);
   const onOpen = () => {
     //   alert('n')
     bottomRef?.current?.setModalVisible(true);
@@ -31,6 +38,34 @@ const Comments = ({navigation}) => {
     bottomRef?.current?.setModalVisible(false);
   };
 
+useEffect(()=>{
+  getAllMessage()
+},[])
+
+const getAllMessage=async()=>{
+  let response=await axios.get('https://collectorsapp.herokuapp.com/getComments?post_id=1');
+  console.log(response.data);
+  if(response.data.postcomments.length>0){
+    setAllMessage(response.data.postcomments)
+  }
+}
+  const AddCommentsApi= async()=>{
+    if(!message){
+      Alert.alert("Message is empty");
+    }else{
+    let body={
+      "user_id":6,
+      "post_id":1,
+      "comment":"cxccccxce",
+      "parent_id":""
+    }
+    let response=await axios.post('https://collectorsapp.herokuapp.com/addComment',body);
+    console.log(response.data);
+    if(response.data.code==200){
+      setMessage('')
+    }
+  }
+  }
   const _listHead = () => {
     return (
       <View>
@@ -51,24 +86,28 @@ const Comments = ({navigation}) => {
     keyboardVerticalOffset={50}
     style={{flex: 1}}>
       <FlatList
-        data={['', '', '']}
+        data={AllMessage}
         ListHeaderComponent={_listHead}
         renderItem={({item, index}) => {
-          return <CommentList onOpenSheet={onOpen} />;
+          return <CommentList onOpenSheet={onOpen} item={item} />;
         }}
       />
       <View>
         <View style={styles.inputView}>
           <TextInput
             selectionColor={'white'}
+            value={message}
             style={styles.inputStyle}
             placeholderTextColor={'#9CA6B6'}
             placeholder={'Add a comment'}
+            onChangeText={(e)=>setMessage(e)}
           />
 
           <View
             style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity onPress={()=>AddCommentsApi()}>
             <Image source={ImagePath.Send} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

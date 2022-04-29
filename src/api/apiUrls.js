@@ -1,7 +1,7 @@
-export const BaseUrl="http://13.233.246.19:9000/";
+export const BaseUrl="https://collectorsapp.herokuapp.com/";
 export const Login="";
 export const Register="";
-export const HomeListing="";
+export const HomeListing="homelisting";
 export const Search="/";
 export const socialLogin="";
 export const GetComment="";

@@ -69,8 +69,9 @@ const Signin = ({navigation}) => {
     }
     setLoading(!loading);
     try {
+      // 13.233.246.19
       if (loginuserName && loginPassword) {
-        let response = await axios.post('http://13.233.246.19:9000/login', {
+        let response = await axios.post('https://collectorsapp.herokuapp.com/login', {
           logintype: 'email',
           emailOrUserName: loginuserName.trim(),
           password: loginPassword,
@@ -122,7 +123,7 @@ const Signin = ({navigation}) => {
     setPassLengthErr(false);
     setLoadingRegister(true);
     try {
-      let response = await axios.post('http://13.233.246.19:9000/register', {
+      let response = await axios.post('https://collectorsapp.herokuapp.com/register', {
         name: fullName,
         email: emailid.trim(),
         phone_number: '',
