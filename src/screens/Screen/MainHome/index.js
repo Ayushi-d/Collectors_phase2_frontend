@@ -36,7 +36,6 @@ const MainHome = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const refRBSheet = useRef();
   const [FollowMsg,setFolloweMsg]=useState();
-
   const [refresh, setRefresh] = useState(false);
   const onPress = (url, index, event) => {};
   // useEffect(() => {
@@ -65,6 +64,7 @@ const MainHome = ({navigation}) => {
   const handleRefresh = () => {
     setRefresh(true);
     setTimeout(() => {
+      getHomeListData()
       setRefresh(false);
     }, 2000);
   };

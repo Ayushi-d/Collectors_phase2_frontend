@@ -18,7 +18,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
 import WrapperContainer from '../../../components/WrapperContainer';
 
-const PostDetail = ({navigation}) => {
+const PostDetail = ({navigation,routes}) => {
   const [Authdata, setAuthData] = useState('activity');
 
   const width = Dimensions.get('window').width;
@@ -467,7 +467,7 @@ const PostDetail = ({navigation}) => {
             ListHeaderComponent={combineHeader}
             ListFooterComponent={_footerComp}
             renderItem={({item, index}) => {
-              return <CommentList />;
+              // return <CommentList />;
             }}
           />
         ) : (

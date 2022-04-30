@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 // import ';
 import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity,BackHandler} from 'react-native';
 import Header from '../../../../components/Header';
@@ -9,7 +9,10 @@ import {
  } from '@react-navigation/native';
 import WrapperContainer from '../../../../components/WrapperContainer';
 import axios from 'axios';
+// import { useState } from 'react/cjs/react.production.min';
 const PostCategory = ({navigation}) => {
+  const [category,setCategory]=useState([]);
+  const [loader,setLoader]=useState(false);
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -39,7 +42,8 @@ useEffect(()=>{
 getCategoriesApi()
 },[])
 const getCategoriesApi=async()=>{
-  let response=await axios.get('');
+  setLoader(true)
+  let response=await axios.get('https://collectorsapp.herokuapp.com/getCategories');
   console.log(response.data);
 }
   return (

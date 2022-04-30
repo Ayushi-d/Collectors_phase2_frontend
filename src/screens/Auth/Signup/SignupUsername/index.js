@@ -65,7 +65,7 @@ const SignupUsername = ({navigation}) => {
       navigation.navigate('BottomTab');
       let response = await axios.post(
         'https://collectorsapp.herokuapp.com/upload-images',
-        {data},
+        data,
         headers,
       );
       if (response.data.code == 200) {

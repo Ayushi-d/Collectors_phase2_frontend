@@ -78,6 +78,7 @@ const NewPost = ({navigation}) => {
       });
   };
   const postCreateApi = async() => {
+    navigation.navigate('PostCategory');
     if (
       image1 &&
       image2 &&
