@@ -57,7 +57,6 @@ const getCategoriesApi=async()=>{
               borderBottomWidth: 5,
               width: '17%',
               marginTop: 5,
-             
             }}
           />
       
@@ -79,7 +78,9 @@ const getCategoriesApi=async()=>{
       <Text style={styles.categoriesText}>SELECT A CATEGORY</Text>
     </View>
     <View style={{height:hp('50%')}}>
-
+            <View>
+              <Text>Item</Text>
+            </View>
     </View>
     <TouchableOpacity style={{marginTop:hp('1%'),marginLeft:wp('4%')}} onPress={()=>navigation.navigate('PostSubCategory')}>
     <View style={{backgroundColor:'#646E7A',width:wp('90%'),padding:10,borderRadius:10,alignItems:'center',padding:16}}>

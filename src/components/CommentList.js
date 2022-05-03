@@ -11,11 +11,6 @@ import ImagePath from '../constants/Imagepath';
 
 const CommentList = ({onOpenSheet,item}) => {
 
-
-
-
-
-
   const _footerCompReply = () => {
     return (
       <View
