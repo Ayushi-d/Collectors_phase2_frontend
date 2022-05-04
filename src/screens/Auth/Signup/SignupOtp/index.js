@@ -73,7 +73,7 @@ const SignupOTp = ({navigation}) => {
         Accept: 'application/json',
       };
       console.log('user body is..', body);
-      let response = await axios.post('https://collectorsapp.herokuapp.com/verifyOtp', {
+      let response = await axios.post('http://13.233.246.19:9000/verifyOtp', {
         email: email,
         otp: value,
       });
@@ -98,7 +98,7 @@ const SignupOTp = ({navigation}) => {
   };
   const resendOtpAPi = async () => {
     let response = await axios.post(
-      'https://collectorsapp.herokuapp.com/forgotPassword',
+      'http://13.233.246.19:9000/forgotPassword',
       {
         email: email,
       },

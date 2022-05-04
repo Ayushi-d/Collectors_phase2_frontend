@@ -155,7 +155,7 @@ const NewPost = ({navigation}) => {
       data.append('bid_exchange','both');
       console.log("vvvvvvv");
       console.log("data is ....",data);
-      let response=await axios.post('https://collectorsapp.herokuapp.com/createPost',data);
+      let response=await axios.post('http://13.233.246.19:9000/createPost',data);
       console.log("bnbn",response.data);
   };
   const backAction = () => {

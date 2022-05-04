@@ -43,7 +43,7 @@ getCategoriesApi()
 },[])
 const getCategoriesApi=async()=>{
   setLoader(true)
-  let response=await axios.get('https://collectorsapp.herokuapp.com/getCategories');
+  let response=await axios.get('http://13.233.246.19:9000/getCategories');
   console.log(response.data);
 }
   return (

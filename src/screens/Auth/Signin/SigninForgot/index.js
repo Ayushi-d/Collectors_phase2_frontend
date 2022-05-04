@@ -39,7 +39,7 @@ const SigninForgot = ({navigation}) => {
       } else {
         console.log("if condition is working....")
         let response = await axios.post(
-          'https://collectorsapp.herokuapp.com/forgotPassword',
+          'http://13.233.246.19:9000/forgotPassword',
           {
             email: text,
           },

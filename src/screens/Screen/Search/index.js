@@ -98,7 +98,7 @@ const Search = ({navigation}) => {
   
   const SearchApi=async()=>{
     setLoader(true);
-    let response=await axios.get(`https://collectorsapp.herokuapp.com/search?search=${value}`);
+    let response=await axios.get(`http://13.233.246.19:9000/search?search=${value}`);
     console.log("search data",response.data);
     if(response.data.users){
       setData(response.data.users);
@@ -117,7 +117,7 @@ const Search = ({navigation}) => {
   }, [])
   const AllUser=async()=>{
     setLoader(true);
-    let response=await axios.get(`https://collectorsapp.herokuapp.com/search`);
+    let response=await axios.get(`http://13.233.246.19:9000/search`);
     console.log("search data",response.data);
     if(response.data.users){
       setData(response.data.users);

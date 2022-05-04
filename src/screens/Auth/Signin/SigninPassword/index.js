@@ -55,7 +55,7 @@ const SigninPassword = ({navigation}) => {
         Accept: 'application/json',
       };
 
-      let response = await axios.post('https://collectorsapp.herokuapp.com/newPassword', {
+      let response = await axios.post('http://13.233.246.19:9000/newPassword', {
         user_id: user_id,
         password: password,
       });

@@ -117,7 +117,7 @@ const MainHome = ({navigation}) => {
   }
   const getHomeListData=async()=>{
     console.log("HOme Data calling");
-    let response=await axios.get('https://collectorsapp.herokuapp.com/homelisting');
+    let response=await axios.get('http://13.233.246.19:9000/homelisting');
     console.log(response.data.posts);
     // if()
     setHomeData(response.data.posts);
@@ -128,7 +128,7 @@ const MainHome = ({navigation}) => {
       "entityId":login_user_id
     }
     console.log("user follow ");
-    let response=await axios.post('https://collectorsapp.herokuapp.com/followUnfollowUser',body);
+    let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
     
     console.log(response.data);
     if(response.data.code==200){
@@ -140,7 +140,7 @@ const MainHome = ({navigation}) => {
       "userId":login_user_id,
       "post_id":post_id
     }
-    let response=await axios.post('https://collectorsapp.herokuapp.com/likeDislikePost',body);
+    let response=await axios.post('http://13.233.246.19:9000/likeDislikePost',body);
     console.log(response.data);
     if(response.data.code==200){
     }

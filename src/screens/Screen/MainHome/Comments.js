@@ -43,7 +43,7 @@ useEffect(()=>{
 },[])
 
 const getAllMessage=async()=>{
-  let response=await axios.get('https://collectorsapp.herokuapp.com/getComments?post_id=1');
+  let response=await axios.get('http://13.233.246.19:9000/getComments?post_id=1');
   console.log(response.data);
   if(response.data.postcomments.length>0){
     setAllMessage(response.data.postcomments)
@@ -59,7 +59,7 @@ const getAllMessage=async()=>{
       "comment":"cxccccxce",
       "parent_id":""
     }
-    let response=await axios.post('https://collectorsapp.herokuapp.com/addComment',body);
+    let response=await axios.post('http://13.233.246.19:9000/addComment',body);
     console.log(response.data);
     if(response.data.code==200){
       setMessage('')
