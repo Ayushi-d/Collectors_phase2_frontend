@@ -211,7 +211,7 @@ const NewPost = ({navigation}) => {
     setlogin_user_id(user_id);
   }
   return (
-    <WrapperContainer statusBarColor='#0D111C'>
+    <WrapperContainer statusBarColor="#0D111C">
       <Header
         login="true"
         hideLogo="true"
@@ -567,8 +567,8 @@ const NewPost = ({navigation}) => {
               borderColor: '#9CA6B6',
               color: '#9CA6B6',
               width: wp('90%'),
-              height : 44,
-              marginTop : 10
+              height: 44,
+              marginTop: 10,
             }}></TextInput>
         </View>
         <View style={styles.designleft}>
@@ -581,8 +581,8 @@ const NewPost = ({navigation}) => {
               borderColor: '#9CA6B6',
               color: '#9CA6B6',
               width: wp('90%'),
-              height : 44,
-              marginTop : 10
+              height: 44,
+              marginTop: 10,
             }}></TextInput>
         </View>
 
@@ -617,13 +617,18 @@ const NewPost = ({navigation}) => {
                         borderColor: '#465874',
                         backgroundColor: '#117AF5',
                         borderRadius: 4,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }
                 }>
                 {checkBuy ? (
                   <Image
                     source={Path.Tick}
-                    resizeMode="center"
-                    style={{marginLeft: wp('-1%')}}></Image>
+                    style={{
+                      marginLeft: wp('-1%'),
+                      height: 7,
+                      width: 10,
+                    }}></Image>
                 ) : null}
               </View>
             </TouchableOpacity>
@@ -662,13 +667,18 @@ const NewPost = ({navigation}) => {
                         borderColor: '#465874',
                         backgroundColor: '#117AF5',
                         borderRadius: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }
                 }>
                 {checkExchage ? (
                   <Image
                     source={Path.Tick}
-                    resizeMode="center"
-                    style={{marginLeft: wp('-1%')}}></Image>
+                    style={{
+                      marginLeft: wp('-1%'),
+                      height: 7,
+                      width: 10,
+                    }}></Image>
                 ) : null}
               </View>
             </TouchableOpacity>
@@ -711,7 +721,7 @@ const NewPost = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height : 44
+              height: 44,
             }}>
             <View style={{marginLeft: wp('3%'), width: wp('10%')}}>
               <Text style={styles.textColor}>$ |</Text>
@@ -754,7 +764,7 @@ const NewPost = ({navigation}) => {
             alignSelf: 'center',
           }}>
           <View style={{alignSelf: 'center'}}>
-            <Image source={Path.ModalImage} resizeMode="center"></Image>
+            <Image source={Path.ModalImage} style = {{height : 40 , width : 40}}></Image>
           </View>
           <View style={{alignSelf: 'center'}}>
             <Text

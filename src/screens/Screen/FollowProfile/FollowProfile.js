@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,8 @@ import {
 import * as Utility from '../../../utility/index';
 import ImagePath from '../../../constants/Imagepath';
 import ProfileHeader from '../../../components/profileHeader';
+import WrapperContainer from '../../../components/WrapperContainer';
+import ActionSheet from 'react-native-actions-sheet';
 // import { ActivityIndicator } from 'react-native-paper';
 const FollowProfile = ({navigation, route}) => {
   const [userImage, setUserImage] = useState();
@@ -36,8 +38,10 @@ const FollowProfile = ({navigation, route}) => {
     console.log('user id is .././.', userId);
     setUserName(UserName);
   };
+
+  const bottomRef = useRef();
   return (
-    <View>
+    <WrapperContainer statusBarColor="#0D111C">
       <View
         style={{
           flexDirection: 'row',
@@ -62,7 +66,10 @@ const FollowProfile = ({navigation, route}) => {
         </View>
         <View
           style={{flex: 0.2, alignItems: 'flex-end', justifyContent: 'center'}}>
-          <Image source={ImagePath.menu} />
+          <TouchableOpacity
+            onPress={() => bottomRef.current.setModalVisible(true)}>
+            <Image source={ImagePath.menu} />
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView style={{backgroundColor: 'black', height: '100%'}}>
@@ -265,7 +272,31 @@ const FollowProfile = ({navigation, route}) => {
           </Text>
         </View>
       </ScrollView>
-    </View>
+
+      <ActionSheet
+        onClose={() => bottomRef.current.setModalVisible(false)}
+        indicatorColor={'#4F5461'}
+        statusBarTranslucent
+        ref={bottomRef}>
+        <View style={styles.bottomView}>
+          <View style={styles.indicator} />
+          <Text style={styles.settingText}>PROFILE SETTINGS</Text>
+          <TouchableOpacity
+            style={{
+              marginTop: 25,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+            activeOpacity={0.8}
+            onPress={() => bottomRef.current.setModalVisible(false)}>
+            <Text style={styles.deleteText}>Report Profile</Text>
+            <Image source={ImagePath.next} style={{height: 20, width: 20}} />
+          </TouchableOpacity>
+          {/* report post in case post is not of user */}
+        </View>
+      </ActionSheet>
+    </WrapperContainer>
   );
 };
 export default FollowProfile;
@@ -275,5 +306,30 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
     color: '#E9F0FA',
     marginLeft: '5%',
+  },
+  bottomView: {
+    height: 120,
+    backgroundColor: '#13161F',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  deleteText: {
+    color: '#E9F0FA',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+  },
+  settingText: {
+    fontSize: 13,
+    fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center',
+    color: '#9CA6B6',
+  },
+  indicator: {
+    height: 4,
+    width: 40,
+    backgroundColor: '#4F5461',
+    alignSelf: 'center',
+    marginBottom: 10,
+    borderRadius: 100,
   },
 });
