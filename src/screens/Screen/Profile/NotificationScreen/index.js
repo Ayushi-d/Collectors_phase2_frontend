@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, ScrollView, Switch, StyleSheet} from 'react-native';
 import Header from '../../../../components/Header';
+import WrapperContainer from '../../../../components/WrapperContainer';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -32,7 +33,7 @@ const NotificationScreen = ({navigation}) => {
   };
 
   return (
-    <View>
+    <WrapperContainer>
       <Header login="true" navigate={navigation} hideLogo="true" />
       <ScrollView
         style={{
@@ -237,7 +238,7 @@ const NotificationScreen = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </WrapperContainer>
   );
 };
 export default NotificationScreen;

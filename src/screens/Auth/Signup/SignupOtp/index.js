@@ -22,6 +22,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../../../../utility';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const styles = StyleSheet.create({
   root: {flex: 1, padding: 10},
   title: {
@@ -72,7 +73,7 @@ const SignupOTp = ({navigation}) => {
         Accept: 'application/json',
       };
       console.log('user body is..', body);
-      let response = await axios.post('http://3.138.124.101:9000/verifyOtp', {
+      let response = await axios.post('http://13.233.246.19:9000/verifyOtp', {
         email: email,
         otp: value,
       });
@@ -97,7 +98,7 @@ const SignupOTp = ({navigation}) => {
   };
   const resendOtpAPi = async () => {
     let response = await axios.post(
-      'http://3.138.124.101:9000/forgotPassword',
+      'http://13.233.246.19:9000/forgotPassword',
       {
         email: email,
       },
@@ -112,6 +113,8 @@ const SignupOTp = ({navigation}) => {
     }
   };
   return (
+    <WrapperContainer statusBarColor='black' >
+ 
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
         style={{
@@ -220,8 +223,8 @@ const SignupOTp = ({navigation}) => {
             <View
               style={{
                 backgroundColor: '#117AF5',
-                padding: 10,
-                borderRadius: 8,
+                height : 48,
+                borderRadius: 10,
                 marginHorizontal: 20,
                 justifyContent: 'center',
 
@@ -272,6 +275,7 @@ const SignupOTp = ({navigation}) => {
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
+       </WrapperContainer>
   );
 };
 export default SignupOTp;

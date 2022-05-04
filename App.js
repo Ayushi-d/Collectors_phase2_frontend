@@ -15,7 +15,7 @@ const App=()=>{
 return(
   <NavigationContainer>
     <NativeBaseProvider>
-    <MainStack></MainStack>
+    <MainStack />
     {/* <Toast /> */}
     </NativeBaseProvider>
   

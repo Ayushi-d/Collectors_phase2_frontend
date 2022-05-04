@@ -18,6 +18,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../../../../utility';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const SigninForgot = ({navigation}) => {
   const [text, setText] = useState();
   const [isClick, setIsclick] = useState(false);
@@ -30,17 +31,20 @@ const SigninForgot = ({navigation}) => {
     return !text.includes('@');
   };
   const callForgotAPi = async () => {
+    console.log("vikassssssss");
     setLoading(false);
     try {
       if (!text) {
         Alert.alert('Please Enter Email');
       } else {
+        console.log("if condition is working....")
         let response = await axios.post(
-          'http://3.138.124.101:9000/forgotPassword',
+          'http://13.233.246.19:9000/forgotPassword',
           {
             email: text,
           },
         );
+        console.log("niijkjg");
         console.log('befire', response.data);
         if (response.data.msg == 'Otp sent successfully.') {
           await Utility.setInLocalStorge('user_email', text);
@@ -56,6 +60,8 @@ const SigninForgot = ({navigation}) => {
     }
   };
   return (
+    <WrapperContainer statusBarColor='black' >
+
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
         behavior="padding"
@@ -95,9 +101,13 @@ const SigninForgot = ({navigation}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts: {
+                regular: '',
+              },
             }}
             onFocus={() => setEmailACtive(true)}
             value={text}
+            fontFamily="Poppins-Regular"
             onTouchStart={() => setIsclick(!isClick)}
             onChangeText={e => onChangeText(e)}
             label={'E-mail ID'}
@@ -105,6 +115,15 @@ const SigninForgot = ({navigation}) => {
               styles.inputStyle,
               {borderColor: emailActive ? '#117AF5' : '#1F232E'},
             ]}
+          />
+
+          <View
+            style={{
+              marginTop: -4,
+              borderTopColor: emailActive ? '#117AF5' : '#1F232E',
+              borderTopWidth: 3,
+              marginHorizontal: 24,
+            }}
           />
         </View>
         <View style={{flex: 0.3, justifyContent: 'flex-end', marginBottom: 40}}>
@@ -173,6 +192,7 @@ const SigninForgot = ({navigation}) => {
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
+    </WrapperContainer>
   );
 };
 export default SigninForgot;

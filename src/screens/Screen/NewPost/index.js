@@ -11,6 +11,7 @@ import {
   Button,
   BackHandler,
 } from 'react-native';
+import * as Utility from '../../../utility/index';
 import Path from '../../../constants/Imagepath';
 import {
   widthPercentageToDP as wp,
@@ -21,11 +22,14 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
 const NewPost = ({navigation}) => {
   const [imageCount, setImageCount] = useState(0);
   const [imageStatus1, setImageStatus1] = useState(false);
   const [imageStatus2, setImageStatus2] = useState(false);
   const [imageStatus3, setImageStatus3] = useState(false);
+  const [login_user_id,setlogin_user_id]=useState();
   const [imageStatus4, setImageStatus4] = useState(false);
   const [imageStatus5, setImageStatus5] = useState(false);
   const [imageStatus6, setImageStatus6] = useState(false);
@@ -44,6 +48,14 @@ const NewPost = ({navigation}) => {
   const [checkExchage, setCheckExchage] = useState(false);
   const [allDonse, setAllDone] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [title,setTitle]=useState();
+  const [description,setDescription]=useState();
+  const [price,setPrice]=useState();
+  const [bid_status,setBid_status]=useState('open');
+  const[bid,setBid]=useState();
+  const [excahange,setExchange]=useState();
+  const [bothbid,setBothBid]=useState();
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -54,26 +66,97 @@ const NewPost = ({navigation}) => {
       width: 300,
       height: 400,
       cropping: true,
-    }).then(image => {
-      console.log('image,,,', image.path);
-      setImage1(image.path);
-      setImageStatus(true);
-    });
+    })
+      .then(image => {
+        console.log('image,,,', image.path);
+
+        setImage1(image.path);
+        setImageStatus(true);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
-  const postCreateApi = () => {
+  const postCreateApi = async() => {
+    navigation.navigate('PostCategory');
     if (
       image1 &&
       image2 &&
       image3 &&
-      image4 &&
-      image5 &&
-      image6 &&
-      image7 &&
-      image8
+      image4 
+      // image5 &&
+      // image6 &&
+      // image7 &&
+      // image8
     ) {
       setNextColor();
     }
-    navigation.navigate('PostCategory');
+    let body={
+      pic1:image1,
+      pic2:image2,
+      pic3:image3,
+      pic4:image4,
+      pic5:image5,
+      pic6:image6,
+      pic7:image7,
+      pic8:image8,
+      title:title,
+      userId:login_user_id,
+      description:description,
+      bid_status:bid_status,
+      price:price
+    }
+    const data = new FormData();
+      data.append('title', title);
+      data.append('userId', 6);
+      data.append('description','vikkkkkas post');
+      data.append('bid_status','open');
+      data.append('price','100');
+      // data.append('pic1', {
+      //   uri: image1,
+      //   name: 'pic1.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic2', {
+      //   uri: image2,
+      //   name: 'pic2.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic3', {
+      //   uri: image3,
+      //   name: 'pic3.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic4', {
+      //   uri: image4,
+      //   name: 'pic4.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic5', {
+      //   uri: image5,
+      //   name: 'pic5.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic6', {
+      //   uri: image6,
+      //   name: 'pic6.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic7', {
+      //   uri: image7,
+      //   name: 'pic7.jpg',
+      //   type: 'image/jpg',
+      // });
+      // data.append('pic8', {
+      //   uri: image8,
+      //   name: 'pic8.jpg',
+      //   type: 'image/jpg',
+      // });
+      data.append('bid_exchange','both');
+      console.log("vvvvvvv");
+      console.log("data is ....",data);
+      let response=await axios.post('http://13.233.246.19:9000/createPost',data);
+      console.log("bnbn",response.data);
   };
   const backAction = () => {
     console.log('Back button pressed');
@@ -119,15 +202,22 @@ const NewPost = ({navigation}) => {
     setImageStatus8(false);
 
     setModalVisible(!isModalVisible);
-  };
+  }; 
+  useEffect(()=>{
+    getuserIdfromStorage()
+  },[])
+  const getuserIdfromStorage=async()=>{
+    let user_id=await Utility.getFromLocalStorge('user_id');
+    setlogin_user_id(user_id);
+  }
   return (
-    <View>
+    <WrapperContainer statusBarColor='#0D111C'>
       <Header
         login="true"
         hideLogo="true"
         textData=" Post"
         navigate={navigation}
-        backgroundColor = '#0D111C'
+        backgroundColor="#0D111C"
       />
 
       <ScrollView
@@ -203,6 +293,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -221,12 +313,7 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => chooseImages(setImage2, setImageStatus3)}
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}>
+                    onPress={() => chooseImages(setImage2, setImageStatus3)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
                 )}
@@ -244,6 +331,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -262,12 +351,7 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => chooseImages(setImage3, setImageStatus4)}
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}>
+                    onPress={() => chooseImages(setImage3, setImageStatus4)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
                 )}
@@ -285,6 +369,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -303,12 +389,7 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => chooseImages(setImage4, setImageStatus5)}
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}>
+                    onPress={() => chooseImages(setImage4, setImageStatus5)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
                 )}
@@ -334,6 +415,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -352,11 +435,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage5, setImageStatus6)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -375,6 +453,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -393,11 +473,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage6, setImageStatus7)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -416,6 +491,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -434,11 +511,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage7, setImageStatus8)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -457,6 +529,8 @@ const NewPost = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#161F37',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 : {
                     height: hp('9%'),
@@ -475,11 +549,6 @@ const NewPost = ({navigation}) => {
                     style={{height: 66, width: 70, borderRadius: 10}}></Image>
                 ) : (
                   <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                      marginLeft: wp('6%'),
-                      marginTop: hp('3%'),
-                    }}
                     onPress={() => chooseImages(setImage8, setAllDone)}>
                     <Image source={Path.Plus1}></Image>
                   </TouchableOpacity>
@@ -492,28 +561,34 @@ const NewPost = ({navigation}) => {
           <TextInput
             placeholder="Collectible Name"
             placeholderTextColor="#9CA6B6"
+            onChangeText={(e)=>setTitle(e)}
             style={{
               borderBottomWidth: 1,
               borderColor: '#9CA6B6',
               color: '#9CA6B6',
               width: wp('90%'),
+              height : 44,
+              marginTop : 10
             }}></TextInput>
         </View>
         <View style={styles.designleft}>
           <TextInput
             placeholder="Short Description"
             placeholderTextColor="#9CA6B6"
+            onChangeText={(text)=>setDescription(text)}
             style={{
               borderBottomWidth: 1,
               borderColor: '#9CA6B6',
               color: '#9CA6B6',
               width: wp('90%'),
+              height : 44,
+              marginTop : 10
             }}></TextInput>
         </View>
 
         <View style={[styles.designleft, styles.designTop]}>
           <Text style={[styles.textColor, {fontFamily: 'Poppins-SemiBold'}]}>
-            POST FOR;
+            POST FOR :
           </Text>
         </View>
         <View
@@ -560,11 +635,11 @@ const NewPost = ({navigation}) => {
                     : {
                         color: 'white',
                         fontSize: 14,
-                        fontWeight: '400',
+                        fontFamily: 'Poppins-Regular',
                         lineHeight: 24,
                       }
                 }>
-                Buy
+                Sell
               </Text>
             </View>
           </View>
@@ -605,7 +680,7 @@ const NewPost = ({navigation}) => {
                     : {
                         color: 'white',
                         fontSize: 14,
-                        fontWeight: '400',
+                        fontFamily: 'Poppins-Regular',
                         lineHeight: 24,
                       }
                 }>
@@ -636,6 +711,7 @@ const NewPost = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              height : 44
             }}>
             <View style={{marginLeft: wp('3%'), width: wp('10%')}}>
               <Text style={styles.textColor}>$ |</Text>
@@ -645,6 +721,7 @@ const NewPost = ({navigation}) => {
                 placeholder="00.00"
                 placeholderTextColor="#9CA6B6"
                 keyboardType="number-pad"
+                onChangeText={(e)=>setPrice(e)}
                 style={{color: 'white'}}></TextInput>
             </View>
           </View>
@@ -739,7 +816,7 @@ const NewPost = ({navigation}) => {
           </View>
         </View>
       </Modal>
-    </View>
+    </WrapperContainer>
   );
 };
 

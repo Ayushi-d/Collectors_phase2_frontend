@@ -15,6 +15,7 @@ import {
   heightPercentageToDP as hp,
 } from '../../../utility';
 import {listenerCount} from 'npm';
+import WrapperContainer from '../../../components/WrapperContainer';
 const Notification = ({navigation}) => {
   const [List, setList] = useState([
     {
@@ -22,7 +23,7 @@ const Notification = ({navigation}) => {
       image: ImagePath.Profile,
       title: 'Prime Renews in 2 days!',
       subTitle: 'Your prime membership will automatically renewed in 2 days.',
-      image2: ImagePath.Profile,
+      image2: ImagePath.constRect,
     },
 
     {
@@ -88,7 +89,7 @@ const Notification = ({navigation}) => {
   ]);
 
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
+    <WrapperContainer  statusBarColor='#0D111C'>
       <Header login={false} hideLogo={true} />
       <View style={styles.NotificationHeadline}>
         <Text style={styles.NotificationHeadlineText}>
@@ -120,7 +121,13 @@ const Notification = ({navigation}) => {
                   </View>
                   {item.image2 ? (
                     <View style={{flex: 0.15, alignItems: 'flex-end'}}>
-                      <Image source={item.image}></Image>
+                      <Image
+                        source={item.image2}
+                        style={{
+                          height: 40,
+                          width: 40,
+                          borderRadius: 5,
+                        }}></Image>
                     </View>
                   ) : null}
                 </View>
@@ -129,7 +136,7 @@ const Notification = ({navigation}) => {
           }}
         />
       </View>
-    </View>
+    </WrapperContainer>
   );
 };
 export default Notification;

@@ -18,6 +18,7 @@ import Header from '../../../../components/Header';
 import axios from 'axios';
 import * as Utility from '../../../../utility/index';
 import {TextInput} from 'react-native-paper';
+import WrapperContainer from '../../../../components/WrapperContainer';
 
 const ChangePassword = ({navigation}) => {
   const [isOldpassword, setIsOldPassword] = useState(false);
@@ -62,7 +63,7 @@ const ChangePassword = ({navigation}) => {
         setLoading(false);
       } else {
         let response = await axios.post(
-          'http://3.138.124.101:9000/changePassword',
+          'http://13.233.246.19:9000/changePassword',
           {
             oldPassword: oldpassword,
             newPassword: password,
@@ -93,7 +94,7 @@ const ChangePassword = ({navigation}) => {
   };
 
   return (
-    <View>
+    <WrapperContainer>
       <Header login="true" navigate={navigation} hideLogo="true" />
       <ScrollView
         style={{
@@ -120,12 +121,16 @@ const ChangePassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts: {
+              regular : ''
+            }
           }}
           value={oldpassword}
           secureTextEntry={resgisterPasswordeye}
           onFocus={() => onFocusAction(setIsOldPassword)}
           onChangeText={e => setOldpassword(e)}
           label={'Old Password'}
+          fontFamily = 'Poppins-Regular'
           style={[
             styles.inputStyle,
             {borderColor: isOldpassword ? '#117AF5' : '#1F232E'},
@@ -155,11 +160,15 @@ const ChangePassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts: {
+              regular : ''
+            }
           }}
           value={password}
           secureTextEntry={resgisterPasswordeye1}
           onFocus={() => onFocusAction(setIspassword)}
           onChangeText={e => setPassword(e)}
+          fontFamily = 'Poppins-Regular'
           label={'Set New Password'}
           style={[
             styles.inputStyle,
@@ -191,8 +200,12 @@ const ChangePassword = ({navigation}) => {
               primary: '#9CA6B6',
               placeholder: '#9CA6B6',
             },
+            fonts: {
+              regular : ''
+            }
           }}
           value={confirmPassword}
+          fontFamily = 'Poppins-Regular'
           secureTextEntry={resgisterPasswordeye2}
           onFocus={() => onFocusAction(setIsConfirmPassword)}
           onChangeText={e => setConfirmPassword(e)}
@@ -262,7 +275,7 @@ const ChangePassword = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </WrapperContainer>
   );
 };
 export default ChangePassword;

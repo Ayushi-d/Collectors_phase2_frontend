@@ -17,6 +17,7 @@ import {
 } from '../../../../utility';
 import {TextInput} from 'react-native-paper';
 import ImagePath from '../../../../constants/Imagepath';
+import WrapperContainer from '../../../../components/WrapperContainer';
 
 const SigninPassword = ({navigation}) => {
   const [isClick, setIsclick] = useState(true);
@@ -54,7 +55,7 @@ const SigninPassword = ({navigation}) => {
         Accept: 'application/json',
       };
 
-      let response = await axios.post('http://3.138.124.101:9000/newPassword', {
+      let response = await axios.post('http://13.233.246.19:9000/newPassword', {
         user_id: user_id,
         password: password,
       });
@@ -75,171 +76,182 @@ const SigninPassword = ({navigation}) => {
     a(true);
   };
   return (
-    <KeyboardAvoidingView
-      behavior={'padding'}
-      style={{backgroundColor: 'black', flex: 1}}>
-      <Header
-        onPress={()=>navigation.navigate('Signin')}
-        back="Login"
-        login="true"
-        navigate={navigation}
-      />
-      <View style={{flex: 0.8}}>
-        <View style={{margin: hp('3%')}}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 24,
-              lineHeight: 32,
-              fontFamily: 'Poppins-Regular',
-            }}>
-            Set <Text style={{fontFamily: 'Poppins-Bold'}}>New Password</Text>
-          </Text>
-        </View>
+    <WrapperContainer statusBarColor="black">
+      <KeyboardAvoidingView
+        behavior={'padding'}
+        style={{backgroundColor: 'black', flex: 1}}>
+        <Header
+          onPress={() => navigation.navigate('Signin')}
+          back="Login"
+          login="true"
+          navigate={navigation}
+        />
+        <View style={{flex: 0.8}}>
+          <View style={{margin: hp('3%')}}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 24,
+                lineHeight: 32,
+                fontFamily: 'Poppins-Regular',
+              }}>
+              Set <Text style={{fontFamily: 'Poppins-Bold'}}>New Password</Text>
+            </Text>
+          </View>
 
-        <TextInput
-          mode="flat"
-          theme={{
-            colors: {
-              text: 'white',
-              primary: '#9CA6B6',
-              placeholder: '#9CA6B6',
-            },
-          }}
-          onFocus={() => onFocusAction(setpasswordActive)}
-          secureTextEntry={isClick}
-          onChangeText={e => onChangeText(e)}
-          label={'Set New Password'}
-          style={[
-            styles.inputStyle,
-            {borderColor: passwordActive ? '#117AF5' : '#1F232E'},
-          ]}
-          right={
-            <TextInput.Icon
-              name={isClick ? ImagePath.eyeBlue : ImagePath.eye}
-              forceTextInputFocus={false}
-              color={'#117AF5'}
-              onPress={() => setIsclick(!isClick)}
-            />
-          }
-        />
-        <View
-          style={{
-            marginTop: -3,
-            borderTopColor: passwordActive ? '#117AF5' : '#1F232E',
-            borderTopWidth: 2,
-            marginHorizontal: 26,
-          }}
-        />
-        <TextInput
-          mode="flat"
-          theme={{
-            colors: {
-              text: 'white',
-              primary: '#9CA6B6',
-              placeholder: '#9CA6B6',
-            },
-          }}
-          onFocus={() => onFocusAction(setConfirmPasswordActive)}
-          onChangeText={e => onChangeText1(e)}
-          label={'Confirm New Password'}
-          secureTextEntry={isClick1}
-          style={[
-            styles.inputStyle,
-            {
-              borderColor: confirmPasswordActive
+          <TextInput
+            mode="flat"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => onFocusAction(setpasswordActive)}
+            secureTextEntry={isClick}
+            onChangeText={e => onChangeText(e)}
+            label={'Set New Password'}
+            fontFamily="Poppins-Regular"
+            style={[
+              styles.inputStyle,
+              {borderColor: passwordActive ? '#117AF5' : '#1F232E'},
+            ]}
+            right={
+              <TextInput.Icon
+                name={isClick ? ImagePath.eye : ImagePath.eyeBlue}
+                forceTextInputFocus={false}
+                color={'#117AF5'}
+                onPress={() => setIsclick(!isClick)}
+              />
+            }
+          />
+          <View
+            style={{
+              marginTop: -3,
+              borderTopColor: passwordActive ? '#117AF5' : '#1F232E',
+              borderTopWidth: 2,
+              marginHorizontal: 26,
+            }}
+          />
+          <TextInput
+            mode="flat"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => onFocusAction(setConfirmPasswordActive)}
+            onChangeText={e => onChangeText1(e)}
+            label={'Confirm New Password'}
+            secureTextEntry={isClick1}
+            fontFamily="Poppins-Regular"
+            style={[
+              styles.inputStyle,
+              {
+                borderColor: confirmPasswordActive
+                  ? '#117AF5'
+                  : errMsg
+                  ? '#D02B29'
+                  : '#1F232E',
+              },
+            ]}
+            right={
+              <TextInput.Icon
+                name={isClick1 ? ImagePath.eye : ImagePath.eyeBlue}
+                forceTextInputFocus={false}
+                color={'#117AF5'}
+                onPress={() => setIsclick1(!isClick1)}
+              />
+            }
+          />
+          <View
+            style={{
+              marginTop: -3,
+              borderTopColor: confirmPasswordActive
                 ? '#117AF5'
                 : errMsg
                 ? '#D02B29'
                 : '#1F232E',
-            },
-          ]}
-          right={
-            <TextInput.Icon
-              name={isClick1 ? ImagePath.eyeBlue : ImagePath.eye}
-              forceTextInputFocus={false}
-              color={'#117AF5'}
-              onPress={() => setIsclick1(!isClick1)}
-            />
-          }
-        />
-        <View
-          style={{
-            marginTop: -3,
-            borderTopColor: confirmPasswordActive
-              ? '#117AF5'
-              : errMsg
-              ? '#D02B29'
-              : '#1F232E',
-            borderTopWidth: 2,
-            marginHorizontal: 26,
-          }}
-        />
+              borderTopWidth: 2,
+              marginHorizontal: 26,
+            }}
+          />
 
-        {errMsg ? (
-          <Text style={styles.errText}>
-            Passwords do not match please try again.
-          </Text>
-        ) : null}
-      </View>
-      <View style={{flex: 0.2, justifyContent: 'center', paddingBottom: '10%'}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            margin: hp('1%'),
-            marginBottom: 10,
-          }}>
-          <View
-            style={{
-              borderBottomColor: '#117AF5',
-              borderBottomWidth: 5,
-              width: '15%',
-              marginTop: 5,
-            }}
-          />
-          <View
-            style={{
-              borderBottomColor: '#117AF5',
-              borderBottomWidth: 5,
-              width: '12%',
-              marginTop: 5,
-              marginLeft: 5,
-            }}
-          />
-          <View
-            style={{
-              borderBottomColor: '#117AF5',
-              borderBottomWidth: 5,
-              width: '12%',
-              marginTop: 5,
-              marginLeft: 5,
-            }}
-          />
-        </View>
-        <TouchableOpacity onPress={() => callsetUsernamePasswordAPi()}>
-          <View
-            style={{
-              backgroundColor: '#117AF5',
-              padding: 10,
-              borderRadius: 8,
-              width: wp('80%'),
-              alignSelf: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 13,
-                lineHeight: 28,
-                fontWeight: '700',
-              }}>
-              RESET PASSWORD
+          {errMsg ? (
+            <Text style={styles.errText}>
+              Passwords do not match please try again.
             </Text>
+          ) : null}
+        </View>
+        <View
+          style={{flex: 0.2, justifyContent: 'center', paddingBottom: '10%'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              margin: hp('1%'),
+              marginBottom: 10,
+            }}>
+            <View
+              style={{
+                borderBottomColor: '#117AF5',
+                borderBottomWidth: 5,
+                width: '15%',
+                marginTop: 5,
+              }}
+            />
+            <View
+              style={{
+                borderBottomColor: '#117AF5',
+                borderBottomWidth: 5,
+                width: '12%',
+                marginTop: 5,
+                marginLeft: 5,
+              }}
+            />
+            <View
+              style={{
+                borderBottomColor: '#117AF5',
+                borderBottomWidth: 5,
+                width: '12%',
+                marginTop: 5,
+                marginLeft: 5,
+              }}
+            />
           </View>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+          <TouchableOpacity onPress={() => callsetUsernamePasswordAPi()}>
+            <View
+              style={{
+                backgroundColor: '#117AF5',
+                padding: 10,
+                borderRadius: 8,
+                width: wp('80%'),
+                alignSelf: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 13,
+                  lineHeight: 28,
+                  fontWeight: '700',
+                }}>
+                RESET PASSWORD
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </WrapperContainer>
   );
 };
 export default SigninPassword;

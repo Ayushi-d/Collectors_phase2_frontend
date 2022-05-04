@@ -19,6 +19,7 @@ import Header from '../../../../components/Header';
 import * as Utility from '../../../../utility/index';
 import {TextInput} from 'react-native-paper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import WrapperContainer from '../../../../components/WrapperContainer';
 
 const EditProfile = ({navigation, route}) => {
   const {user_id} = route.params;
@@ -52,7 +53,7 @@ const EditProfile = ({navigation, route}) => {
     setUserId(user_id);
   };
   const getUserRecords = async () => {
-    let response = await axios.post('http://3.138.124.101:9000/getUserInfo', {
+    let response = await axios.post('http://13.233.246.19:9000/getUserInfo', {
       user_id: user_id,
     });
     console.log('Edit profile..', response.data.code);
@@ -66,7 +67,7 @@ const EditProfile = ({navigation, route}) => {
     }
   };
   return (
-    <View style={{backgroundColor: 'black', width: '100%', height: '100%'}}>
+    <WrapperContainer>
       <Header login="true" navigate={navigation} hideLogo="true" />
       {loader ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -114,12 +115,16 @@ const EditProfile = ({navigation, route}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts : {
+                regular : ''
+              }
             }}
             label={'Username'}
             value={fullName}
             onTouchStart={() => setIsclick(!isClick)}
             onChangeText={e => setUserName(e)}
             style={styles.inputStyle}
+            fontFamily = 'Poppins-Regular'
           />
           <View
             style={{
@@ -138,8 +143,12 @@ const EditProfile = ({navigation, route}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts : {
+                regular : ''
+              }
             }}
             value={fullName}
+            fontFamily = 'Poppins-Regular'
             onTouchStart={() => setIsclick1(!isClick1)}
             onChangeText={e => setFullName(e)}
             label={'Full Name'}
@@ -163,8 +172,12 @@ const EditProfile = ({navigation, route}) => {
                 primary: '#9CA6B6',
                 placeholder: '#9CA6B6',
               },
+              fonts : {
+                regular : ''
+              }
             }}
             value={userBio}
+            fontFamily = 'Poppins-Regular'
             onTouchStart={() => setIsClick2(!isClick2)}
             onChangeText={e => setUserBio(e)}
             label={'Bio'}
@@ -174,7 +187,7 @@ const EditProfile = ({navigation, route}) => {
             ]}
             right={
               <TextInput.Affix
-                text={`${userBio.length}/200`}
+                text={`${userBio.length}/150`}
                 textStyle={styles.affixText}
               />
             }
@@ -211,7 +224,7 @@ const EditProfile = ({navigation, route}) => {
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       )}
-    </View>
+    </WrapperContainer>
   );
 };
 export default EditProfile;

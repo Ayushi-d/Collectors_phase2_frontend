@@ -22,6 +22,7 @@ import {
   heightPercentageToDP as hp,
 } from '../../../../utility';
 import {TextInput} from 'react-native-paper';
+import WrapperContainer from '../../../../components/WrapperContainer';
 const SignupUsername = ({navigation}) => {
   const [text, setText] = useState('');
   const [user_id, setUser_id] = useState();
@@ -63,8 +64,8 @@ const SignupUsername = ({navigation}) => {
 
       navigation.navigate('BottomTab');
       let response = await axios.post(
-        'http://3.138.124.101:9000/upload-images',
-        {data},
+        'http://13.233.246.19:9000/upload-images',
+        data,
         headers,
       );
       if (response.data.code == 200) {
@@ -86,104 +87,114 @@ const SignupUsername = ({navigation}) => {
     setUser_id(user_id);
   };
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        behavior={'padding'}
-        style={{backgroundColor: 'black', flex: 1}}>
-        <Header login="true" navigate={navigation} />
-        <View style={{flex: 0.7, paddingTop: 50}}>
-          <View style={{alignSelf: 'center', alignItems: 'flex-end'}}>
-            {image ? (
-              <Image
-                source={{uri: image}}
-                style={{height: 100, width: 100, borderRadius: 50}}></Image>
-            ) : (
-              <Image source={Path.userImage}></Image>
-            )}
-            <TouchableOpacity onPress={() => openGallary()}>
-              <Image
-                source={Path.camera}
-                style={{marginTop: hp('-3%')}}></Image>
-            </TouchableOpacity>
+    <WrapperContainer statusBarColor="black">
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView
+          behavior={'padding'}
+          style={{backgroundColor: 'black', flex: 1}}>
+          <Header login="true" navigate={navigation} />
+          <View style={{flex: 0.7, paddingTop: 50}}>
+            <View style={{alignSelf: 'center', alignItems: 'flex-end'}}>
+              {image ? (
+                <Image
+                  source={{uri: image}}
+                  style={{height: 100, width: 100, borderRadius: 50}}></Image>
+              ) : (
+                <Image source={Path.userImage}></Image>
+              )}
+              <TouchableOpacity onPress={() => openGallary()}>
+                <Image
+                  source={Path.camera}
+                  style={{marginTop: hp('-3%')}}></Image>
+              </TouchableOpacity>
+            </View>
+
+            <TextInput
+              mode="flat"
+              theme={{
+                colors: {
+                  text: 'white',
+                  primary: '#9CA6B6',
+                  placeholder: '#9CA6B6',
+                },
+                fonts :{
+                  regular : ''
+                }
+              }}
+              label={'Username'}
+              value={text}
+              fontFamily = 'Poppins-Regular'
+              onTouchStart={() => setIsclick(!isClick)}
+              onChangeText={e => onChangeText(e)}
+              style={[
+                styles.inputStyle,
+                {borderColor: nameErr ? '#D02B29' : '#117AF5'},
+              ]}
+            />
+
+            {nameErr ? (
+              <Text style={styles.errText}>
+                Username already taken. Try another.
+              </Text>
+            ) : null}
           </View>
-
-          <TextInput
-            mode="flat"
-            theme={{
-              colors: {
-                text: 'white',
-                primary: '#9CA6B6',
-                placeholder: '#9CA6B6',
-              },
-            }}
-            label={'Username'}
-            value={text}
-            onTouchStart={() => setIsclick(!isClick)}
-            onChangeText={e => onChangeText(e)}
-            style={[
-              styles.inputStyle,
-              {borderColor: nameErr ? '#D02B29' : '#117AF5'},
-            ]}
-          />
-
-          {nameErr ? (
-            <Text style={styles.errText}>
-              Username already taken. Try another.
-            </Text>
-          ) : null}
-        </View>
-        <View
-          style={{flex: 0.3, justifyContent: 'flex-end', marginBottom: '10%'}}>
           <View
             style={{
-              flexDirection: 'row',
-              alignSelf: 'center',
-              margin: hp('1%'),
-              marginTop: hp('5%'),
+              flex: 0.3,
+              justifyContent: 'flex-end',
+              marginBottom: '10%',
             }}>
             <View
               style={{
-                borderBottomColor: '#117AF5',
-                borderBottomWidth: 5,
-                width: '15%',
-                marginTop: 5,
-                marginLeft: 5,
-              }}
-            />
-            <View
-              style={{
-                borderBottomColor: '#117AF5',
-                borderBottomWidth: 5,
-                width: '15%',
-                marginTop: 5,
-                marginLeft: 5,
-              }}
-            />
-          </View>
-          <TouchableOpacity onPress={() => onUsernameApihit()}>
-            <View
-              style={{
-                backgroundColor: '#117AF5',
-                padding: 10,
-                borderRadius: 8,
-                width: wp('80%'),
+                flexDirection: 'row',
                 alignSelf: 'center',
-                alignItems: 'center',
+                margin: hp('1%'),
+                marginTop: hp('5%'),
               }}>
-              <Text
+              <View
                 style={{
-                  color: 'white',
-                  fontSize: 14,
-                  fontFamily : 'Poppins-Bold',
-                  lineHeight: 28,
-                }}>
-                CONTINUE
-              </Text>
+                  borderBottomColor: '#117AF5',
+                  borderBottomWidth: 5,
+                  width: '15%',
+                  marginTop: 5,
+                  marginLeft: 5,
+                }}
+              />
+              <View
+                style={{
+                  borderBottomColor: '#117AF5',
+                  borderBottomWidth: 5,
+                  width: '15%',
+                  marginTop: 5,
+                  marginLeft: 5,
+                }}
+              />
             </View>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <TouchableOpacity onPress={() => onUsernameApihit()}>
+              <View
+                style={{
+                  backgroundColor: '#117AF5',
+                  padding: 10,
+                  borderRadius: 8,
+                  width: wp('80%'),
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 14,
+                    fontFamily: 'Poppins-Bold',
+                    lineHeight: 28,
+                  }}>
+                  CONTINUE
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </WrapperContainer>
   );
 };
 export default SignupUsername;

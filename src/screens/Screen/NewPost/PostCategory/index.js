@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 // import ';
 import {View,Text, ScrollView, TextInput,Image,StyleSheet,TouchableOpacity,BackHandler} from 'react-native';
 import Header from '../../../../components/Header';
@@ -7,7 +7,12 @@ import Path from '../../../../constants/Imagepath';
 import {
   useFocusEffect
  } from '@react-navigation/native';
+import WrapperContainer from '../../../../components/WrapperContainer';
+import axios from 'axios';
+// import { useState } from 'react/cjs/react.production.min';
 const PostCategory = ({navigation}) => {
+  const [category,setCategory]=useState([]);
+  const [loader,setLoader]=useState(false);
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -33,8 +38,16 @@ const PostCategory = ({navigation}) => {
       };
     }, []),
   );
+useEffect(()=>{
+getCategoriesApi()
+},[])
+const getCategoriesApi=async()=>{
+  setLoader(true)
+  let response=await axios.get('http://13.233.246.19:9000/getCategories');
+  console.log(response.data);
+}
   return (
-      <View>
+      <WrapperContainer>
         <Header login="true" navigate={navigation} hideLogo="true" textData="Post"/>
         <ScrollView style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
         <View style={{flexDirection:'row',alignSelf:'center',margin:hp('1%')}}>
@@ -44,7 +57,6 @@ const PostCategory = ({navigation}) => {
               borderBottomWidth: 5,
               width: '17%',
               marginTop: 5,
-             
             }}
           />
       
@@ -66,7 +78,9 @@ const PostCategory = ({navigation}) => {
       <Text style={styles.categoriesText}>SELECT A CATEGORY</Text>
     </View>
     <View style={{height:hp('50%')}}>
-
+            <View>
+              <Text>Item</Text>
+            </View>
     </View>
     <TouchableOpacity style={{marginTop:hp('1%'),marginLeft:wp('4%')}} onPress={()=>navigation.navigate('PostSubCategory')}>
     <View style={{backgroundColor:'#646E7A',width:wp('90%'),padding:10,borderRadius:10,alignItems:'center',padding:16}}>
@@ -75,7 +89,7 @@ const PostCategory = ({navigation}) => {
     </TouchableOpacity>
         </ScrollView>
         {/* <Homeheader/> */}
-      </View>
+      </WrapperContainer>
   );
 };
 
@@ -96,7 +110,8 @@ searchText:{
   fontSize:13,
   lineHeight:20,
   fontWeight:'400',
-  color:'white'
+  color:'white',
+  height: 48
 },
 categoriesText:{
   fontSize:14,

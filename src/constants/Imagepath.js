@@ -55,7 +55,28 @@ const ImagePath = {
     ModalImage:require('../assets/modalImage.png'),
     Tick:require('../assets/tick.png') ,
     eye:require('../assets/eye.png') ,
-    eyeBlue:require('../assets/eyeBlue.png')
+    eyeBlue:require('../assets/eyeBlue.png'),
+    constRect:require('../assets/constRect.png'),
+    bigImage : require('../assets/bigImage.png'),
+    Send : require('../assets/Send.png'),
+    Opt : require('../assets/Opt.png'),
+    Heart : require('../assets/Heart.png'),
+    right : require('../assets/right.png'),
+    gallery : require('../assets/Image.png'),
+    next : require('../assets/next.png'),
+    down : require('../assets/down.png'),
+    clap : require('../assets/clap.png'),
+    handShake : require('../assets/handShake.png'),
+
+
+
+
+
+
+
+
+
+
 
 
   };

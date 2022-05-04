@@ -16,7 +16,7 @@ const ProfileHeader = ({name, navigate}) => {
     <View
       style={{
         backgroundColor: '#0D111C',
-        height: '8%',
+        height: 50,
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
