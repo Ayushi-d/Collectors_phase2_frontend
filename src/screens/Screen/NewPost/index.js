@@ -77,7 +77,6 @@ const NewPost = ({navigation}) => {
       });
   };
   const postCreateApi = async () => {
-    // navigation.navigate('PostCategory');
     // if (
     //   image1 &&
     //   image2 &&
@@ -161,7 +160,9 @@ const NewPost = ({navigation}) => {
       headers: {'Content-Type': 'multipart/form-data'},
     })
       .then(response => {
-        console.log(response.data, 'sdksdfjbf');
+        if (response.data.code === 200) {
+          navigation.navigate('PostCategory');
+        }
       })
       .catch(error => {
         console.log(error, 'wfkjndsf');
