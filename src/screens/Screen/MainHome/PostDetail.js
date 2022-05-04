@@ -17,6 +17,7 @@ import OfferListComp from '../../../components/OfferListComp';
 import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
 import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
 
 const PostDetail = ({navigation,route}) => {
   const { item } = route.params;
@@ -31,8 +32,28 @@ const PostDetail = ({navigation,route}) => {
   const bottomRef = useRef();
 
   const bottomRefOffer = useRef();
+  const AddExchnageBid=(item)=>{
 
-  const _footerComp = () => {
+   let body= {
+         "user_id":3,
+      "post_id":1,
+      "bid":"1000",
+      "type":"2",
+      "message":"fdg dgd" 
+    }
+  }
+  const AddBuyBid=(item)=>{
+    let body= {
+      "user_id":4,
+   "post_id":1,
+   "bid":"1000",
+   "type":"1",
+   "message":"fdg dgd" 
+ }
+ let response=await axios.post('',body)
+  }
+
+  const _footerComp = (item) => {
     return (
       <View style={{marginTop: 30, paddingBottom: 30}}>
         <View
@@ -67,10 +88,10 @@ const PostDetail = ({navigation,route}) => {
             marginTop: 40,
             justifyContent: 'space-between',
           }}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={()=>AddExchnageBid(item)} style={styles.button}>
             <Text style={styles.btnText}>EXCHANGE</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={()=>AddBuyBid(item)} style={styles.button}>
             <Text style={styles.btnText}>BUY</Text>
           </TouchableOpacity>
         </View>
@@ -79,14 +100,16 @@ const PostDetail = ({navigation,route}) => {
   };
 
   const combineHeader = (item) => {
+    console.log("check section..??",item);
     return (
       <View>
         {_listHeaderComp(item)}
-        {_listHeader2()}
+        {_listHeader2(item)}
       </View>
     );
   };
   const _listHeaderComp = (item) => {
+    console.log("list header",item)
     return (
       <View>
         <View
@@ -107,7 +130,7 @@ const PostDetail = ({navigation,route}) => {
               flexDirection: 'row',
               flex: 0.7,
             }}>
-            <Image source={ImagePath.Profile}></Image>
+            {/* <Image source={{uri:item.user_image}}></Image> */}
             <Text
               style={{
                 color: '#E9F0FA',
@@ -116,7 +139,7 @@ const PostDetail = ({navigation,route}) => {
                 fontSize: 13,
                 lineHeight: 18,
               }}>
-              liamnorris
+              {item.name}
             </Text>
           </View>
           <View
@@ -128,6 +151,7 @@ const PostDetail = ({navigation,route}) => {
               flex: 0.3,
             }}>
             <TouchableOpacity>
+              {item.isfollow==="0"?
               <Text
                 style={{
                   color: '#E9F0FA',
@@ -135,8 +159,17 @@ const PostDetail = ({navigation,route}) => {
                   textDecorationLine: 'underline',
                   fontSize: 12,
                 }}>
-                FOLLOW
-              </Text>
+                UNFOLLOW
+              </Text>:
+               <Text
+               style={{
+                 color: '#E9F0FA',
+                 fontWeight: 'bold',
+                 textDecorationLine: 'underline',
+                 fontSize: 12,
+               }}>
+               FOLLOW
+             </Text>}
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => bottomRef.current.setModalVisible(true)}
@@ -195,7 +228,7 @@ const PostDetail = ({navigation,route}) => {
         </View>
         <View style={styles.textStyle}>
           <View style={{flex: 0.8, justifyContent: 'center'}}>
-            <Text style={styles.priceText}>Light Year Toy</Text>
+            <Text style={styles.priceText}>{item.title}</Text>
           </View>
 
           <View
@@ -204,13 +237,14 @@ const PostDetail = ({navigation,route}) => {
               alignItems: 'flex-end',
               justifyContent: 'center',
             }}>
-            <Text style={styles.priceText}>$500</Text>
+            <Text style={styles.priceText}>${item.price}</Text>
           </View>
         </View>
         <Text style={styles.descriptionText}>
-          Buzz Lightyear is a fictional character in the Toy Story franchise
+          {item.description}
+          {/* Buzz Lightyear is a fictional character in the Toy Story franchise
           created by Disney and Pixar. He is a toy Space Ranger superhero
-          according to the movies and an action...
+          according to the movies and an action... */}
           <Text style={styles.moreText}>more</Text>
         </Text>
         <View
@@ -298,7 +332,7 @@ const PostDetail = ({navigation,route}) => {
       </View>
     );
   };
-  const _listHeader2 = () => {
+  const _listHeader2 = (item) => {
     return (
       <View>
         <View
@@ -324,7 +358,7 @@ const PostDetail = ({navigation,route}) => {
                   fontWeight: '400',
                   marginTop: 10,
                 }}>
-                324 Likes
+               {item.likecount} Likes
               </Text>
             </View>
           </View>
@@ -344,7 +378,7 @@ const PostDetail = ({navigation,route}) => {
                   fontWeight: '400',
                   marginTop: 10,
                 }}>
-                96 Comments
+               {item.commentcount} Comments
               </Text>
             </View>
           </View>
@@ -370,7 +404,7 @@ const PostDetail = ({navigation,route}) => {
       </View>
     );
   };
-  const _listheadOffer = () => {
+  const _listheadOffer = (item) => {
     return (
       <View>
         <View
@@ -393,7 +427,7 @@ const PostDetail = ({navigation,route}) => {
                 source={ImagePath.BidingMOney}
                 style={{height: 20, width: 20}}
               />
-              <Text style={styles.innerBidderText}>OPEN</Text>
+              <Text style={styles.innerBidderText}>{item.bid_status}</Text>
             </View>
           </View>
           <View style={{flex: 0.35, alignItems: 'center'}}>
@@ -404,7 +438,7 @@ const PostDetail = ({navigation,route}) => {
               <Image
                 source={ImagePath.BidingMOney}
                 style={{height: 20, width: 20}}></Image>
-              <Text style={styles.innerBidderText}>5+</Text>
+              <Text style={styles.innerBidderText}>{item.bids}+</Text>
             </View>
           </View>
           <View style={{flex: 0.35, alignItems: 'flex-end'}}>
@@ -436,11 +470,11 @@ const PostDetail = ({navigation,route}) => {
       </View>
     );
   };
-  const listOfferCombine = () => {
+  const listOfferCombine = (item) => {
     return (
       <View>
-        {_listHeaderComp()}
-        {_listheadOffer()}
+        {_listHeaderComp(item)}
+        {_listheadOffer(item)}
       </View>
     );
   };
@@ -461,16 +495,16 @@ const PostDetail = ({navigation,route}) => {
         {Authdata === 'activity' ? (
           <FlatList
             data={['', '']}
-            ListHeaderComponent={combineHeader}
-            ListFooterComponent={_footerComp}
+            ListHeaderComponent={combineHeader(item)}
+            ListFooterComponent={_footerComp(item)}
             renderItem={({item, index}) => {
               // return <CommentList />;
             }}
           />
         ) : (
           <FlatList
-            data={['', '']}
-            ListHeaderComponent={listOfferCombine}
+            data={['']}
+            ListHeaderComponent={listOfferCombine(item)}
             ListFooterComponent={_listFooterOffer}
             renderItem={() => {
               return <OfferListComp />;
@@ -508,7 +542,6 @@ const PostDetail = ({navigation,route}) => {
             {/* report post in case post is not of user */}
           </View>
         </ActionSheet>
-
         <ActionSheet
           indicatorColor={'#4F5461'}
           onClose={() => bottomRefOffer.current.setModalVisible(false)}
