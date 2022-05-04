@@ -5,6 +5,7 @@ import Header from '../../../../components/Header';
 import { widthPercentageToDP as wp ,heightPercentageToDP as hp } from '../../../../utility';
 import Path from '../../../../constants/Imagepath';
 import WrapperContainer from '../../../../components/WrapperContainer';
+import axios from 'axios';
 const PostSubCategory = ({navigation}) => {
   const [seubCategories,setSubCategories]=useState()
   useEffect(()=>{

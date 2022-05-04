@@ -78,6 +78,7 @@ const Signin = ({navigation}) => {
         });
         console.log('Signin.......', response.data);
         if (response.data.msg == "Success! Yo're logged in.") {
+          console.log(response , "responseresponseresponse")
           await Utility.setInLocalStorge(
             'user_id',
             response.data.data.customer_id,
