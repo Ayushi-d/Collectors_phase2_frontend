@@ -37,7 +37,7 @@ const SigninForgot = ({navigation}) => {
         Alert.alert('Please Enter Email');
       } else {
         let response = await axios.post(
-          'https://collectorsapp.herokuapp.com/forgotPassword',
+          'http://13.233.246.19:9000/forgotPassword',
           {
             email: text,
           },

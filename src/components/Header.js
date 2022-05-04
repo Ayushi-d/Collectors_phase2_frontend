@@ -44,7 +44,8 @@ const Header = ({
                 color: 'white',
                 marginLeft: wp('5%'),
                 fontSize: 13,
-                fontWeight: '300',
+
+                fontFamily: 'Poppins-Regular',
               }}>
               {back}
             </Text>
@@ -68,7 +69,11 @@ const Header = ({
       )}
       {textData ? (
         <View
-          style={{alignItems: 'center', marginLeft: wp('15%') , justifyContent : 'center'}}>
+          style={{
+            alignItems: 'center',
+            marginLeft: wp('15%'),
+            justifyContent: 'center',
+          }}>
           <Text
             style={{
               color: 'white',

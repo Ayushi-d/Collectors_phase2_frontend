@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, ImageBackground, Image} from 'react-native';
+import {View, Text, ImageBackground, Image, Dimensions} from 'react-native';
 import Path from '../../../constants/Imagepath';
 import {
   widthPercentageToDP as wp,
@@ -23,6 +23,8 @@ const Splash = ({navigation}) => {
       navigation.navigate('Authdetails');
     }
   };
+
+  const width = Dimensions.get('window').width;
   return (
     <ImageBackground
       source={Path.backgroundImage}
@@ -32,7 +34,9 @@ const Splash = ({navigation}) => {
       </View>
       <View style={{flex: 0.1, paddingBottom: 50}}>
         <View style={{alignSelf: 'center'}}>
-          <Image source={Path.logoTextlong} resizeMode="center"></Image>
+          <Image
+            source={Path.logoTextlong}
+            style={{width: width / 1.6, height: width / 40}}></Image>
         </View>
         <View style={{alignSelf: 'center', marginTop: 20}}>
           <Text
