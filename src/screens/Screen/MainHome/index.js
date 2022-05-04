@@ -4,12 +4,14 @@ import {
   View,
   Text,
   StyleSheet,
+
   Image,
   TouchableOpacity,
   ScrollView,
   Modal,
   Alert,
   BackHandler,
+  
   RefreshControl,
   Dimensions,
   FlatList,

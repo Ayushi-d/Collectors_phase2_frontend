@@ -11,7 +11,7 @@ const PostSubCategory = ({navigation}) => {
     getCategoriesApi()
     },[])
     const getCategoriesApi=async()=>{
-      let response=await axios.get('');
+      let response=await axios.get('https://collectorsapp.herokuapp.com/getCategories');
       console.log(response.data);
     }
   return (
