@@ -1,5 +1,5 @@
 // import { ScrollView } from 'native-base';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,73 +17,77 @@ import {
 } from '../../../utility';
 import Path from '../../../constants/Imagepath';
 import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
+import Loader from '../../../components/loader';
 const Search = ({navigation}) => {
+  const [value, setValue] =useState()
+  const [loader,setLoader]=useState(false);
   const [data, setData] = useState([
     {
       id: 1,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 2,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 3,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 4,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 5,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 6,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 7,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 8,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 9,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
     {
       id: 10,
       img: Path.FollowUser,
       title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      email: 'Carlos Saizn',
     },
     {
       id: 11,
       img: Path.FollowUser,
-      title: 'musicalgrey',
-      subtitle: 'Carlos Saizn',
+      username: 'musicalgrey',
+      email: 'Carlos Saizn',
     },
   ]);
   const [search, setSearch] = useState('');
@@ -91,8 +95,39 @@ const Search = ({navigation}) => {
     setData([]);
   };
   const [active, setActive] = useState(false);
+  
+  const SearchApi=async()=>{
+    setLoader(true);
+    let response=await axios.get(`http://13.233.246.19:9000/search?search=${value}`);
+    console.log("search data",response.data);
+    if(response.data.users){
+      setData(response.data.users);
+      setLoader(false);
+    }
+    setLoader(false)
+  }
+  const chnageText=(text)=>{
+    setValue(text)
+    if(value){
+      SearchApi()
+    }
+  }
+  useEffect(() => {
+   AllUser()
+  }, [])
+  const AllUser=async()=>{
+    setLoader(true);
+    let response=await axios.get(`http://13.233.246.19:9000/search`);
+    console.log("search data",response.data);
+    if(response.data.users){
+      setData(response.data.users);
+      setLoader(false);
+    }
+    setLoader(false)
+  }
   return (
     <WrapperContainer statusBarColor="#0D111C">
+        <Loader isLoading={loader} />
       <Header
         backgroundColor="#0D111C"
         login="true"
@@ -100,6 +135,7 @@ const Search = ({navigation}) => {
         hideLogo="true"
       />
       <ScrollView style={styles.searchMain}>
+      
         <View style={{backgroundColor: '#0D111C', paddingBottom: 20}}>
           <View
             style={{
@@ -120,6 +156,7 @@ const Search = ({navigation}) => {
                 onFocus={() => setActive(true)}
                 pointerEvents="none"
                 placeholderTextColor="white"
+                onChangeText={(text)=>chnageText(text)}
                 style={{
                   marginLeft: wp('2%'),
                   fontSize: 12,
@@ -173,13 +210,21 @@ const Search = ({navigation}) => {
                     marginHorizontal: 20,
                   }}>
                   <View style={{width: wp('18%')}}>
+                    {item.profile_image?
                     <Image
-                      source={item.img}
+                      source={data[index].img}
                       style={{
                         height: 48,
                         width: 48,
                         borderRadius: 48 / 2,
-                      }}></Image>
+                      }}></Image>:
+                      <Image
+                      source={Path.userImage}
+                      style={{
+                        height: 48,
+                        width: 48,
+                        borderRadius: 48 / 2,
+                      }}></Image>}
                   </View>
                   <View>
                     <Text
@@ -189,7 +234,7 @@ const Search = ({navigation}) => {
                         fontWeight: '400',
                         lineHeight: 20,
                       }}>
-                      {item.title}
+                      {item.username}
                     </Text>
                     <Text
                       style={{
@@ -198,7 +243,7 @@ const Search = ({navigation}) => {
                         fontWeight: '400',
                         lineHeight: 20,
                       }}>
-                      {item.subtitle}
+                      {item.email}
                     </Text>
                   </View>
                 </TouchableOpacity>

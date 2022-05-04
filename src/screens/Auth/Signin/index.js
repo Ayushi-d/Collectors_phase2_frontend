@@ -69,6 +69,7 @@ const Signin = ({navigation}) => {
     }
     setLoading(!loading);
     try {
+      // 13.233.246.19
       if (loginuserName && loginPassword) {
         let response = await axios.post('http://13.233.246.19:9000/login', {
           logintype: 'email',

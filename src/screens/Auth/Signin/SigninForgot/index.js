@@ -31,17 +31,20 @@ const SigninForgot = ({navigation}) => {
     return !text.includes('@');
   };
   const callForgotAPi = async () => {
+    console.log("vikassssssss");
     setLoading(false);
     try {
       if (!text) {
         Alert.alert('Please Enter Email');
       } else {
+        console.log("if condition is working....")
         let response = await axios.post(
           'http://13.233.246.19:9000/forgotPassword',
           {
             email: text,
           },
         );
+        console.log("niijkjg");
         console.log('befire', response.data);
         if (response.data.msg == 'Otp sent successfully.') {
           await Utility.setInLocalStorge('user_email', text);

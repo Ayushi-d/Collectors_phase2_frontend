@@ -18,7 +18,9 @@ import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
 import WrapperContainer from '../../../components/WrapperContainer';
 
-const PostDetail = ({navigation}) => {
+const PostDetail = ({navigation,route}) => {
+  const { item } = route.params;
+  console.log("item detaikls...",item);
   const [Authdata, setAuthData] = useState('activity');
 
   const width = Dimensions.get('window').width;
@@ -76,16 +78,15 @@ const PostDetail = ({navigation}) => {
     );
   };
 
-  const combineHeader = () => {
+  const combineHeader = (item) => {
     return (
       <View>
-        {_listHeaderComp()}
+        {_listHeaderComp(item)}
         {_listHeader2()}
       </View>
     );
   };
-
-  const _listHeaderComp = () => {
+  const _listHeaderComp = (item) => {
     return (
       <View>
         <View
@@ -297,7 +298,6 @@ const PostDetail = ({navigation}) => {
       </View>
     );
   };
-
   const _listHeader2 = () => {
     return (
       <View>
@@ -370,7 +370,6 @@ const PostDetail = ({navigation}) => {
       </View>
     );
   };
-
   const _listheadOffer = () => {
     return (
       <View>
@@ -437,7 +436,6 @@ const PostDetail = ({navigation}) => {
       </View>
     );
   };
-
   const listOfferCombine = () => {
     return (
       <View>
@@ -446,7 +444,6 @@ const PostDetail = ({navigation}) => {
       </View>
     );
   };
-
   const _listFooterOffer = () => {
     return (
       <View style={{paddingBottom: 30}}>
@@ -467,7 +464,7 @@ const PostDetail = ({navigation}) => {
             ListHeaderComponent={combineHeader}
             ListFooterComponent={_footerComp}
             renderItem={({item, index}) => {
-              return <CommentList />;
+              // return <CommentList />;
             }}
           />
         ) : (

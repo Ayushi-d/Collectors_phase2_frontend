@@ -82,7 +82,6 @@ export const uploadImageApi = async (url, token, body) => {
     console.log('err', err.message);
   }
 };
-
 export const post = async (url, token, body) => {
   var headers;
   if (token == '' || token == null || token == undefined) {
@@ -120,7 +119,6 @@ export const post = async (url, token, body) => {
   //   // throw new Error(res.error)
   // }
 };
-
 export const put = async (url, token, body) => {
   var headers;
 
@@ -164,7 +162,6 @@ export const put = async (url, token, body) => {
     return;
   }
 };
-
 export const deleteApi = async (url, token) => {
   var headers;
 
@@ -211,7 +208,6 @@ export const deleteApi = async (url, token) => {
     return;
   }
 };
-
 export const upLoadSingleImage = async (url, token, body) => {
   var headers;
 
@@ -262,7 +258,6 @@ export const upLoadSingleImage = async (url, token, body) => {
     console.log('err', err.message);
   }
 };
-
 export const FormDataPost = async (url, token, body) => {
   var headers;
   if (token == '' || token == null || token == undefined) {
@@ -298,7 +293,6 @@ export const FormDataPost = async (url, token, body) => {
     // throw new Error(res.error)
   }
 };
-
 export const forgotPassword = async (url, token, body) => {
   var headers;
   if (token == '' || token == null || token == undefined) {
@@ -333,7 +327,6 @@ export const forgotPassword = async (url, token, body) => {
   }
   return res;
 };
-
 export const postApi = async (url, token, body) => {
   var headers;
   if (token == '' || token == null || token == undefined) {

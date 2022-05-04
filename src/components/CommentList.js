@@ -9,12 +9,7 @@ import {
 import React from 'react';
 import ImagePath from '../constants/Imagepath';
 
-const CommentList = ({onOpenSheet}) => {
-
-
-
-
-
+const CommentList = ({onOpenSheet,item}) => {
 
   const _footerCompReply = () => {
     return (
@@ -40,11 +35,12 @@ const CommentList = ({onOpenSheet}) => {
     <View style={{marginHorizontal: 20, marginTop: 20}}>
       <View style={{flexDirection: 'row'}}>
         <View style={{flex: 0.9, flexDirection: 'row', alignItems: 'center'}}>
+          
           <Image
             source={ImagePath.FollowUser}
             style={{height: 24, width: 24}}
           />
-          <Text style={styles.nametext}>creatorx</Text>
+          <Text style={styles.nametext}>{item.user_name}</Text>
           <Text style={styles.timeText}>5 mins ago</Text>
         </View>
         <View
@@ -60,10 +56,7 @@ const CommentList = ({onOpenSheet}) => {
       </View>
       <View>
         <Text style={[styles.timeText, {marginTop: 5, marginBottom: 5}]}>
-          Amazing! I love itAmazing! I love itAmazing! I love itAmazing! I love
-          itAmazing! I love itAmazing! I love itAmazing! I love itAmazing! I
-          love itAmazing! I love itAmazing! I love itAmazing! I love itAmazing!
-          I love it.
+          {item.comment}
         </Text>
       </View>
       <View style={styles.bottom}>
@@ -78,7 +71,7 @@ const CommentList = ({onOpenSheet}) => {
             <Text style={styles.replyBtnText}>Reply</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.space}>
-            <Text style={styles.replyBtnText}>Show 2 Replies</Text>
+            <Text style={styles.replyBtnText}>Show {item.repliesCount} Replies</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -95,7 +88,7 @@ const CommentList = ({onOpenSheet}) => {
       </View>
 
       <FlatList
-        data={['', '']}
+        data={item.replies}
         ListFooterComponent={_footerCompReply}
         renderItem={({item, index}) => {
           return (
@@ -130,8 +123,7 @@ const CommentList = ({onOpenSheet}) => {
                 <View>
                   <Text
                     style={[styles.timeText, {marginTop: 5, marginBottom: 5}]}>
-                    Amazing! I love itAmazing! I love itAmazing! I love
-                    itAmazing! I love
+                   {item.comment}
                   </Text>
                 </View>
                 <View style={styles.bottom}>

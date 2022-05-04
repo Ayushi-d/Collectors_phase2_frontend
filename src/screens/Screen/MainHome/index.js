@@ -26,12 +26,16 @@ import {
 import RBSheet from 'react-native-raw-bottom-sheet';
 import PhotoGrid from 'react-native-thumbnail-grid';
 import ActionSheet from 'react-native-actions-sheet';
+import * as Utility from '../../../utility/index';
 import WrapperContainer from '../../../components/WrapperContainer';
+import axios from 'axios';
+import { BaseUrl, HomeListing } from '../../../api/apiUrls';
 const MainHome = ({navigation}) => {
   const [HomeData, setHomeData] = useState([{id: 1}, {id: 2}, {id: 3}]);
+  const [login_user_id,setlogin_user_id]=useState();
   const [modalVisible, setModalVisible] = useState(false);
   const refRBSheet = useRef();
-
+  const [FollowMsg,setFolloweMsg]=useState();
   const [refresh, setRefresh] = useState(false);
   const onPress = (url, index, event) => {};
   // useEffect(() => {
@@ -60,6 +64,7 @@ const MainHome = ({navigation}) => {
   const handleRefresh = () => {
     setRefresh(true);
     setTimeout(() => {
+      getHomeListData()
       setRefresh(false);
     }, 2000);
   };
@@ -99,6 +104,45 @@ const MainHome = ({navigation}) => {
   };
 
   const width = Dimensions.get('window').width;
+
+  useEffect(()=>{
+    getuserIdfromStorage()
+    getHomeListData()
+  },[])
+  const getuserIdfromStorage=async()=>{
+    let user_id=await Utility.getFromLocalStorge('user_id');
+    setlogin_user_id(user_id);
+  }
+  const getHomeListData=async()=>{
+    console.log("HOme Data calling");
+    let response=await axios.get('http://13.233.246.19:9000/homelisting');
+    console.log(response.data.posts);
+    // if()
+    setHomeData(response.data.posts);
+  }
+  const callFollowApi=async(user_id)=>{
+    let body={
+      "userId":user_id,
+      "entityId":login_user_id
+    }
+    console.log("user follow ");
+    let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
+    
+    console.log(response.data);
+    if(response.data.code==200){
+      setFolloweMsg(response.data.msg);
+    }
+  }
+  const likeDislikeApi=async(post_id)=>{
+    let body={
+      "userId":login_user_id,
+      "post_id":post_id
+    }
+    let response=await axios.post('http://13.233.246.19:9000/likeDislikePost',body);
+    console.log(response.data);
+    if(response.data.code==200){
+    }
+  }
   return (
     <WrapperContainer statusBarColor="#0D111C" bodyColor='#00040E'>
       <Homeheader
@@ -130,7 +174,7 @@ const MainHome = ({navigation}) => {
                           alignItems: 'center',
                           flexDirection: 'row',
                         }}>
-                        <Image source={Path.Profile}></Image>
+                        <Image source={{uri:item.user_image}}></Image>
                         <Text
                           style={{
                             color: '#E9F0FA',
@@ -139,7 +183,7 @@ const MainHome = ({navigation}) => {
                             fontSize: 13,
                             lineHeight: 18,
                           }}>
-                          liamnorris
+                          {item.name}
                         </Text>
                       </View>
                       <View
@@ -149,7 +193,8 @@ const MainHome = ({navigation}) => {
                           flexDirection: 'row',
                           width: wp('21%'),
                         }}>
-                        <TouchableOpacity>
+                          {item.isfollow=="0"?
+                        <TouchableOpacity onPress={()=>callFollowApi(item.user_id)}>
                           <Text
                             style={{
                               color: '#E9F0FA',
@@ -157,9 +202,20 @@ const MainHome = ({navigation}) => {
                               textDecorationLine: 'underline',
                               fontSize: 12,
                             }}>
-                            FOLLOW
+                            UNFOLLOW
                           </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity>:
+                         <TouchableOpacity onPress={()=>callFollowApi(item.user_id)}>
+                         <Text
+                           style={{
+                             color: '#E9F0FA',
+                             fontWeight: 'bold',
+                             textDecorationLine: 'underline',
+                             fontSize: 12,
+                           }}>
+                           FOLLOW
+                         </Text>
+                       </TouchableOpacity>}
                         <TouchableOpacity
                           onPress={() => refRBSheet.current.open()}
                           style={{marginLeft: wp('1%')}}>
@@ -203,7 +259,7 @@ const MainHome = ({navigation}) => {
                           fontSize: 16,
                           fontFamily: 'Poppins-Bold',
                         }}>
-                        Old Coin Collection
+                       {item.title}
                       </Text>
                       <Text
                         style={{
@@ -212,7 +268,7 @@ const MainHome = ({navigation}) => {
                           fontWeight: '300',
                           fontFamily: 'Poppins-Regular',
                         }}>
-                        $1000
+                        ${item.price}.0
                       </Text>
                     </View>
                     <View style={{marginHorizontal: 20}}>
@@ -224,8 +280,7 @@ const MainHome = ({navigation}) => {
                           fontWeight: '400',
                           lineHeight: 20,
                         }}>
-                        Exceptions to the rule of face value b-eing higher than
-                        content value also content value also...{' '}
+                        {item.description}{' '}
                         <Text
                           style={{
                             textDecorationLine: 'underline',
@@ -256,7 +311,7 @@ const MainHome = ({navigation}) => {
                             source={Path.BidingMOney}
                             style={{height: 20, width: 20}}
                           />
-                          <Text style={styles.innerBidderText}>OPEN</Text>
+                          <Text style={styles.innerBidderText}>{item.bids}</Text>
                         </View>
                       </View>
                       <View style={{flex: 0.35, alignItems: 'center'}}>
@@ -313,7 +368,7 @@ const MainHome = ({navigation}) => {
                           flex: 0.5,
                         }}>
                         <View>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={()=>likeDislikeApi(item.post_id)}>
                             <Image
                               source={Path.like}
                               style={{height: 20, width: 22}}></Image>
@@ -327,14 +382,14 @@ const MainHome = ({navigation}) => {
                                 fontWeight: '400',
                                 marginTop: 10,
                               }}>
-                              324 Likes
+                              {item.likecount} Likes
                             </Text>
                           </View>
                         </View>
 
                         <View style={{marginLeft: 10}}>
                           <TouchableOpacity
-                            onPress={() => navigation.navigate('Comments')}>
+                            onPress={() => navigation.navigate('Comments', {itemId:item.post_id,login_user_id:login_user_id})}>
                             <Image
                               source={Path.Chat}
                               style={{height: 20, width: 20}}></Image>
@@ -348,13 +403,13 @@ const MainHome = ({navigation}) => {
                                 fontWeight: '400',
                                 marginTop: 10,
                               }}>
-                              96 Comments
+                              {item.commentcount} Comments
                             </Text>
                           </View>
                         </View>
                       </View>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate('PostDetail')}>
+                        onPress={() => navigation.navigate('PostDetail',{item:item})}>
                         <View
                           style={{
                             borderWidth: 1,
