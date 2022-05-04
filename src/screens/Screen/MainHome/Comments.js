@@ -19,8 +19,11 @@ import axios from 'axios';
 import { Alert } from 'native-base';
 // import { useEffect } from 'react/cjs/react.production.min';
 
-const Comments = ({navigation}) => {
+const Comments = ({navigation,route}) => {
   const [message,setMessage]=useState();
+  const { itemId,login_user_id } = route.params;
+  console.log("item id is...",itemId)
+  console.log("logi user id..",login_user_id)
   const [AllMessage,setAllMessage]=useState([]);
   const [loader,setLoading]=useState([]);
   const onOpen = () => {
@@ -40,10 +43,11 @@ const Comments = ({navigation}) => {
 
 useEffect(()=>{
   getAllMessage()
+  
 },[])
 
 const getAllMessage=async()=>{
-  let response=await axios.get('http://13.233.246.19:9000/getComments?post_id=1');
+  let response=await axios.get(`http://13.233.246.19:9000/getComments?post_id=${itemId}`);
   console.log(response.data);
   if(response.data.postcomments.length>0){
     setAllMessage(response.data.postcomments)
@@ -54,9 +58,9 @@ const getAllMessage=async()=>{
       Alert.alert("Message is empty");
     }else{
     let body={
-      "user_id":6,
-      "post_id":1,
-      "comment":"cxccccxce",
+      "user_id":login_user_id,
+      "post_id":itemId,
+      "comment":message,
       "parent_id":""
     }
     let response=await axios.post('http://13.233.246.19:9000/addComment',body);

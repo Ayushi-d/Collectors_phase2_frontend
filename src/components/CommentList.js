@@ -71,7 +71,7 @@ const CommentList = ({onOpenSheet,item}) => {
             <Text style={styles.replyBtnText}>Reply</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.space}>
-            <Text style={styles.replyBtnText}>Show 2 Replies</Text>
+            <Text style={styles.replyBtnText}>Show {item.repliesCount} Replies</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{

@@ -4,14 +4,12 @@ import {
   View,
   Text,
   StyleSheet,
-
   Image,
   TouchableOpacity,
   ScrollView,
   Modal,
   Alert,
   BackHandler,
-  
   RefreshControl,
   Dimensions,
   FlatList,
@@ -391,7 +389,7 @@ const MainHome = ({navigation}) => {
 
                         <View style={{marginLeft: 10}}>
                           <TouchableOpacity
-                            onPress={() => navigation.navigate('Comments')}>
+                            onPress={() => navigation.navigate('Comments', {itemId:item.post_id,login_user_id:login_user_id})}>
                             <Image
                               source={Path.Chat}
                               style={{height: 20, width: 20}}></Image>
@@ -411,7 +409,7 @@ const MainHome = ({navigation}) => {
                         </View>
                       </View>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate('PostDetail')}>
+                        onPress={() => navigation.navigate('PostDetail',{item:item})}>
                         <View
                           style={{
                             borderWidth: 1,
