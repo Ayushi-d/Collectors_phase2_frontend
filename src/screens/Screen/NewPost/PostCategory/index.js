@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   BackHandler,
+  // TouchableOpacity
 } from 'react-native';
 import Header from '../../../../components/Header';
 import {
@@ -19,10 +20,14 @@ import Path from '../../../../constants/Imagepath';
 import {useFocusEffect} from '@react-navigation/native';
 import WrapperContainer from '../../../../components/WrapperContainer';
 import axios from 'axios';
+import { FlatList } from 'native-base';
 // import { useState } from 'react/cjs/react.production.min';
-const PostCategory = ({navigation}) => {
+const PostCategory = ({navigation,route}) => {
+  const { body } = route.params;
   const [category, setCategory] = useState(['','','','']);
   const [loader, setLoader] = useState(false);
+  const [PostCategoryChoose,setPostCategoryChoose]=useState()
+  const [selectedId, setSelectedId] = useState(null);
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -52,6 +57,30 @@ const PostCategory = ({navigation}) => {
     if(response.data.categories.length>0){
       setCategory(response.data.categories)
     }
+  };
+  const Item = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+      <Text style={[styles.title, textColor]}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+  const selectedCategory=(item)=>{
+    setPostCategoryChoose(item);
+    setSelectedId(item.id)
+
+  }
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.id === selectedId ?  "#117AF5" : "#646E7A";
+    const color = item.id === selectedId ? 'white' : 'black';
+
+    return (
+      <Item
+        item={item}
+        
+        onPress={() =>selectedCategory(item)}
+        backgroundColor={{ backgroundColor }}
+        textColor={{ color }}
+      />
+    );
   };
   return (
     <WrapperContainer>
@@ -103,18 +132,27 @@ const PostCategory = ({navigation}) => {
           <Text style={styles.categoriesText}>SELECT A CATEGORY</Text>
         </View>
         <View style={{height: hp('50%')}}>
-          <ScrollView>
-          {category.map((item,index)=>(
+          {/* <ScrollView> */}
+          <FlatList
+        data={category}
+        renderItem={renderItem}
+        numColumns={3}
+        keyExtractor={(item) => item.id}
+        extraData={selectedId}
+      />
+
+            
+          {/* {category.map((item,index)=>(
               <View key={index} style={{padding:10,borderWidth:1,borderRadius:50,borderColor:'#117AF5'}}>
-              <Text style={{color:'red'}}>Item</Text>
+              <Text style={{color:'red'}}>{item.name}</Text>
             </View>
-          ))}
-          </ScrollView>
+          ))} */}
+          {/* </ScrollView> */}
       
         </View>
         <TouchableOpacity
           style={{marginTop: hp('1%'), marginLeft: wp('4%')}}
-          onPress={() => navigation.navigate('PostSubCategory')}>
+          onPress={() => navigation.navigate('PostSubCategory',{body1:body,Category:PostCategoryChoose})}>
           <View
             style={{
               backgroundColor: '#646E7A',
@@ -159,5 +197,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 22,
     color: '#9CA6B6',
+  },
+  item: {
+    padding: 10,
+    borderRadius:10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 12,
   },
 });

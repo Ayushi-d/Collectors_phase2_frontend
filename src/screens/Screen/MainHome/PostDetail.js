@@ -49,7 +49,7 @@ const PostDetail = ({navigation,route}) => {
       "type":"2",
       "message":"fdg dgd" 
     }
-    let response=await axios.post('http://13.233.246.19:9000/addBid',body);
+ let response=await axios.post('http://13.233.246.19:9000/addBid',body);
  console.log(response.data)
   }
   const AddBuyBid=async(item)=>{
