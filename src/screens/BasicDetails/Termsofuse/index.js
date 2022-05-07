@@ -1,10 +1,12 @@
 import React from 'react'
 import { View ,Text, ScrollView} from 'react-native'
 import Headers from '../../../components/Header';
+import WrapperContainer from '../../../components/WrapperContainer';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../../utility';
 const Termsofuse= ({navigation}) => {
   return (
-    <View style={{backgroundColor:'black',height:hp('100%'),width:wp('100%')}}>
+    <WrapperContainer>
+  
       {/* <Headers/> */}
       <Headers  login="true" navigate={navigation}/>
       <ScrollView>
@@ -28,7 +30,8 @@ const Termsofuse= ({navigation}) => {
         </Text>
         </View>
         </ScrollView>
-        </View>
+
+        </WrapperContainer>
   )
 }
 

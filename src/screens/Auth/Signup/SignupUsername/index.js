@@ -14,7 +14,6 @@ import Header from '../../../../components/Header';
 import Path from '../../../../constants/Imagepath';
 
 import ImagePicker from 'react-native-image-crop-picker';
-// import * as Utility from '../../../../utility/index';
 import axios from 'axios';
 import * as Utility from '../../../../utility/index';
 import {
