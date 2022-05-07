@@ -67,6 +67,7 @@ const getAllMessage=async()=>{
     console.log(response.data);
     if(response.data.code==200){
       setMessage('')
+      getAllMessage()
     }
   }
   }

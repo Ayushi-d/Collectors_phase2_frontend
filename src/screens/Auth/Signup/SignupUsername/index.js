@@ -53,6 +53,11 @@ const SignupUsername = ({navigation}) => {
       await Utility.setInLocalStorge('userProfile', image);
       await Utility.setInLocalStorge('userName', text);
       var data = new FormData();
+      // data.append('pic6', {
+      //   uri: image6,
+      //   name: 'iamge.jpg',
+      //   type: 'image/jpg',
+      // });
       data.append('username', text);
       data.append('userId', user_id);
       data.append('recfile', {

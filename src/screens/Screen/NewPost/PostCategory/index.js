@@ -21,7 +21,7 @@ import WrapperContainer from '../../../../components/WrapperContainer';
 import axios from 'axios';
 // import { useState } from 'react/cjs/react.production.min';
 const PostCategory = ({navigation}) => {
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState(['','','','']);
   const [loader, setLoader] = useState(false);
   useFocusEffect(
     React.useCallback(() => {
@@ -47,8 +47,11 @@ const PostCategory = ({navigation}) => {
   }, []);
   const getCategoriesApi = async () => {
     setLoader(true);
-    let response = await axios.get('http://13.233.246.19:9000/getCategories');
-    console.log(response, 'sdfkjbsdjfndsjfs');
+    let response = await axios.post('http://13.233.246.19:9000/getCategories');
+    console.log(response.data.categories);
+    if(response.data.categories.length>0){
+      setCategory(response.data.categories)
+    }
   };
   return (
     <WrapperContainer>
@@ -100,9 +103,14 @@ const PostCategory = ({navigation}) => {
           <Text style={styles.categoriesText}>SELECT A CATEGORY</Text>
         </View>
         <View style={{height: hp('50%')}}>
-          <View>
-            <Text>Item</Text>
-          </View>
+          <ScrollView>
+          {category.map((item,index)=>(
+              <View key={index} style={{padding:10,borderWidth:1,borderRadius:50,borderColor:'#117AF5'}}>
+              <Text style={{color:'red'}}>Item</Text>
+            </View>
+          ))}
+          </ScrollView>
+      
         </View>
         <TouchableOpacity
           style={{marginTop: hp('1%'), marginLeft: wp('4%')}}

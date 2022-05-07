@@ -36,6 +36,7 @@ const MainHome = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const refRBSheet = useRef();
   const [FollowMsg,setFolloweMsg]=useState();
+  // const [loader,setLoader]=useState(false);
   const [refresh, setRefresh] = useState(false);
   const onPress = (url, index, event) => {};
   // useEffect(() => {
@@ -114,11 +115,13 @@ const MainHome = ({navigation}) => {
     setlogin_user_id(user_id);
   }
   const getHomeListData=async()=>{
+    setRefresh(true);
     console.log("HOme Data calling");
     let response=await axios.get('http://13.233.246.19:9000/homelisting');
     console.log(response.data.posts);
     // if()
     setHomeData(response.data.posts);
+    setRefresh(false);
   }
   const callFollowApi=async(user_id)=>{
     let body={
@@ -145,6 +148,7 @@ const MainHome = ({navigation}) => {
   }
   return (
     <WrapperContainer statusBarColor="#0D111C" bodyColor='#00040E'>
+       <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
       <Homeheader
         showNotification={false}
         navigate={() => navigation.navigate('Search')}
@@ -173,8 +177,8 @@ const MainHome = ({navigation}) => {
                           justifyContent: 'center',
                           alignItems: 'center',
                           flexDirection: 'row',
-                        }}>
-                        <Image source={{uri:item.user_image}}></Image>
+                        }}>{item.user_image?
+                        <Image source={{uri:item.user_image}}  style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>:<Image source={Path.userImage}  style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>}
                         <Text
                           style={{
                             color: '#E9F0FA',
@@ -349,7 +353,7 @@ const MainHome = ({navigation}) => {
                       <PhotoGrid
                         height={300}
                         width={width}
-                        source={images}
+                        source={item.images}
                         imageStyle={{overflow: 'hidden'}}
                         onPressImage={source => ShowImage(source.uri)}
                       />
@@ -369,9 +373,13 @@ const MainHome = ({navigation}) => {
                         }}>
                         <View>
                           <TouchableOpacity onPress={()=>likeDislikeApi(item.post_id)}>
+                            {item.isliked=="1"?
                             <Image
+                              source={Path.RedLike}
+                              style={{height: 20, width: 22}}></Image>:
+                              <Image
                               source={Path.like}
-                              style={{height: 20, width: 22}}></Image>
+                              style={{height: 20, width: 22}}></Image>}
                           </TouchableOpacity>
                           <View>
                             <Text

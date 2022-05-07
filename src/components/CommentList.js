@@ -8,9 +8,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import ImagePath from '../constants/Imagepath';
-
+import moment from 'moment';
 const CommentList = ({onOpenSheet,item}) => {
-
   const _footerCompReply = () => {
     return (
       <View
@@ -35,13 +34,14 @@ const CommentList = ({onOpenSheet,item}) => {
     <View style={{marginHorizontal: 20, marginTop: 20}}>
       <View style={{flexDirection: 'row'}}>
         <View style={{flex: 0.9, flexDirection: 'row', alignItems: 'center'}}>
-          
+          {item.user_image?
           <Image
-            source={ImagePath.FollowUser}
+            source={item.user_image}
             style={{height: 24, width: 24}}
-          />
+          />:<Image  source={ImagePath.FollowUser}
+          style={{height: 24, width: 24}}></Image>}
           <Text style={styles.nametext}>{item.user_name}</Text>
-          <Text style={styles.timeText}>5 mins ago</Text>
+          <Text style={styles.timeText}>{moment(item.created_at).format("MM-DD-YYYY")}</Text>
         </View>
         <View
           style={{

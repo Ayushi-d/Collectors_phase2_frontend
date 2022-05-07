@@ -12,7 +12,10 @@ const PostSubCategory = ({navigation}) => {
     getCategoriesApi()
     },[])
     const getCategoriesApi=async()=>{
-      let response=await axios.get('http://13.233.246.19:9000/getCategories');
+      let body={
+        "category_id":1
+      }
+      let response=await axios.post('http://13.233.246.19:9000/getSubCategories',body);
       console.log(response.data);
     }
   return (

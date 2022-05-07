@@ -67,6 +67,7 @@ const ImagePath = {
     down : require('../assets/down.png'),
     clap : require('../assets/clap.png'),
     handShake : require('../assets/handShake.png'),
+    RedLike:require('../assets/redlike.png')
 
 
 

@@ -9,7 +9,7 @@ import {
   TextInput,
   Dimensions,
 } from 'react-native';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef,useEffect} from 'react';
 import ImagePath from '../../../constants/Imagepath';
 import {widthPercentageToDP as wp} from '../../../utility';
 import CommentList from '../../../components/CommentList';
@@ -18,6 +18,8 @@ import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
 import WrapperContainer from '../../../components/WrapperContainer';
 import axios from 'axios';
+import { Login } from '../../../api/apiUrls';
+// import { useEffect } from 'react/cjs/react.production.min';
 
 const PostDetail = ({navigation,route}) => {
   const { item } = route.params;
@@ -28,32 +30,45 @@ const PostDetail = ({navigation,route}) => {
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
-
+  const [login_user_id,setlogin_user_id]=useState();
   const bottomRef = useRef();
 
   const bottomRefOffer = useRef();
-  const AddExchnageBid=(item)=>{
-
+  useEffect(()=>{
+    getUserRecords()
+  },[])
+  const getUserRecords=async()=>{
+    let user_id = await Utility.getFromLocalStorge('user_id');
+    setlogin_user_id(user_id);
+  }
+  const AddExchnageBid=async(item)=>{
    let body= {
-         "user_id":3,
-      "post_id":1,
-      "bid":"1000",
+      "user_id":login_user_id,
+      "post_id":item.post_id,
+      "bid":"10",
       "type":"2",
       "message":"fdg dgd" 
     }
+    let response=await axios.post('http://13.233.246.19:9000/addBid',body);
+ console.log(response.data)
   }
-  const AddBuyBid=(item)=>{
+  const AddBuyBid=async(item)=>{
     let body= {
-      "user_id":4,
-   "post_id":1,
-   "bid":"1000",
+      "user_id":login_user_id,
+   "post_id":item.post_id,
+   "bid":"20",
    "type":"1",
    "message":"fdg dgd" 
  }
- let response=await axios.post('',body)
+ let response=await axios.post('http://13.233.246.19:9000/addBid',body);
+ console.log(response.data)
   }
 
   const _footerComp = (item) => {
+    // console.log("yup records")
+    // useEffect(()=>{
+
+    // },[])
     return (
       <View style={{marginTop: 30, paddingBottom: 30}}>
         <View
@@ -130,7 +145,7 @@ const PostDetail = ({navigation,route}) => {
               flexDirection: 'row',
               flex: 0.7,
             }}>
-            {/* <Image source={{uri:item.user_image}}></Image> */}
+            <Image source={{uri:item.user_image}} style={{height:30,width:30,borderRadius:30}}></Image>
             <Text
               style={{
                 color: '#E9F0FA',
