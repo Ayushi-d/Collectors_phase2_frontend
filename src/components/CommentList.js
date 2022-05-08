@@ -10,6 +10,7 @@ import React from 'react';
 import ImagePath from '../constants/Imagepath';
 import moment from 'moment';
 const CommentList = ({onOpenSheet,item}) => {
+
   const _footerCompReply = () => {
     return (
       <View
@@ -29,7 +30,6 @@ const CommentList = ({onOpenSheet,item}) => {
       </View>
     );
   };
-
   return (
     <View style={{marginHorizontal: 20, marginTop: 20}}>
       <View style={{flexDirection: 'row'}}>
@@ -81,7 +81,7 @@ const CommentList = ({onOpenSheet,item}) => {
             }}>
             <Image source={ImagePath.Heart} />
             <Text style={styles.numberText}>
-              32<Text style={styles.replyBtnText}>Like</Text>
+              0 <Text style={styles.replyBtnText}>Like</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -159,9 +159,7 @@ const CommentList = ({onOpenSheet,item}) => {
     </View>
   );
 };
-
 export default CommentList;
-
 const styles = StyleSheet.create({
   nametext: {
     fontSize: 12,

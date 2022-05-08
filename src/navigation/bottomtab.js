@@ -41,7 +41,7 @@ const BottomTabNavigator = ({navigation}) => {
                     borderBottomColor: 'white',
                     borderBottomWidth: 5,
                     borderRadius: 5,
-                   bottom: 8,
+                    bottom: 8,
                   }}
                 />
                 <Image

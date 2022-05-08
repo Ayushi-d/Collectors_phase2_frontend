@@ -18,7 +18,6 @@ import axios from 'axios';
 // import { useState } from 'react/cjs/react.production.min';
 import { Alert } from 'native-base';
 // import { useEffect } from 'react/cjs/react.production.min';
-
 const Comments = ({navigation,route}) => {
   const [message,setMessage]=useState();
   const { itemId,login_user_id } = route.params;
@@ -30,7 +29,6 @@ const Comments = ({navigation,route}) => {
     //   alert('n')
     bottomRef?.current?.setModalVisible(true);
   };
-
   const onDelete = async() => {
     let body={
       "user_id":login_user_id,
@@ -44,18 +42,13 @@ const Comments = ({navigation,route}) => {
     }
     bottomRef?.current?.setModalVisible(false);
   };
-
   const bottomRef = useRef();
-
   const onClose = () => {
     bottomRef?.current?.setModalVisible(false);
   };
-
 useEffect(()=>{
   getAllMessage()
-  
 },[])
-
 const getAllMessage=async()=>{
   let response=await axios.get(`http://13.233.246.19:9000/getComments?post_id=${itemId}`);
   console.log(response.data);

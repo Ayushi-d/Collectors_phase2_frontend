@@ -19,28 +19,39 @@ import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
 import WrapperContainer from '../../../components/WrapperContainer';
 import axios from 'axios';
-import { Login } from '../../../api/apiUrls';
+import { addComment, Login } from '../../../api/apiUrls';
 // import { useEffect } from 'react/cjs/react.production.min';
 
 const PostDetail = ({navigation,route}) => {
   const { item } = route.params;
   console.log("item detaikls...",item);
+  const [AllMessage,setAllMessage]=useState([]);
   const [Authdata, setAuthData] = useState('activity');
 
   const width = Dimensions.get('window').width;
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
+  const [message,setMessage]=useState('');
   const [login_user_id,setlogin_user_id]=useState();
+  const [FollowStatus,setFollowStatus]=useState('');
   const bottomRef = useRef();
 
   const bottomRefOffer = useRef();
   useEffect(()=>{
     getUserRecords()
-  },[])
+  },[{item}])
   const getUserRecords=async()=>{
     let user_id = await Utility.getFromLocalStorge('user_id');
     setlogin_user_id(user_id);
+    getAllComment()
+  }
+  const getAllComment=async()=>{
+    let response=await axios.get(`http://13.233.246.19:9000/getComments?post_id=${item.post_id}`);
+    console.log(response.data);
+    if(response.data.postcomments.length>0){
+      setAllMessage(response.data.postcomments)
+    }
   }
   const AddExchnageBid=async(item)=>{
    let body= {
@@ -72,6 +83,14 @@ const PostDetail = ({navigation,route}) => {
     // },[])
     return (
       <View style={{marginTop: 30, paddingBottom: 30}}>
+        {AllMessage.length>0?
+         <FlatList
+         data={AllMessage}
+        //  ListHeaderComponent={_listHead}
+         renderItem={({item, index}) => {
+           return <CommentList  item={item} />;
+         }}
+       />:
         <View
           style={{
             flexDirection: 'row',
@@ -95,8 +114,8 @@ const PostDetail = ({navigation,route}) => {
               flex: 0.25,
             }}
           />
-        </View>
-
+        </View>}
+{item.bid_status==="open"?
         <View
           style={{
             flexDirection: 'row',
@@ -110,10 +129,28 @@ const PostDetail = ({navigation,route}) => {
           <TouchableOpacity onPress={()=>AddBuyBid(item)} style={styles.button}>
             <Text style={styles.btnText}>BUY</Text>
           </TouchableOpacity>
-        </View>
+        </View>:nuul}
       </View>
     );
   };
+  const AddCommentsApi= async()=>{
+    if(!message){
+      Alert.alert("Message is empty");
+    }else{
+    let body={
+      "user_id":login_user_id,
+      "post_id":item.post_id,
+      "comment":message,
+      "parent_id":""
+    }
+    let response=await axios.post('http://13.233.246.19:9000/addComment',body);
+    console.log(response.data);
+    if(response.data.code==200){
+      setMessage('')
+      getAllComment()
+    }
+  }
+  }
   const followUnfollowApi =async()=>{
     let body={
       "userId":item.user_id,
@@ -124,8 +161,34 @@ const PostDetail = ({navigation,route}) => {
     
     console.log(response.data);
     if(response.data.code==200){
+      if(response.data.msg==="Success! followed."){
+ item['isfollow']=1
+      }
+      else{
+        item['isfollow']=0
+      }
+      // setFollowStatus(response.data.msg);
       // setFolloweMsg(response.data.msg);
     }
+  }
+  const likeUnlikeApi=async()=>{
+    // const likeDislikeApi=async(post_id)=>{
+      let body={
+        "userId":login_user_id,
+        "post_id":item.post_id
+      }
+      let response=await axios.post('http://13.233.246.19:9000/likeDislikePost',body);
+      console.log(response.data);
+      if(response.data.code==200){
+        if(response.data.msg==="Success! liked."){
+          console.log("like cliked");
+          item["isliked"]="1";
+        }
+        else{
+          item["isliked"]="0";
+        }
+      }
+    // }
   }
 
   const combineHeader = (item) => {
@@ -373,10 +436,14 @@ const PostDetail = ({navigation,route}) => {
             marginTop: 40,
           }}>
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>likeUnlikeApi()}>
+              {item.isliked==="0"?
               <Image
                 source={ImagePath.like}
-                style={{height: 20, width: 22}}></Image>
+                style={{height: 20, width: 22}}></Image>:
+                <Image
+                source={ImagePath.RedLike}
+                style={{height: 20, width: 22}}></Image>}
             </TouchableOpacity>
             <View>
               <Text
@@ -415,14 +482,16 @@ const PostDetail = ({navigation,route}) => {
         <View style={styles.inputView}>
           <TextInput
             selectionColor={'white'}
+            value={message}
             style={styles.inputStyle}
             placeholderTextColor={'#9CA6B6'}
             placeholder={'Add a comment'}
+            onChangeText={(e)=>setMessage(e)}
           />
 
           <View
             style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>AddCommentsApi()}>
               <Image source={ImagePath.Send} />
             </TouchableOpacity>
           </View>
