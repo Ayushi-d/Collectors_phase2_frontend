@@ -31,7 +31,17 @@ const Comments = ({navigation,route}) => {
     bottomRef?.current?.setModalVisible(true);
   };
 
-  const onDelete = () => {
+  const onDelete = async() => {
+    let body={
+      "user_id":login_user_id,
+      "comment_id":1
+    }
+    let response=await axios.post('http://13.233.246.19:9000/deleteComment',body)
+    console.log(response.data);
+    if(response.data.code===200){
+      getAllMessage()
+      bottomRef?.current?.setModalVisible(false);
+    }
     bottomRef?.current?.setModalVisible(false);
   };
 

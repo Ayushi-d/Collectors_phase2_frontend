@@ -159,6 +159,7 @@ const Search = ({navigation}) => {
                 onChangeText={(text)=>chnageText(text)}
                 style={{
                   marginLeft: wp('2%'),
+                  width:wp('65%'),
                   fontSize: 12,
                   fontFamily: 'Poppins-Regular',
                   lineHeight: 20,
@@ -202,7 +203,7 @@ const Search = ({navigation}) => {
               <View key={index}>
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  onPress={() => navigation.navigate('FollowProfile')}
+                  onPress={() => navigation.navigate('FollowProfile',{search_id:item})}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',

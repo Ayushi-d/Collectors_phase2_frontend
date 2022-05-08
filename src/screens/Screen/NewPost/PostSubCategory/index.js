@@ -47,7 +47,7 @@ const PostSubCategory = ({navigation,route}) => {
     const CreateFinalPost=async()=>{
    let data = new FormData();
     data.append('title', body1.title);
-    data.append('userId', body1.login_user_id);
+    data.append('userId', JSON.stringify(body1.login_user_id));
     data.append('description', body1.description);
     data.append('bid_status', body1.bid_status);
     data.append('price',body1.price);

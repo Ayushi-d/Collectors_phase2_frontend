@@ -23,6 +23,8 @@ import ActionSheet from 'react-native-actions-sheet';
 // import { ActivityIndicator } from 'react-native-paper';
 const FollowProfile = ({navigation, route}) => {
   const [userImage, setUserImage] = useState();
+  const {search_id}=route.params;
+  console.log("search profile id is...",search_id);
   const [userName, setUserName] = useState();
   const [user_id, setUser_id] = useState();
   const [selectedTab, setSelectedTab] = useState('post');
@@ -40,6 +42,31 @@ const FollowProfile = ({navigation, route}) => {
   };
 
   const bottomRef = useRef();
+  const follow=async()=>{
+    let body={
+      "userId":search_id.customer_id,
+      "entityId":user_id
+    }
+    console.log("user follow ",body);
+    let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
+    
+    console.log(response.data);
+    if(response.data.code==200){
+      // setFolloweMsg(response.data.msg);
+    }
+  }
+  const reopsrtProfile=async()=>{
+    let body={
+      "userId":search_id.customer_id,
+      "post_id":user_id,
+      "report_for":"post"
+    }
+    let response=await axios.post('http://13.233.246.19:9000/report',body)
+    console.log(response.data)
+    if(response.data.code===200){
+      bottomRef.current.setModalVisible(false)
+    }
+  }
   return (
     <WrapperContainer statusBarColor="#0D111C">
       <View
@@ -61,7 +88,7 @@ const FollowProfile = ({navigation, route}) => {
             <Image source={ImagePath.back} />
           </TouchableOpacity>
           <View style={{flex: 0.8, justifyContent: 'center'}}>
-            <Text style={{color: 'white'}}>Tony Watson</Text>
+            <Text style={{color: 'white'}}>{search_id.name}</Text>
           </View>
         </View>
         <View
@@ -156,7 +183,7 @@ const FollowProfile = ({navigation, route}) => {
               color: '#E9F0FA',
               lineHeight: 28,
             }}>
-            {'Tony Watson'}
+            {search_id.name}
           </Text>
         </View>
         <View style={{marginHorizontal: 20, marginTop: 4}}>
@@ -172,7 +199,7 @@ const FollowProfile = ({navigation, route}) => {
             value also content value also...more
           </Text>
         </View>
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={()=>follow()}>
           <View
             style={{
               borderWidth: 1,
@@ -289,7 +316,7 @@ const FollowProfile = ({navigation, route}) => {
               alignItems: 'center',
             }}
             activeOpacity={0.8}
-            onPress={() => bottomRef.current.setModalVisible(false)}>
+            onPress={() => reopsrtProfile()}>
             <Text style={styles.deleteText}>Report Profile</Text>
             <Image source={ImagePath.next} style={{height: 20, width: 20}} />
           </TouchableOpacity>

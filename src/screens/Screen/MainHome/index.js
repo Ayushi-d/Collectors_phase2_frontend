@@ -128,7 +128,7 @@ const MainHome = ({navigation}) => {
       "userId":user_id,
       "entityId":login_user_id
     }
-    console.log("user follow ");
+    console.log("user follow ",body);
     let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
     
     console.log(response.data);
@@ -285,14 +285,14 @@ const MainHome = ({navigation}) => {
                           lineHeight: 20,
                         }}>
                         {item.description}{' '}
-                        <Text
+                        {/* <Text
                           style={{
                             textDecorationLine: 'underline',
                             color: 'white',
                             fontFamily: 'Poppins-Regular',
                           }}>
                           more
-                        </Text>
+                        </Text> */}
                       </Text>
                     </View>
                     <View

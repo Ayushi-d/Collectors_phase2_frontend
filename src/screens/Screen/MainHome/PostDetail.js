@@ -12,6 +12,7 @@ import {
 import React, {useState, useRef,useEffect} from 'react';
 import ImagePath from '../../../constants/Imagepath';
 import {widthPercentageToDP as wp} from '../../../utility';
+import * as Utility from '../../../utility/index';
 import CommentList from '../../../components/CommentList';
 import OfferListComp from '../../../components/OfferListComp';
 import ActionSheet from 'react-native-actions-sheet';
@@ -113,6 +114,19 @@ const PostDetail = ({navigation,route}) => {
       </View>
     );
   };
+  const followUnfollowApi =async()=>{
+    let body={
+      "userId":item.user_id,
+      "entityId":login_user_id
+    }
+    console.log("user follow ",body);
+    let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
+    
+    console.log(response.data);
+    if(response.data.code==200){
+      // setFolloweMsg(response.data.msg);
+    }
+  }
 
   const combineHeader = (item) => {
     console.log("check section..??",item);
@@ -165,7 +179,7 @@ const PostDetail = ({navigation,route}) => {
 
               flex: 0.3,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>followUnfollowApi()}>
               {item.isfollow==="0"?
               <Text
                 style={{
@@ -260,7 +274,7 @@ const PostDetail = ({navigation,route}) => {
           {/* Buzz Lightyear is a fictional character in the Toy Story franchise
           created by Disney and Pixar. He is a toy Space Ranger superhero
           according to the movies and an action... */}
-          <Text style={styles.moreText}>more</Text>
+          {/* <Text style={styles.moreText}>more</Text> */}
         </Text>
         <View
           style={{
@@ -496,7 +510,7 @@ const PostDetail = ({navigation,route}) => {
   const _listFooterOffer = () => {
     return (
       <View style={{paddingBottom: 30}}>
-        <Text style={styles.loadtext}>LOAD MORE BIDS</Text>
+        {/* <Text style={styles.loadtext}>LOAD MORE BIDS</Text> */}
         <TouchableOpacity style={styles.buttonView}>
           <Text style={styles.btnText}>EDIT YOUR BID</Text>
         </TouchableOpacity>
@@ -504,6 +518,29 @@ const PostDetail = ({navigation,route}) => {
     );
   };
 
+  const deletePost=async()=>{
+    console.log("delete sucessfully");
+    let body={
+      "user_id":login_user_id,
+	"post_id":item.post_id
+    }
+    let response=await axios.post('http://13.233.246.19:9000/deletePost',body)
+    console.log(response.data);
+    if(response.data.code===200){
+      navigation.navigate("BottomTab")
+    }
+  }
+  const cloeBidApi=async()=>{
+    let body={
+      "user_id":login_user_id,
+      "post_id":item.post_id
+    }
+    let response=await axios.post('http://13.233.246.19:9000/closeBid',body)
+    console.log(response.data)
+    if(response.data.code===200){
+      navigation.navigate("BottomTab")
+    }
+  }
   return (
     <WrapperContainer>
       <ScrollView style={styles.containerStyle}>
@@ -595,6 +632,7 @@ const PostDetail = ({navigation,route}) => {
             leftButton={'NO'}
             rightButton={'YES, DELETE'}
             isVisible={deleteModal}
+            onPressRight={()=>deletePost()}
             onPressLeft={() => setDeleteModal(false)}
           />
         ) : null}
@@ -607,6 +645,7 @@ const PostDetail = ({navigation,route}) => {
             leftButton={'NO'}
             rightButton={'CLOSE BIDDING'}
             isVisible={closeModal}
+            onPressRight={()=>cloeBidApi()}
             onPressLeft={() => setCloseModal(false)}
             backgroundColor="#117AF5"
           />
