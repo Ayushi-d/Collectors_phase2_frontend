@@ -21,7 +21,6 @@ import WrapperContainer from '../../../components/WrapperContainer';
 import axios from 'axios';
 import { addComment, Login } from '../../../api/apiUrls';
 // import { useEffect } from 'react/cjs/react.production.min';
-
 const PostDetail = ({navigation,route}) => {
   const { item } = route.params;
   console.log("item detaikls...",item);

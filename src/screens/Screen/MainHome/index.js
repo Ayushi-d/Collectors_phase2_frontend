@@ -109,43 +109,58 @@ const MainHome = ({navigation}) => {
   useEffect(()=>{
     getuserIdfromStorage()
     getHomeListData()
+  },[HomeData])
+   useEffect(()=>{
+    getuserIdfromStorage()
+    getHomeListData()
   },[])
   const getuserIdfromStorage=async()=>{
     let user_id=await Utility.getFromLocalStorge('user_id');
     setlogin_user_id(user_id);
   }
   const getHomeListData=async()=>{
-    setRefresh(true);
+    // setRefresh(true);
     console.log("HOme Data calling");
-    let response=await axios.get('http://13.233.246.19:9000/homelisting');
+    let response=await axios.get(`http://13.233.246.19:9000/homelisting?user_id=${login_user_id}`);
     console.log(response.data.posts);
     // if()
     setHomeData(response.data.posts);
-    setRefresh(false);
+    // setRefresh(false);
   }
-  const callFollowApi=async(user_id)=>{
+  const callFollowApi=async(item)=>{
     let body={
-      "userId":user_id,
+      "userId":item.user_id,
       "entityId":login_user_id
     }
     console.log("user follow ",body);
     let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
-    
     console.log(response.data);
     if(response.data.code==200){
-      setFolloweMsg(response.data.msg);
+      if(response.data.msg==="Success! followed."){
+        item['isfollow']=1
+             }
+             else{
+               item['isfollow']=0
+      }
     }
   }
-  const likeDislikeApi=async(post_id)=>{
+  const likeDislikeApi=async(item)=>{
     let body={
       "userId":login_user_id,
-      "post_id":post_id
+      "post_id":item.post_id
     }
     let response=await axios.post('http://13.233.246.19:9000/likeDislikePost',body);
-    console.log(response.data);
+    console.log("like pos is.",response.data);
     if(response.data.code==200){
-    }
+      if(response.data.msg==="Success! liked."){
+        console.log("like cliked");
+        item["isliked"]="1";
+      }
+      else{
+        item["isliked"]="0";
+      }
   }
+}
   return (
     <WrapperContainer statusBarColor="#0D111C" bodyColor='#00040E'>
        <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
@@ -160,8 +175,11 @@ const MainHome = ({navigation}) => {
         }
         showsVerticalScrollIndicator={false}>
         <View style={{marginBottom: 20}}>
-          {HomeData.length > 0
-            ? HomeData.map((item, index) => {
+        <FlatList
+
+    data={HomeData}
+    renderItem={({item,index}) => {
+    
                 return (
                   <View key={index}>
                     <View
@@ -198,7 +216,7 @@ const MainHome = ({navigation}) => {
                           width: wp('21%'),
                         }}>
                           {item.isfollow=="0"?
-                        <TouchableOpacity onPress={()=>callFollowApi(item.user_id)}>
+                        <TouchableOpacity onPress={()=>callFollowApi(item)}>
                           <Text
                             style={{
                               color: '#E9F0FA',
@@ -372,7 +390,7 @@ const MainHome = ({navigation}) => {
                           flex: 0.5,
                         }}>
                         <View>
-                          <TouchableOpacity onPress={()=>likeDislikeApi(item.post_id)}>
+                          <TouchableOpacity onPress={()=>likeDislikeApi(item)}>
                             {item.isliked=="1"?
                             <Image
                               source={Path.RedLike}
@@ -439,9 +457,10 @@ const MainHome = ({navigation}) => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                );
-              })
-            : null}
+                )
+              }}
+            // keyExtractor={(item, index) => index}
+        />
         </View>
         <RBSheet
           ref={refRBSheet}

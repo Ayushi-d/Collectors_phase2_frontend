@@ -27,7 +27,8 @@ const BottomTabNavigator = ({navigation}) => {
         style: {
           backgroundColor: 'red',
         },
-      }}>
+      }}
+      >
       <Tab.Screen
         name=" "
         component={MainHome}
