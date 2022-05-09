@@ -6,6 +6,7 @@ import { widthPercentageToDP as wp ,heightPercentageToDP as hp } from '../../../
 import Path from '../../../../constants/Imagepath';
 import WrapperContainer from '../../../../components/WrapperContainer';
 import axios from 'axios';
+import { Alert } from 'native-base';
 
 const PostSubCategory = ({navigation,route}) => {
   const { body1,Category } = route.params;
@@ -45,71 +46,74 @@ const PostSubCategory = ({navigation,route}) => {
       );
     };
     const CreateFinalPost=async()=>{
-   let data = new FormData();
+         let data = new FormData();
     data.append('title', body1.title);
-    data.append('userId', JSON.stringify(body1.login_user_id));
+    data.append('userId', body1.login_user_id);
     data.append('description', body1.description);
     data.append('bid_status', body1.bid_status);
-    data.append('price',body1.price);
-    data.append('bid_exchange','open');
-    if(body1.image1){
+    data.append('price', body1.price);
+    data.append('bid_exchange', 'both');
+    data.append('subcat_id',selectedId);
+    data.append('cat_id',Category.id)
+
+     if(!body1.image1==='undefined'){
     data.append('pic1', {
       uri: body1.image1,
       name: 'image.jpeg',
       type: 'image/jpeg',
     });
   }
-  if(body1.image2){
+  if(!body1.image2==='undefined'){
+    // console.log("vikas");
     data.append('pic2', {
       uri: body1.image2,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(body1.image3){
+  if(!body1.image3==='undefined'){
     data.append('pic3', {
       uri: body1.image3,
     name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(body1.image4){
+  if(!body1.image4==='undefined'){
     data.append('pic4', {
       uri: body1.image4,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(body1.image5){
+  if(!body1.image5==='undefined'){
     data.append('pic5', {
       uri: body1.image5,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(body1.image6){
+  if(!body1.image6==='undefined'){
     data.append('pic6', {
       uri: body1.image6,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(body1.image7){
+  if(!body1.image7==='undefined'){
     data.append('pic7', {
       uri: body1.image7,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(body1.image8){
+  if(!body1.image8==='undefined'){
     data.append('pic8', {
       uri: body1.image8,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-
-    console.log("data is....",data);
+    console.log("body is.. subcate",data)
     await axios({
       url: 'http://13.233.246.19:9000/createPost',
       method: 'POST',
@@ -117,14 +121,95 @@ const PostSubCategory = ({navigation,route}) => {
       headers: {'Content-Type': 'multipart/form-data'},
     })
       .then(response => {
-        console.log("ress",response.data)
         if (response.data.code === 200) {
+          console.log("post created");
           navigation.navigate('BottomTab');
         }
       })
       .catch(error => {
         console.log(error, 'wfkjndsf');
+        Alert.alert("Issue from Server Side")
       });
+  //  let data = new FormData();
+  //   data.append('title', body1.title);
+  //   data.append('userId', JSON.stringify(body1.login_user_id));
+  //   data.append('description', body1.description);
+  //   data.append('bid_status', body1.bid_status);
+  //   data.append('price',body1.price);
+  //   data.append('bid_exchange','open');
+  //   if(body1.image1){
+  //   data.append('pic1', {
+  //     uri: body1.image1,
+  //     name: 'image.jpeg',
+  //     type: 'image/jpeg',
+  //   });
+  // }
+  // // if(body1.image2){
+  // //   data.append('pic2', {
+  // //     uri: body1.image2,
+  // //     name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+  // // if(body1.image3){
+  // //   data.append('pic3', {
+  // //     uri: body1.image3,
+  // //   name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+  // // if(body1.image4){
+  // //   data.append('pic4', {
+  // //     uri: body1.image4,
+  // //     name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+  // // if(body1.image5){
+  // //   data.append('pic5', {
+  // //     uri: body1.image5,
+  // //     name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+  // // if(body1.image6){
+  // //   data.append('pic6', {
+  // //     uri: body1.image6,
+  // //     name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+  // // if(body1.image7){
+  // //   data.append('pic7', {
+  // //     uri: body1.image7,
+  // //     name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+  // // if(body1.image8){
+  // //   data.append('pic8', {
+  // //     uri: body1.image8,
+  // //     name: 'iamge.jpg',
+  // //     type: 'image/jpg',
+  // //   });
+  // // }
+
+  //   console.log("data is....",data);
+  //   await axios({
+  //     url: 'http://13.233.246.19:9000/createPost',
+  //     method: 'POST',
+  //     data: data,
+  //     headers: {'Content-Type': 'multipart/form-data'},
+  //   })
+  //     .then(response => {
+  //       // console.log("ress",response.data)
+  //       if (response.data.code === 200) {
+  //         navigation.navigate('BottomTab');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error, 'wfkjndsf');
+  //     });
     }
   return (
       <WrapperContainer>

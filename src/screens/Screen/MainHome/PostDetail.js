@@ -128,7 +128,7 @@ const PostDetail = ({navigation,route}) => {
           <TouchableOpacity onPress={()=>AddBuyBid(item)} style={styles.button}>
             <Text style={styles.btnText}>BUY</Text>
           </TouchableOpacity>
-        </View>:nuul}
+        </View>:null}
       </View>
     );
   };

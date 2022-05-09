@@ -109,7 +109,7 @@ const MainHome = ({navigation}) => {
   useEffect(()=>{
     getuserIdfromStorage()
     getHomeListData()
-  },[HomeData])
+  },[])
    useEffect(()=>{
     getuserIdfromStorage()
     getHomeListData()
