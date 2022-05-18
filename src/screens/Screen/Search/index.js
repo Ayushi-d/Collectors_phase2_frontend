@@ -107,7 +107,7 @@ const Search = ({navigation}) => {
     setLoader(false)
   }
   const chnageText=(text)=>{
-    setValue(text)
+    setValue(text.toLowerCase())
     if(value){
       SearchApi()
     }

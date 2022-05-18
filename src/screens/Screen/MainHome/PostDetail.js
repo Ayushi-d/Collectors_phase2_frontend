@@ -8,10 +8,15 @@ import {
   ScrollView,
   TextInput,
   Dimensions,
+  ToastAndroid
 } from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import {TextInput as PaperTextInput} from 'react-native-paper';
+import ImagePicker from 'react-native-image-crop-picker';
+import Modal from 'react-native-modal';
 import React, {useState, useRef,useEffect} from 'react';
 import ImagePath from '../../../constants/Imagepath';
-import {widthPercentageToDP as wp} from '../../../utility';
+import {widthPercentageToDP as wp,heightPercentageToDP as hp} from '../../../utility';
 import * as Utility from '../../../utility/index';
 import CommentList from '../../../components/CommentList';
 import OfferListComp from '../../../components/OfferListComp';
@@ -19,27 +24,43 @@ import ActionSheet from 'react-native-actions-sheet';
 import CustomModal from '../../../components/CustomModal';
 import WrapperContainer from '../../../components/WrapperContainer';
 import axios from 'axios';
+import Path from '../../../constants/Imagepath';
 import { addComment, Login } from '../../../api/apiUrls';
 // import { useEffect } from 'react/cjs/react.production.min';
 const PostDetail = ({navigation,route}) => {
   const { item } = route.params;
   console.log("item detaikls...",item);
+  console.log("image is ...",item.images[0].uri)
+  const refRBSheet = useRef();
+  const refRBSheetExchange = useRef();
   const [AllMessage,setAllMessage]=useState([]);
   const [Authdata, setAuthData] = useState('activity');
-
+  const [isExchangeVisible,setIsExchangeVisible]=useState(false);
+  const [isBuyVisible,setisBuyVisible]=useState(false)
   const width = Dimensions.get('window').width;
-
+  const [image1, setImage1] = useState();
+  const [image2, setImage2] = useState();
+  const [image3, setImage3] = useState();
+  const [image4, setImage4] = useState();
+  const [isClick, setIsclick] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
   const [message,setMessage]=useState('');
   const [login_user_id,setlogin_user_id]=useState();
   const [FollowStatus,setFollowStatus]=useState('');
+  const [bidAmount,setBidAmount]=useState();
+  const [bidMessage,setBidMessage]=useState();
+  const [exchangeAmount,setExchnageAmount]=useState();
+  const [exchnageMessage,setExchangeMessage]=useState();
   const bottomRef = useRef();
-
+  const [emailActive, setEmailACtive] = useState(false);
+  const [imageStatus2, setImageStatus2] = useState(false);
+  const [imageStatus3, setImageStatus3] = useState(false);
+  const [imageStatus4, setImageStatus4] = useState(false);
   const bottomRefOffer = useRef();
   useEffect(()=>{
     getUserRecords()
-  },[{item}])
+  },[])
   const getUserRecords=async()=>{
     let user_id = await Utility.getFromLocalStorge('user_id');
     setlogin_user_id(user_id);
@@ -56,24 +77,58 @@ const PostDetail = ({navigation,route}) => {
    let body= {
       "user_id":login_user_id,
       "post_id":item.post_id,
-      "bid":"10",
+      "bid":exchangeAmount,
       "type":"2",
-      "message":"fdg dgd" 
+      "message":exchnageMessage
     }
+    console.log("Exchnage bid Api...",body)
  let response=await axios.post('http://13.233.246.19:9000/addBid',body);
  console.log(response.data)
+ refRBSheetExchange.current.close()
+ showToastWithGravityAndOffset('Exchage Added Successfully')
   }
   const AddBuyBid=async(item)=>{
     let body= {
-      "user_id":login_user_id,
-   "post_id":item.post_id,
-   "bid":"20",
-   "type":"1",
-   "message":"fdg dgd" 
- }
+        "user_id":1,
+        "post_id":1,
+        "bid":bidAmount,
+        "type":"1",
+        "message":bidMessage
+    }
+ console.log("Add bid Api...",body)
  let response=await axios.post('http://13.233.246.19:9000/addBid',body);
  console.log(response.data)
+ refRBSheet.current.close()
+ showToastWithGravityAndOffset('You Bid Added Successfully')
   }
+  const onChangeText = (text,setSate) => {
+    setSate(text);
+  };
+  const chooseImages = (setImage1,setImageStatus) => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    })
+      .then(image => {
+        console.log('image,,,', image.path);
+
+        setImage1(image.path);
+        setImageStatus(true);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
+  const showToastWithGravityAndOffset = (item) => {
+    ToastAndroid.showWithGravityAndOffset(
+      item,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+  };
 
   const _footerComp = (item) => {
     // console.log("yup records")
@@ -122,13 +177,482 @@ const PostDetail = ({navigation,route}) => {
             marginTop: 40,
             justifyContent: 'space-between',
           }}>
-          <TouchableOpacity onPress={()=>AddExchnageBid(item)} style={styles.button}>
+          <TouchableOpacity onPress={()=>refRBSheetExchange.current.open()} style={styles.button}>
             <Text style={styles.btnText}>EXCHANGE</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>AddBuyBid(item)} style={styles.button}>
+          <TouchableOpacity onPress={()=>refRBSheet.current.open()} style={styles.button}>
             <Text style={styles.btnText}>BUY</Text>
           </TouchableOpacity>
         </View>:null}
+
+        <RBSheet
+          ref={refRBSheetExchange}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          height={500}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            container: {
+              backgroundColor: 'black',
+            },
+          }}>
+             <View style={{alignSelf:'center',margin:'1%'}}>
+            <Text  style={{color:'#E9F0FA',fontSize:18,fontWeight:'600'}}>EXCHANGE</Text>
+          </View>
+              <View
+        style={{
+          height: 500,
+          borderRadius: 10,
+          paddingTop:10,
+          backgroundColor: '#1F232E',
+        }}>
+         
+        <View style={{flexDirection:'row'}}>
+          <View style={{width:wp('40%')}}>
+          <Image
+            source={{uri:item.images[0].uri}}
+            style={{height:70,width:100,alignSelf:'center',borderRadius:10}}
+          />
+          </View>
+          <View >
+            <View style={{borderWidth:1,borderColor:'#E9F0FA',borderRadius:20,alignItems:'center',width:wp('20%')}}>
+            <Text style={{color:'#E9F0FA',fontSize:12,fontWeight:'600'}}> {item.subcategory}</Text>
+            </View>
+            <View>
+              <Text style={{color:'#E9F0FA',fontSize:16,fontWeight:'600'}}>{item.title}</Text>
+            </View>
+            <View>
+              <Text style={{color:'#E9F0FA',fontSize:16,fontWeight:'600'}}>${item.price}</Text>
+            </View>
+          </View>
+        </View>
+        <View>
+          <PaperTextInput
+            mode="flat"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => setEmailACtive(true)}
+            value={exchangeAmount}
+            fontFamily="Poppins-Regular"
+            onTouchStart={() => setIsclick(!isClick)}
+            onChangeText={e => onChangeText(e,setExchnageAmount)}
+            label={'Product Description & Bid Message'}
+            style={[
+              styles.inputStyleModal,
+              {borderColor: emailActive ? '#117AF5' : '#1F232E'},
+            ]}
+          />
+          </View>
+          <View style={{margin:'5%'}}>
+          <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            marginTop: hp('2%'),
+          }}>
+          <View
+            style={{
+              height: hp('9%'),
+              borderWidth: 1,
+              borderColor: '#117AF5',
+              width: wp('20%'),
+              borderRadius: 10,
+              backgroundColor: '#161F37',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {image1 ? (
+              <Image
+                source={{uri: image1}}
+                style={{height: 66, width: 70, borderRadius: 10}}></Image>
+            ) : (
+              <TouchableOpacity
+                onPress={() => chooseImages(setImage1, setImageStatus2)}>
+                <Image source={Path.Plus1}></Image>
+              </TouchableOpacity>
+            )}
+          </View>
+          <View
+            style={
+              imageStatus2
+                ? {
+                    height: hp('9%'),
+                    borderWidth: 1,
+                    borderColor: '#117AF5',
+                    width: wp('20%'),
+                    borderRadius: 10,
+                    backgroundColor: '#161F37',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }
+                : {
+                    height: hp('9%'),
+                    borderWidth: 1,
+                    borderColor: '#465874',
+                    width: wp('20%'),
+                    borderRadius: 10,
+                    flexDirection: 'row',
+                  }
+            }>
+            {imageStatus2 ? (
+              <View>
+                {image2 ? (
+                  <Image
+                    source={{uri: image2}}
+                    style={{height: 66, width: 70, borderRadius: 10}}></Image>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => chooseImages(setImage2, setImageStatus3)}>
+                    <Image source={Path.Plus1}></Image>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : null}
+          </View>
+          <View
+            style={
+              imageStatus3
+                ? {
+                    height: hp('9%'),
+                    borderWidth: 1,
+                    borderColor: '#117AF5',
+                    width: wp('20%'),
+                    borderRadius: 10,
+                    backgroundColor: '#161F37',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }
+                : {
+                    height: hp('9%'),
+                    borderWidth: 1,
+                    borderColor: '#465874',
+                    width: wp('20%'),
+                    borderRadius: 10,
+                    flexDirection: 'row',
+                  }
+            }>
+            {imageStatus3 ? (
+              <View>
+                {image3 ? (
+                  <Image
+                    source={{uri: image3}}
+                    style={{height: 66, width: 70, borderRadius: 10}}></Image>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => chooseImages(setImage3, setImageStatus4)}>
+                    <Image source={Path.Plus1}></Image>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : null}
+          </View>
+          <View
+            style={
+              imageStatus4
+                ? {
+                    height: hp('9%'),
+                    borderWidth: 1,
+                    borderColor: '#117AF5',
+                    width: wp('20%'),
+                    borderRadius: 10,
+                    backgroundColor: '#161F37',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }
+                : {
+                    height: hp('9%'),
+                    borderWidth: 1,
+                    borderColor: '#465874',
+                    width: wp('20%'),
+                    borderRadius: 10,
+                    flexDirection: 'row',
+                  }
+            }>
+            {imageStatus4 ? (
+              <View>
+                {image4 ? (
+                  <Image
+                    source={{uri: image4}}
+                    style={{height: 66, width: 70, borderRadius: 10}}></Image>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => chooseImages(setImage4, setImageStatus5)}>
+                    <Image source={Path.Plus1}></Image>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : null}
+          </View>
+        </View>
+          </View>
+          <View>
+          <PaperTextInput
+            mode="flat"
+            keyboardType='number-pad'
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => setEmailACtive(true)}
+            value={exchnageMessage}
+            fontFamily="Poppins-Regular"
+            onTouchStart={() => setIsclick(!isClick)}
+            onChangeText={e => onChangeText(e,setExchangeMessage)}
+            label={'Add your price (Optional)'}
+            style={[
+              styles.inputStyleModal,
+              {borderColor: emailActive ? '#117AF5' : '#1F232E'},
+            ]}
+          />
+          </View>
+        <TouchableOpacity
+        onPress={()=>AddExchnageBid(item)}
+          style={{
+            height: 44,
+            width:wp('90%'),
+            alignSelf:'center',
+            backgroundColor: '#117AF5',
+            borderRadius:15,
+            marginTop:10,
+            // borderBottomLeftRadius: 15,
+            // borderBottomRightRadius: 15,
+            justifyContent : 'center',
+            alignItems : 'center'
+          }}>
+          <Text style ={styles.btnTextm}>PLACE A BID </Text>
+          </TouchableOpacity>
+      </View>
+     
+        </RBSheet>
+    <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          height={400}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            container: {
+              backgroundColor: 'black',
+            },
+          }}>
+             <View style={{alignSelf:'center',margin:'1%'}}>
+            <Text  style={{color:'#E9F0FA',fontSize:18,fontWeight:'600'}}>BUY</Text>
+          </View>
+              <View
+        style={{
+          height: 400,
+          borderRadius: 10,
+          paddingTop:10,
+          backgroundColor: '#1F232E',
+        }}>
+         
+        <View style={{flexDirection:'row'}}>
+          <View style={{width:wp('40%')}}>
+          <Image
+            source={{uri:item.images[0].uri}}
+            style={{height:70,width:100,alignSelf:'center',borderRadius:10}}
+          />
+          </View>
+          <View >
+            <View style={{borderWidth:1,borderColor:'#E9F0FA',borderRadius:20,alignItems:'center',width:wp('20%')}}>
+            <Text style={{color:'#E9F0FA',fontSize:12,fontWeight:'600'}}>{item.subcategory}</Text>
+            </View>
+            <View>
+              <Text style={{color:'#E9F0FA',fontSize:16,fontWeight:'600'}}>{item.title}</Text>
+            </View>
+            <View>
+              <Text style={{color:'#E9F0FA',fontSize:16,fontWeight:'600'}}>${item.price}</Text>
+            </View>
+          </View>
+        </View>
+        <View>
+          <PaperTextInput
+            mode="flat"
+            keyboardType='number-pad'
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => setEmailACtive(true)}
+            value={bidAmount}
+            fontFamily="Poppins-Regular"
+            onTouchStart={() => setIsclick(!isClick)}
+            onChangeText={e => onChangeText(e,setBidAmount)}
+            label={'Add your price'}
+            style={[
+              styles.inputStyleModal,
+              {borderColor: emailActive ? '#117AF5' : '#1F232E'},
+            ]}
+          />
+          </View>
+          <View>
+          <PaperTextInput
+            mode="flat"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => setEmailACtive(true)}
+            value={bidMessage}
+            fontFamily="Poppins-Regular"
+            onTouchStart={() => setIsclick(!isClick)}
+            onChangeText={e => onChangeText(e,setBidMessage)}
+            label={'Bid Message (Optional)'}
+            style={[
+              styles.inputStyleModal,
+              {borderColor: emailActive ? '#117AF5' : '#1F232E'},
+            ]}
+          />
+          </View>
+        <TouchableOpacity
+        onPress={()=>AddBuyBid(item)}
+          style={{
+            height: 44,
+            width:wp('90%'),
+            alignSelf:'center',
+            backgroundColor: '#117AF5',
+            borderRadius:15,
+            marginTop:10,
+            // borderBottomLeftRadius: 15,
+            // borderBottomRightRadius: 15,
+            justifyContent : 'center',
+            alignItems : 'center'
+          }}>
+          <Text style ={styles.btnTextm}>PLACE A BID </Text>
+          </TouchableOpacity>
+      </View>
+     
+        </RBSheet>
+    {/* <Modal isVisible={isBuyVisible}>
+      <View
+        style={{
+          height: 320,
+          borderRadius: 10,
+          backgroundColor: '#1F232E',
+        }}>
+          <View style={{alignSelf:'center',margin:'1%'}}>
+            <Text  style={{color:'#E9F0FA',fontSize:18,fontWeight:'600'}}>BUY</Text>
+          </View>
+        <View style={{flexDirection:'row'}}>
+          <View style={{width:wp('40%')}}>
+          <Image
+            source={{uri:item.images[0].uri}}
+            style={{height:70,width:100,alignSelf:'center'}}
+          />
+          </View>
+          <View >
+            <View style={{borderWidth:1,borderColor:'#E9F0FA',borderRadius:20,alignItems:'center',width:wp('20%')}}>
+            <Text style={{color:'#E9F0FA',fontSize:12,fontWeight:'600'}}>Toys</Text>
+            </View>
+            <View>
+              <Text style={{color:'#E9F0FA',fontSize:16,fontWeight:'600'}}>Light Year Toy</Text>
+            </View>
+            <View>
+              <Text style={{color:'#E9F0FA',fontSize:16,fontWeight:'600'}}>$500</Text>
+            </View>
+          </View>
+        </View>
+        <View>
+          <PaperTextInput
+            mode="flat"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => setEmailACtive(true)}
+            value={bidAmount}
+            fontFamily="Poppins-Regular"
+            onTouchStart={() => setIsclick(!isClick)}
+            onChangeText={e => onChangeText(e,setBidAmount)}
+            label={'Add your price'}
+            style={[
+              styles.inputStyleModal,
+              {borderColor: emailActive ? '#117AF5' : '#1F232E'},
+            ]}
+          />
+          </View>
+          <View>
+          <PaperTextInput
+            mode="flat"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#9CA6B6',
+                placeholder: '#9CA6B6',
+              },
+              fonts: {
+                regular: '',
+              },
+            }}
+            onFocus={() => setEmailACtive(true)}
+            value={bidAmount}
+            fontFamily="Poppins-Regular"
+            onTouchStart={() => setIsclick(!isClick)}
+            onChangeText={e => onChangeText(e,setBidMessage)}
+            label={'Bid Message (Optional)'}
+            style={[
+              styles.inputStyleModal,
+              {borderColor: emailActive ? '#117AF5' : '#1F232E'},
+            ]}
+          />
+          </View>
+        <TouchableOpacity
+        onPress={()=>setisBuyVisible(false)}
+          style={{
+            height: 44,
+            width:wp('80%'),
+            alignSelf:'center',
+            backgroundColor: '#117AF5',
+            borderRadius:15,
+            marginTop:10,
+            // borderBottomLeftRadius: 15,
+            // borderBottomRightRadius: 15,
+            justifyContent : 'center',
+            alignItems : 'center'
+          }}>
+          <Text style ={styles.btnTextm}>PLACE A BID </Text>
+          </TouchableOpacity>
+      </View>
+    </Modal> */}
       </View>
     );
   };
@@ -215,6 +739,7 @@ const PostDetail = ({navigation,route}) => {
               <Image source={ImagePath.back} />
             </TouchableOpacity>
           </View>
+          {/* <TouchableOpacity> */}
           <View
             style={{
               alignItems: 'center',
@@ -233,6 +758,7 @@ const PostDetail = ({navigation,route}) => {
               {item.name}
             </Text>
           </View>
+          {/* </TouchableOpacity> */}
           <View
             style={{
               justifyContent: 'space-between',
@@ -273,14 +799,14 @@ const PostDetail = ({navigation,route}) => {
           <View>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={['', '', '']}
+              data={item.images}
               horizontal={true}
               pagingEnabled={true}
               renderItem={({item, index}) => {
                 return (
                   <View>
                     <Image
-                      source={ImagePath.bigImage}
+                      source={{uri:item.uri}}
                       style={{width: width, height: 375}}
                     />
                   </View>
@@ -298,9 +824,9 @@ const PostDetail = ({navigation,route}) => {
             <FlatList
               showsHorizontalScrollIndicator={false}
               horizontal={true}
-              data={['', '']}
+              data={['']}
               keyExtractor={(_, index) => index.toString()}
-              renderItem={({item, index}) => {
+              renderItem={({items, index}) => {
                 return (
                   <View style={styles.listStyle}>
                     <Text
@@ -309,7 +835,7 @@ const PostDetail = ({navigation,route}) => {
                         fontWeight: '600',
                         fontSize: 11,
                       }}>
-                      Coinssss
+                     {item.subcategory}
                     </Text>
                   </View>
                 );
@@ -800,6 +1326,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  topView: {
+    height: 232,
+    paddingHorizontal: 15,
+  },
+  acceptText: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 20,
+    color: '#E9F0FA',
+    textAlign: 'center',
+    marginTop : 24
+  },
+  mainText: {
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+    color: '#9CA6B6',
+    textAlign: 'center',
+    marginTop : 8
+  },
+  btnTextm : {
+      fontSize : 13 ,
+      fontFamily : 'Poppins-SemiBold',
+      color : 'white',
+      textAlign : 'center'
+  },
   btnText: {
     fontSize: 13,
     fontFamily: 'Poppins-SemiBold',
@@ -872,5 +1422,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
     borderRadius: 100,
+  },
+  inputStyleModal: {
+    marginHorizontal: 20,
+    marginTop: 10,
+    height: 56,
+    fontSize: 14,
+    backgroundColor: '#1F232E',
+    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 1.5,
+    borderColor: 'red',
   },
 });

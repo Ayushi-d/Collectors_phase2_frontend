@@ -16,6 +16,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Path from '../../../constants/Imagepath';
+import { useIsFocused } from '@react-navigation/native';
 import ReadMore from '@fawazahmed/react-native-read-more';
 import FbGrid from 'react-native-fb-image-grid';
 import {
@@ -31,8 +32,9 @@ import WrapperContainer from '../../../components/WrapperContainer';
 import axios from 'axios';
 import { BaseUrl, HomeListing } from '../../../api/apiUrls';
 const MainHome = ({navigation}) => {
+  const isFocused = useIsFocused();
   const [HomeData, setHomeData] = useState([{id: 1}, {id: 2}, {id: 3}]);
-  const [login_user_id,setlogin_user_id]=useState();
+  const [login_user_id,setlogin_user_id]=useState(1);
   const [modalVisible, setModalVisible] = useState(false);
   const refRBSheet = useRef();
   const [FollowMsg,setFolloweMsg]=useState();
@@ -61,14 +63,17 @@ const MainHome = ({navigation}) => {
   // }, []);
 
   const bottomRef = useRef();
-
   const handleRefresh = () => {
     setRefresh(true);
     setTimeout(() => {
-      getHomeListData()
+      getHomeListData(1,10)
       setRefresh(false);
     }, 2000);
   };
+  useEffect(()=>{
+    getuserIdfromStorage()
+    getHomeListData(1,10)
+  },[])
 
   const images = [
     {
@@ -105,42 +110,43 @@ const MainHome = ({navigation}) => {
   };
 
   const width = Dimensions.get('window').width;
-
   useEffect(()=>{
     getuserIdfromStorage()
-    getHomeListData()
-  },[])
-   useEffect(()=>{
-    getuserIdfromStorage()
-    getHomeListData()
-  },[])
+    getHomeListData(1,10)
+  },[isFocused])
+
   const getuserIdfromStorage=async()=>{
     let user_id=await Utility.getFromLocalStorge('user_id');
     setlogin_user_id(user_id);
   }
-  const getHomeListData=async()=>{
-    // setRefresh(true);
+  const getHomeListData=async(page,size)=>{
+    
+    setRefresh(true);
     console.log("HOme Data calling");
-    let response=await axios.get(`http://13.233.246.19:9000/homelisting?user_id=${login_user_id}`);
+    var response=await axios.get(`http://13.233.246.19:9000/homelisting?user_id=${login_user_id}&page=${page}&size=${size}`)
     console.log(response.data.posts);
-    // if()
+    if(response.data.posts.length>0){
     setHomeData(response.data.posts);
-    // setRefresh(false);
+    }
+    setRefresh(false)
   }
   const callFollowApi=async(item)=>{
+    console.log("follow item..",item)
     let body={
       "userId":item.user_id,
       "entityId":login_user_id
     }
     console.log("user follow ",body);
     let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
-    console.log(response.data);
-    if(response.data.code==200){
+    console.log("FLoow .",response.data);
+    if(response.data.code===200){
       if(response.data.msg==="Success! followed."){
-        item['isfollow']=1
+        item['isfollow']="1"
+        getHomeListData(1,10)
              }
              else{
-               item['isfollow']=0
+           item['isfollow']="0"
+           getHomeListData(1,10)
       }
     }
   }
@@ -155,15 +161,21 @@ const MainHome = ({navigation}) => {
       if(response.data.msg==="Success! liked."){
         console.log("like cliked");
         item["isliked"]="1";
+        getHomeListData(1,10)
       }
       else{
         item["isliked"]="0";
+        getHomeListData(1,10)
       }
   }
 }
+const openUserProfile=(item)=>{
+  console.log("open profile is..",item)
+  navigation.navigate('FollowProfile',{search_id:item})
+}
   return (
     <WrapperContainer statusBarColor="#0D111C" bodyColor='#00040E'>
-       <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
+       {/* <RefreshControl refreshing={refresh} onRefresh={handleRefresh} /> */}
       <Homeheader
         showNotification={false}
         navigate={() => navigation.navigate('Search')}
@@ -190,6 +202,7 @@ const MainHome = ({navigation}) => {
                         justifyContent: 'space-between',
                         marginHorizontal: 20,
                       }}>
+                        <TouchableOpacity onPress={()=>openUserProfile(item)}>
                       <View
                         style={{
                           justifyContent: 'center',
@@ -208,6 +221,7 @@ const MainHome = ({navigation}) => {
                           {item.name}
                         </Text>
                       </View>
+                      </TouchableOpacity>
                       <View
                         style={{
                           justifyContent: 'space-evenly',
@@ -227,7 +241,7 @@ const MainHome = ({navigation}) => {
                             UNFOLLOW
                           </Text>
                         </TouchableOpacity>:
-                         <TouchableOpacity onPress={()=>callFollowApi(item.user_id)}>
+                         <TouchableOpacity onPress={()=>callFollowApi(item)}>
                          <Text
                            style={{
                              color: '#E9F0FA',
@@ -252,12 +266,13 @@ const MainHome = ({navigation}) => {
                         marginTop: 25,
                         marginBottom: 18,
                       }}>
+                        {item.subcategory?
                       <FlatList
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
-                        data={['', '']}
+                        data={['']}
                         keyExtractor={(_, index) => index.toString()}
-                        renderItem={({item, index}) => {
+                        renderItem={({item1, index}) => {
                           return (
                             <View style={styles.listStyle}>
                               <Text
@@ -266,12 +281,12 @@ const MainHome = ({navigation}) => {
                                   fontWeight: '600',
                                   fontSize: 11,
                                 }}>
-                                Coinssss
+                                {item.subcategory}
                               </Text>
                             </View>
                           );
                         }}
-                      />
+                      />:null}
                     </View>
 
                     <View style={{marginHorizontal: 20}}>
@@ -303,21 +318,22 @@ const MainHome = ({navigation}) => {
                           lineHeight: 20,
                         }}>
                         {item.description}{' '}
-                        {/* <Text
+                        {item.description && item.description.length >30?
+                        <Text
                           style={{
                             textDecorationLine: 'underline',
                             color: 'white',
                             fontFamily: 'Poppins-Regular',
                           }}>
                           more
-                        </Text> */}
+                        </Text>:null}
                       </Text>
                     </View>
                     <View
                       style={{
                         flexDirection: 'row',
-
                         marginHorizontal: 20,
+                        justifyContent:'space-between',
                         marginTop: 10,
                         marginBottom: 20,
                       }}>
@@ -336,7 +352,7 @@ const MainHome = ({navigation}) => {
                           <Text style={styles.innerBidderText}>{item.bids}</Text>
                         </View>
                       </View>
-                      <View style={{flex: 0.35, alignItems: 'center'}}>
+                      {/* <View style={{flex: 0.35, alignItems: 'center'}}>
                         <View>
                           <Text style={styles.bidingText}>Negotiating</Text>
                         </View>
@@ -346,7 +362,7 @@ const MainHome = ({navigation}) => {
                             style={{height: 20, width: 20}}></Image>
                           <Text style={styles.innerBidderText}>5+</Text>
                         </View>
-                      </View>
+                      </View> */}
                       <View style={{flex: 0.35, alignItems: 'flex-end'}}>
                         <View>
                           <Text style={styles.bidingText}>Bidders</Text>
@@ -459,6 +475,7 @@ const MainHome = ({navigation}) => {
                   </View>
                 )
               }}
+              // onEndReached={getHomeListData(1,10,2)}
             // keyExtractor={(item, index) => index}
         />
         </View>
@@ -604,7 +621,6 @@ const styles = StyleSheet.create({
   innerBider: {
     flexDirection: 'row',
     alignItems: 'center',
-
     marginTop: 5,
   },
   innerBidderText: {

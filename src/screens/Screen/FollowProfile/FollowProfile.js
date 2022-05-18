@@ -8,8 +8,10 @@ import {
   ScrollView,
   ActivityIndicator,
   StyleSheet,
+  FlatList
 } from 'react-native';
 import axios from 'axios';
+import PhotoGrid from 'react-native-thumbnail-grid';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
   widthPercentageToDP as wp,
@@ -28,6 +30,7 @@ const FollowProfile = ({navigation, route}) => {
   const [userName, setUserName] = useState();
   const [user_id, setUser_id] = useState();
   const [selectedTab, setSelectedTab] = useState('post');
+  const [post,setPost]=useState([]);
   useEffect(() => {
     getUserData();
   }, []);
@@ -39,6 +42,19 @@ const FollowProfile = ({navigation, route}) => {
     setUser_id(userId);
     console.log('user id is .././.', userId);
     setUserName(UserName);
+
+    let body={
+      "viewer_id":user_id,
+      "user_id":search_id.customer_id
+    }
+    let response=await axios.post('http://13.233.246.19:9000/getProfileInfo',body);
+    console.log("res...",response.data);
+    if(response.data.code==200){
+      console.log("Data mila.")
+      setPost(response.data.posts)
+    }
+
+
   };
 
   const bottomRef = useRef();
@@ -67,6 +83,7 @@ const FollowProfile = ({navigation, route}) => {
       bottomRef.current.setModalVisible(false)
     }
   }
+  
   return (
     <WrapperContainer statusBarColor="#0D111C">
       <View
@@ -271,7 +288,300 @@ const FollowProfile = ({navigation, route}) => {
             ) : null}
           </TouchableOpacity>
         </View>
-        <View style={{alignSelf: 'center', marginTop: hp('15%')}}>
+       
+              <FlatList
+
+data={post}
+renderItem={({item,index}) => {
+
+            return (
+              <View key={index}>
+                <View
+                  style={{
+                    marginTop: 30,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 20,
+                  }}>
+                    <TouchableOpacity>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>{item.user_image?
+                    <Image source={{uri:item.user_image}}  style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>:<Image source={Path.userImage}  style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>}
+                    <Text
+                      style={{
+                        color: '#E9F0FA',
+                        marginLeft: '6%',
+                        fontWeight: 'bold',
+                        fontSize: 13,
+                        lineHeight: 18,
+                      }}>
+                      {item.name}
+                    </Text>
+                  </View>
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      justifyContent: 'space-evenly',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      width: wp('21%'),
+                    }}>
+                      {item.isfollow=="0"?
+                    <TouchableOpacity >
+                      <Text
+                        style={{
+                          color: '#E9F0FA',
+                          fontWeight: 'bold',
+                          textDecorationLine: 'underline',
+                          fontSize: 12,
+                        }}>
+                        UNFOLLOW
+                      </Text>
+                    </TouchableOpacity>:
+                     <TouchableOpacity >
+                     <Text
+                       style={{
+                         color: '#E9F0FA',
+                         fontWeight: 'bold',
+                         textDecorationLine: 'underline',
+                         fontSize: 12,
+                       }}>
+                       FOLLOW
+                     </Text>
+                   </TouchableOpacity>}
+                    <TouchableOpacity
+                      onPress={() => refRBSheet.current.open()}
+                      style={{marginLeft: wp('1%')}}>
+                      <Image source={Path.menu}></Image>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View
+                  style={{
+                    marginHorizontal: 20,
+                    marginTop: 25,
+                    marginBottom: 18,
+                  }}>
+                    {item.subcategory?
+                  <FlatList
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    data={['']}
+                    keyExtractor={(_, index) => index.toString()}
+                    renderItem={({item1, index}) => {
+                      return (
+                        <View style={styles.listStyle}>
+                          <Text
+                            style={{
+                              color: '#E9F0FA',
+                              fontWeight: '600',
+                              fontSize: 11,
+                            }}>
+                            {item.subcategory}
+                          </Text>
+                        </View>
+                      );
+                    }}
+                  />:null}
+                </View>
+
+                <View style={{marginHorizontal: 20}}>
+                  <Text
+                    style={{
+                      color: '#E9F0FA',
+                      fontSize: 16,
+                      fontFamily: 'Poppins-Bold',
+                    }}>
+                   {item.title}
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#E9F0FA',
+                      fontSize: 16,
+                      fontWeight: '300',
+                      fontFamily: 'Poppins-Regular',
+                    }}>
+                    ${item.price}.0
+                  </Text>
+                </View>
+                <View style={{marginHorizontal: 20}}>
+                  <Text
+                    style={{
+                      color: '#9CA6B6',
+                      fontWeight: 'bold',
+                      fontSize: 13,
+                      fontWeight: '400',
+                      lineHeight: 20,
+                    }}>
+                    {item.description}{' '}
+                    {item.description && item.description.length >30?
+                    <Text
+                      style={{
+                        textDecorationLine: 'underline',
+                        color: 'white',
+                        fontFamily: 'Poppins-Regular',
+                      }}>
+                      more
+                    </Text>:null}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginHorizontal: 20,
+                    justifyContent:'space-between',
+                    marginTop: 10,
+                    marginBottom: 20,
+                  }}>
+                  <View
+                    style={{
+                      flex: 0.35,
+                    }}>
+                    <View>
+                      <Text style={styles.bidingText}>Bidding</Text>
+                    </View>
+                    <View style={styles.innerBider}>
+                      <Image
+                        source={Path.BidingMOney}
+                        style={{height: 20, width: 20}}
+                      />
+                      <Text style={styles.innerBidderText}>{item.bids}</Text>
+                    </View>
+                  </View>
+                  {/* <View style={{flex: 0.35, alignItems: 'center'}}>
+                    <View>
+                      <Text style={styles.bidingText}>Negotiating</Text>
+                    </View>
+                    <View style={styles.innerBider}>
+                      <Image
+                        source={Path.BidingMOney}
+                        style={{height: 20, width: 20}}></Image>
+                      <Text style={styles.innerBidderText}>5+</Text>
+                    </View>
+                  </View> */}
+                  <View style={{flex: 0.35, alignItems: 'flex-end'}}>
+                    <View>
+                      <Text style={styles.bidingText}>Bidders</Text>
+                    </View>
+                    <View style={styles.innerBider}>
+                      <Image
+                        source={Path.BidingUsers}
+                        style={{height: 20, width: 20}}></Image>
+                      <Text style={styles.innerBidderText}>50+</Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginLeft: 10,
+                    marginRight: 10,
+                    borderWidth: 0.4,
+                    borderColor: 'white',
+                    borderRadius: 20,
+                    overflow: 'hidden',
+                  }}>
+                  <PhotoGrid
+                    height={300}
+                    width={width}
+                    source={item.images}
+                    imageStyle={{overflow: 'hidden'}}
+                    onPressImage={source => ShowImage(source.uri)}
+                  />
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 20,
+                    marginHorizontal: 20,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+
+                      flex: 0.5,
+                    }}>
+                    <View>
+                      <TouchableOpacity onPress={()=>likeDislikeApi(item)}>
+                        {item.isliked=="1"?
+                        <Image
+                          source={Path.RedLike}
+                          style={{height: 20, width: 22}}></Image>:
+                          <Image
+                          source={Path.like}
+                          style={{height: 20, width: 22}}></Image>}
+                      </TouchableOpacity>
+                      <View>
+                        <Text
+                          style={{
+                            color: '#9CA6B6',
+                            fontWeight: 'bold',
+                            fontSize: 12,
+                            fontWeight: '400',
+                            marginTop: 10,
+                          }}>
+                          {item.likecount} Likes
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={{marginLeft: 10}}>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('Comments', {itemId:item.post_id,login_user_id:login_user_id})}>
+                        <Image
+                          source={Path.Chat}
+                          style={{height: 20, width: 20}}></Image>
+                      </TouchableOpacity>
+                      <View>
+                        <Text
+                          style={{
+                            color: '#9CA6B6',
+                            fontWeight: 'bold',
+                            fontSize: 12,
+                            fontWeight: '400',
+                            marginTop: 10,
+                          }}>
+                          {item.commentcount} Comments
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('PostDetail',{item:item})}>
+                    <View
+                      style={{
+                        borderWidth: 1,
+                        borderColor: '#465874',
+                        padding: 12,
+                        borderRadius: 10,
+                      }}>
+                      <Text
+                        style={{
+                          color: '#E9F0FA',
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                          fontWeight: '400',
+                          lineHeight: 18,
+                        }}>
+                        EXPAND BID
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )
+          }}
+          // onEndReached={getHomeListData(1,10,2)}
+        // keyExtractor={(item, index) => index}
+    />
+       
+         <View style={{alignSelf: 'center', marginTop: hp('15%')}}>
           <View>
             <Image source={ImagePath.Nopost}></Image>
           </View>
@@ -297,7 +607,8 @@ const FollowProfile = ({navigation, route}) => {
             }}>
             Start posting to make your first trade possible!
           </Text>
-        </View>
+        </View> 
+        
       </ScrollView>
 
       <ActionSheet

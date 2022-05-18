@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Button,
   BackHandler,
+  Alert
 } from 'react-native';
 import * as Utility from '../../../utility/index';
 import Path from '../../../constants/Imagepath';
@@ -77,86 +78,6 @@ const NewPost = ({navigation}) => {
       });
   };
   const postCreateApi = async () => {
-  //   let data = new FormData();
-  //   data.append('title', title);
-  //   data.append('userId', login_user_id);
-  //   data.append('description', description);
-  //   data.append('bid_status', bid_status);
-  //   data.append('price', price);
-  //   data.append('bid_exchange', 'both');
-
-  //    if(image1){
-  //   data.append('pic1', {
-  //     uri: image1,
-  //     name: 'image.jpeg',
-  //     type: 'image/jpeg',
-  //   });
-  // }
-  // if(image2){
-  //   data.append('pic2', {
-  //     uri: image2,
-  //     name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  // if(image3){
-  //   data.append('pic3', {
-  //     uri: image3,
-  //   name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  // if(image4){
-  //   data.append('pic4', {
-  //     uri: image4,
-  //     name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  // if(image5){
-  //   data.append('pic5', {
-  //     uri: image5,
-  //     name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  // if(image6){
-  //   data.append('pic6', {
-  //     uri: image6,
-  //     name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  // if(image7){
-  //   data.append('pic7', {
-  //     uri: image7,
-  //     name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  // if(image8){
-  //   data.append('pic8', {
-  //     uri: image8,
-  //     name: 'iamge.jpg',
-  //     type: 'image/jpg',
-  //   });
-  // }
-  //   console.log("body is..",data)
-  //   await axios({
-  //     url: 'http://13.233.246.19:9000/createPost',
-  //     method: 'POST',
-  //     data: data,
-  //     headers: {'Content-Type': 'multipart/form-data'},
-  //   })
-  //     .then(response => {
-  //       if (response.data.code === 200) {
-  //         console.log("post created");
-  //         // navigation.navigate('PostCategory');
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error, 'wfkjndsf');
-  //     });
     let body={
       image1,
       image2,
@@ -172,9 +93,25 @@ const NewPost = ({navigation}) => {
       bid_status,
       login_user_id
     }
-    if(!image1 && !title && !description && bid_status){
-
-    }
+   if(!image1){
+    Alert.alert('please choose First imagaes.');
+    // console.log("please choose two imagaes//")
+   }
+   else if(!image2){
+    Alert.alert('please choose second imagaes.');
+   }
+   else if(!title){
+    Alert.alert('please Add Name');
+   }
+   else if(!description){
+    Alert.alert('please Add Description');
+  }
+  else if(!price){
+    Alert.alert('please Add Price');
+  }
+  else if(!bid_status){
+    Alert.alert('please choose bid status');
+  }
     else{
     navigation.navigate('PostCategory',{body:body});
     }

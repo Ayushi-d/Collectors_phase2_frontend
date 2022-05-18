@@ -46,6 +46,12 @@ const PostSubCategory = ({navigation,route}) => {
       );
     };
     const CreateFinalPost=async()=>{
+      // console.log("First time is working");
+
+      // if((typeof body1.image1)!=='undefined'){
+      //   console.log("Image  found")
+      // }
+
          let data = new FormData();
     data.append('title', body1.title);
     data.append('userId', body1.login_user_id);
@@ -56,60 +62,60 @@ const PostSubCategory = ({navigation,route}) => {
     data.append('subcat_id',selectedId);
     data.append('cat_id',Category.id)
 
-     if(!body1.image1==='undefined'){
+     if((typeof body1.image1)!=='undefined'){
     data.append('pic1', {
       uri: body1.image1,
       name: 'image.jpeg',
       type: 'image/jpeg',
     });
   }
-  if(!body1.image2==='undefined'){
+  if(!(typeof body1.image2)!=='undefined'){
     // console.log("vikas");
     data.append('pic2', {
       uri: body1.image2,
-      name: 'iamge.jpg',
+      name: 'image.jpg',
       type: 'image/jpg',
     });
   }
-  if(!body1.image3==='undefined'){
+  if((typeof body1.image3)!=='undefined'){
     data.append('pic3', {
       uri: body1.image3,
-    name: 'iamge.jpg',
+    name: 'image.jpg',
       type: 'image/jpg',
     });
   }
-  if(!body1.image4==='undefined'){
+  if((typeof body1.image4)!=='undefined'){
     data.append('pic4', {
       uri: body1.image4,
-      name: 'iamge.jpg',
+      name: 'image.jpg',
       type: 'image/jpg',
     });
   }
-  if(!body1.image5==='undefined'){
+  if((typeof body1.image5)!=='undefined'){
     data.append('pic5', {
       uri: body1.image5,
       name: 'iamge.jpg',
       type: 'image/jpg',
     });
   }
-  if(!body1.image6==='undefined'){
+  if((typeof body1.image6)!=='undefined'){
     data.append('pic6', {
       uri: body1.image6,
-      name: 'iamge.jpg',
+      name: 'image.jpg',
       type: 'image/jpg',
     });
   }
-  if(!body1.image7==='undefined'){
+  if((typeof body1.image7)!=='undefined'){
     data.append('pic7', {
       uri: body1.image7,
-      name: 'iamge.jpg',
+      name: 'image.jpg',
       type: 'image/jpg',
     });
   }
-  if(!body1.image8==='undefined'){
+  if((typeof body1.image8)!=='undefined'){
     data.append('pic8', {
       uri: body1.image8,
-      name: 'iamge.jpg',
+      name: 'image.jpg',
       type: 'image/jpg',
     });
   }
@@ -128,7 +134,7 @@ const PostSubCategory = ({navigation,route}) => {
       })
       .catch(error => {
         console.log(error, 'wfkjndsf');
-        Alert.alert("Issue from Server Side")
+        // Alert.alert("Issue from Server Side")
       });
   //  let data = new FormData();
   //   data.append('title', body1.title);

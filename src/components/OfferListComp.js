@@ -11,7 +11,7 @@ const OfferListComp = () => {
     getBids()
   }, [])
   const getBids = async () => {
-    let response = await axios.get('http://13.233.246.19:9000/topBidsExchanges?type=1');
+    let response = await axios.get('http://13.233.246.19:9000/topBidsExchanges?type=2');
     console.log("response is.v.", response.data.bids)
     if (response.data.bids.length > 0) {
       setData(response.data.bids)
