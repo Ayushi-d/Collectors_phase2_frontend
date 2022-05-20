@@ -60,7 +60,7 @@ const PostDetail = ({navigation,route}) => {
   const bottomRefOffer = useRef();
   useEffect(()=>{
     getUserRecords()
-  },[])
+  },[item])
   const getUserRecords=async()=>{
     let user_id = await Utility.getFromLocalStorge('user_id');
     setlogin_user_id(user_id);
@@ -82,6 +82,9 @@ const PostDetail = ({navigation,route}) => {
       "message":exchnageMessage
     }
     console.log("Exchnage bid Api...",body)
+    
+    showToastWithGravityAndOffset('Exchage Added Successfully')
+    refRBSheetExchange.current.close()
  let response=await axios.post('http://13.233.246.19:9000/addBid',body);
  console.log(response.data)
  refRBSheetExchange.current.close()

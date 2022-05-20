@@ -61,23 +61,46 @@ const SignupUsername = ({navigation}) => {
       data.append('username', text);
       data.append('userId', user_id);
       data.append('recfile', {
+        // uri: image,
+        // name: 'userProfile.jpg',
+        // type: 'image/jpg',
         uri: image,
-        name: 'userProfile.jpg',
-        type: 'image/jpg',
+      name: 'image.jpeg',
+      type: 'image/jpeg',
       });
 
-      navigation.navigate('BottomTab');
-      let response = await axios.post(
-        'http://13.233.246.19:9000/upload-images',
-        data,
-        headers,
-      );
-      if (response.data.code == 200) {
-        console.log('out put come');
-        navigation.navigate('BottomTab');
-      } else {
-        setNameErr(true);
-      }
+      // navigation.navigate('BottomTab');
+
+
+      //  await axios.post(
+      //   'http://13.233.246.19:9000/upload-images',
+      //   data,
+      //   headers,
+      // );
+      // if (response.data.code == 200) {
+      //   console.log('out put come');
+      //   navigation.navigate('BottomTab');
+      // } else {
+      //   setNameErr(true);
+      // }
+      console.log("body is..",body)
+      await axios({
+        url: 'http://13.233.246.19:9000/upload-images',
+        method: 'POST',
+        data: data,
+        headers: {'Content-Type': 'multipart/form-data'},
+      })
+        .then(response => {
+          console.log("All response ..",response)
+          if (response.data.code === "200") {
+            console.log("post created");
+            navigation.navigate('BottomTab');
+          }
+        })
+        .catch(error => {
+          console.log(error, 'wfkjndsf');
+          // Alert.alert("Issue from Server Side")
+        });
     } else {
       Alert.alert('Something parameter is missing');
       // navigation.navigate('BottomTab')

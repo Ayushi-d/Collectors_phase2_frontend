@@ -23,72 +23,7 @@ const Search = ({navigation}) => {
   const [value, setValue] =useState()
   const [loader,setLoader]=useState(false);
   const [data, setData] = useState([
-    {
-      id: 1,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 2,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 3,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 4,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 5,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 6,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 7,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 8,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 9,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 10,
-      img: Path.FollowUser,
-      title: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
-    {
-      id: 11,
-      img: Path.FollowUser,
-      username: 'musicalgrey',
-      email: 'Carlos Saizn',
-    },
+ 
   ]);
   const [search, setSearch] = useState('');
   const clearRecords = () => {

@@ -371,7 +371,7 @@ const openUserProfile=(item)=>{
                           <Image
                             source={Path.BidingUsers}
                             style={{height: 20, width: 20}}></Image>
-                          <Text style={styles.innerBidderText}>50+</Text>
+                          <Text style={styles.innerBidderText}>{item.bids}+</Text>
                         </View>
                       </View>
                     </View>

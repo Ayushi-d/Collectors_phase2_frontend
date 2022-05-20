@@ -22,7 +22,7 @@ const ProfileHeader = ({name, navigate}) => {
         justifyContent: 'space-between',
       }}>
       <View style={{margin: '3%'}}>
-        <Text style={{color: 'white'}}>{Loginusername}</Text>
+        <Text style={{color: 'white'}}>{name}</Text>
       </View>
       <View
         style={{marginRight: Utility.widthPercentageToDP('5%'), margin: '3%'}}>

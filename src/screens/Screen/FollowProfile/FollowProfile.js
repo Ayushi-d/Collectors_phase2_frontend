@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,13 @@ import {
   ScrollView,
   ActivityIndicator,
   StyleSheet,
-  FlatList
+  FlatList,
+  RefreshControl,
+  Dimensions,
+  ToastAndroid
 } from 'react-native';
 import axios from 'axios';
+import Path from '../../../constants/Imagepath';
 import PhotoGrid from 'react-native-thumbnail-grid';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
@@ -23,67 +27,92 @@ import ProfileHeader from '../../../components/profileHeader';
 import WrapperContainer from '../../../components/WrapperContainer';
 import ActionSheet from 'react-native-actions-sheet';
 // import { ActivityIndicator } from 'react-native-paper';
-const FollowProfile = ({navigation, route}) => {
+const FollowProfile = ({ navigation, route }) => {
   const [userImage, setUserImage] = useState();
-  const {search_id}=route.params;
-  console.log("search profile id is...",search_id);
+  const { search_id } = route.params;
+  search_id["isFollow"] = "1";
+  console.log("search profile id is...", search_id);
   const [userName, setUserName] = useState();
   const [user_id, setUser_id] = useState();
   const [selectedTab, setSelectedTab] = useState('post');
-  const [post,setPost]=useState([]);
+  const [post, setPost] = useState([""]);
+  const [loader,setLoader]=useState(false);
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [search_id]);
+  const width = Dimensions.get('window').width;
   const getUserData = async () => {
     var ProfileImage = await Utility.getFromLocalStorge('userProfile');
     setUserImage(ProfileImage);
     var UserName = await Utility.getFromLocalStorge('userName');
     var userId = await Utility.getFromLocalStorge('user_id');
+    console.log("login user id..",userId);
     setUser_id(userId);
     console.log('user id is .././.', userId);
     setUserName(UserName);
-
-    let body={
-      "viewer_id":user_id,
-      "user_id":search_id.customer_id
+    setLoader(true);
+    let body = {
+      "viewer_id":user_id ||"12",
+      "user_id": search_id.user_id || "12"
     }
-    let response=await axios.post('http://13.233.246.19:9000/getProfileInfo',body);
-    console.log("res...",response.data);
-    if(response.data.code==200){
+    console.log("profile details...",body);
+    let response = await axios.post('http://13.233.246.19:9000/getProfileInfo', body);
+    console.log("res...", response.data);
+    if (response.data.code == 200) {
       console.log("Data mila.")
-      setPost(response.data.posts)
+      setPost(response.data.userDetails.posts)
+      setLoader(false)
     }
+    setLoader(false)
 
 
   };
 
   const bottomRef = useRef();
-  const follow=async()=>{
-    let body={
-      "userId":search_id.customer_id,
-      "entityId":user_id
+  const follow = async () => {
+    let body = {
+      "userId": search_id.customer_id,
+      "entityId": user_id
     }
-    console.log("user follow ",body);
-    let response=await axios.post('http://13.233.246.19:9000/followUnfollowUser',body);
-    
+    console.log("user follow ", body);
+    let response = await axios.post('http://13.233.246.19:9000/followUnfollowUser', body);
+
     console.log(response.data);
-    if(response.data.code==200){
+    if (response.data.code == 200) {
+      if (response.data.msg == "Success! unfollowed.") {
+        search_id["isFollow"] = "0"
+      }
+      else {
+        search_id["isFollow"] = "1"
+      }
       // setFolloweMsg(response.data.msg);
     }
   }
-  const reopsrtProfile=async()=>{
-    let body={
-      "userId":search_id.customer_id,
-      "post_id":user_id,
-      "report_for":"post"
+  const showToastWithGravityAndOffset = (item) => {
+    ToastAndroid.showWithGravityAndOffset(
+      item,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+  };
+  const reopsrtProfile = async () => {
+    let body = {
+      "userId": search_id.customer_id,
+      "post_id": user_id,
+      "report_for": "post"
     }
-    let response=await axios.post('http://13.233.246.19:9000/report',body)
+    let response = await axios.post('http://13.233.246.19:9000/report', body)
     console.log(response.data)
-    if(response.data.code===200){
+    if (response.data.code === 200) {
+      
       bottomRef.current.setModalVisible(false)
+      showToastWithGravityAndOffset(response.data.msg)
+
     }
   }
-  
+
   return (
     <WrapperContainer statusBarColor="#0D111C">
       <View
@@ -100,36 +129,36 @@ const FollowProfile = ({navigation, route}) => {
             flexDirection: 'row',
           }}>
           <TouchableOpacity
-            style={{flex: 0.1, justifyContent: 'center'}}
+            style={{ flex: 0.1, justifyContent: 'center' }}
             onPress={() => navigation.goBack()}>
             <Image source={ImagePath.back} />
           </TouchableOpacity>
-          <View style={{flex: 0.8, justifyContent: 'center'}}>
-            <Text style={{color: 'white'}}>{search_id.name}</Text>
+          <View style={{ flex: 0.8, justifyContent: 'center' }}>
+            <Text style={{ color: 'white' }}>{search_id.name}</Text>
           </View>
         </View>
         <View
-          style={{flex: 0.2, alignItems: 'flex-end', justifyContent: 'center'}}>
+          style={{ flex: 0.2, alignItems: 'flex-end', justifyContent: 'center' }}>
           <TouchableOpacity
             onPress={() => bottomRef.current.setModalVisible(true)}>
             <Image source={ImagePath.menu} />
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={{backgroundColor: 'black', height: '100%'}}>
+      <ScrollView style={{ backgroundColor: 'black', height: '100%' }}>
         <View
-          style={{flexDirection: 'row', marginHorizontal: 20, marginTop: 25}}>
+          style={{ flexDirection: 'row', marginHorizontal: 20, marginTop: 25 }}>
           {!userImage ? (
             <View>
               <Image
                 source={ImagePath.userImage}
-                style={{height: 100, width: 100, borderRadius: 50}}></Image>
+                style={{ height: 100, width: 100, borderRadius: 50 }}></Image>
             </View>
           ) : (
             <View>
               <Image
-                source={{uri: userImage}}
-                style={{height: 100, width: 100, borderRadius: 50}}></Image>
+                source={{ uri: userImage }}
+                style={{ height: 100, width: 100, borderRadius: 50 }}></Image>
             </View>
           )}
           <View
@@ -140,9 +169,9 @@ const FollowProfile = ({navigation, route}) => {
               marginLeft: wp('10%'),
             }}>
             <TouchableOpacity>
-              <View style={{alignItems: 'center'}}>
+              <View style={{ alignItems: 'center' }}>
                 <Text
-                  style={{fontSize: 12, fontWeight: '400', color: '#9CA6B6'}}>
+                  style={{ fontSize: 12, fontWeight: '400', color: '#9CA6B6' }}>
                   Collectibles
                 </Text>
                 <Text
@@ -152,14 +181,14 @@ const FollowProfile = ({navigation, route}) => {
                     lineHeight: 24,
                     color: '#E9F0FA',
                   }}>
-                  0
+                  {post.length}
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Following')}>
-              <View style={{alignItems: 'center', marginLeft: wp('3%')}}>
+              <View style={{ alignItems: 'center', marginLeft: wp('3%') }}>
                 <Text
-                  style={{fontSize: 12, fontWeight: '400', color: '#9CA6B6'}}>
+                  style={{ fontSize: 12, fontWeight: '400', color: '#9CA6B6' }}>
                   Followers
                 </Text>
                 <Text
@@ -174,9 +203,9 @@ const FollowProfile = ({navigation, route}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Following')}>
-              <View style={{alignItems: 'center', marginLeft: wp('3%')}}>
+              <View style={{ alignItems: 'center', marginLeft: wp('3%') }}>
                 <Text
-                  style={{fontSize: 12, fontWeight: '400', color: '#9CA6B6'}}>
+                  style={{ fontSize: 12, fontWeight: '400', color: '#9CA6B6' }}>
                   Following
                 </Text>
                 <Text
@@ -192,7 +221,7 @@ const FollowProfile = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{marginHorizontal: 20, marginTop: 16}}>
+        <View style={{ marginHorizontal: 20, marginTop: 16 }}>
           <Text
             style={{
               fontSize: 18,
@@ -203,7 +232,7 @@ const FollowProfile = ({navigation, route}) => {
             {search_id.name}
           </Text>
         </View>
-        <View style={{marginHorizontal: 20, marginTop: 4}}>
+        <View style={{ marginHorizontal: 20, marginTop: 4 }}>
           <Text
             style={{
               fontSize: 12,
@@ -212,11 +241,12 @@ const FollowProfile = ({navigation, route}) => {
               lineHeight: 20,
               fontFamily: 'Poppins-Regular',
             }}>
-            Exceptions to the rule of face value b-eing higher than content
-            value also content value also...more
+            {search_id.bio}
+            {/* Exceptions to the rule of face value b-eing higher than content
+            value also content value also...more */}
           </Text>
         </View>
-        <TouchableOpacity activeOpacity={0.8} onPress={()=>follow()}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => follow()}>
           <View
             style={{
               borderWidth: 1,
@@ -228,7 +258,7 @@ const FollowProfile = ({navigation, route}) => {
               marginVertical: 20,
               backgroundColor: '#117AF5',
             }}>
-            <Text
+            {search_id.isFollow == "1" ? <Text
               style={{
                 fontSize: 13,
 
@@ -237,17 +267,28 @@ const FollowProfile = ({navigation, route}) => {
                 alignSelf: 'center',
                 fontFamily: 'Poppins-Bold',
               }}>
-              FOLLOW
-            </Text>
+              UNFOLLOW
+            </Text> :
+              <Text
+                style={{
+                  fontSize: 13,
+
+                  color: 'white',
+                  lineHeight: 28,
+                  alignSelf: 'center',
+                  fontFamily: 'Poppins-Bold',
+                }}>
+                FOLLOW
+              </Text>}
           </View>
         </TouchableOpacity>
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => setSelectedTab('post')}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image
                 source={ImagePath.Feed}
-                style={{height: 18, width: 18}}></Image>
+                style={{ height: 18, width: 18 }}></Image>
               <Text style={styles.mainText}>POSTS</Text>
             </View>
             {selectedTab == 'post' ? (
@@ -266,10 +307,10 @@ const FollowProfile = ({navigation, route}) => {
             ) : null}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setSelectedTab('open')}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image
                 source={ImagePath.Open}
-                style={{height: 18, width: 18}}></Image>
+                style={{ height: 18, width: 18 }}></Image>
               <Text style={styles.mainText}>OPEN</Text>
             </View>
             {selectedTab == 'open' ? (
@@ -288,15 +329,13 @@ const FollowProfile = ({navigation, route}) => {
             ) : null}
           </TouchableOpacity>
         </View>
-       
-              <FlatList
-
-data={post}
-renderItem={({item,index}) => {
-
+        {loader?
+          <RefreshControl refreshing={loader} />:
+          post.length>0?
+        post.map((item,index)=>{
             return (
               <View key={index}>
-                <View
+                {/* <View
                   style={{
                     marginTop: 30,
                     flexDirection: 'row',
@@ -304,25 +343,25 @@ renderItem={({item,index}) => {
                     justifyContent: 'space-between',
                     marginHorizontal: 20,
                   }}>
-                    <TouchableOpacity>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                    }}>{item.user_image?
-                    <Image source={{uri:item.user_image}}  style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>:<Image source={Path.userImage}  style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>}
-                    <Text
+                  <TouchableOpacity>
+                    <View
                       style={{
-                        color: '#E9F0FA',
-                        marginLeft: '6%',
-                        fontWeight: 'bold',
-                        fontSize: 13,
-                        lineHeight: 18,
-                      }}>
-                      {item.name}
-                    </Text>
-                  </View>
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                      }}>{item.user_image ?
+                        <Image source={{ uri: item.user_image }} style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image> : <Image source={Path.userImage} style={{ height: 32, width: 32, borderRadius: 32 / 2 }}></Image>}
+                      <Text
+                        style={{
+                          color: '#E9F0FA',
+                          marginLeft: '6%',
+                          fontWeight: 'bold',
+                          fontSize: 13,
+                          lineHeight: 18,
+                        }}>
+                        {item.name}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                   <View
                     style={{
@@ -331,74 +370,80 @@ renderItem={({item,index}) => {
                       flexDirection: 'row',
                       width: wp('21%'),
                     }}>
-                      {item.isfollow=="0"?
-                    <TouchableOpacity >
-                      <Text
-                        style={{
-                          color: '#E9F0FA',
-                          fontWeight: 'bold',
-                          textDecorationLine: 'underline',
-                          fontSize: 12,
-                        }}>
-                        UNFOLLOW
-                      </Text>
-                    </TouchableOpacity>:
-                     <TouchableOpacity >
-                     <Text
-                       style={{
-                         color: '#E9F0FA',
-                         fontWeight: 'bold',
-                         textDecorationLine: 'underline',
-                         fontSize: 12,
-                       }}>
-                       FOLLOW
-                     </Text>
-                   </TouchableOpacity>}
+                    {item.isfollow == "0" ?
+                      <TouchableOpacity >
+                        <Text
+                          style={{
+                            color: '#E9F0FA',
+                            fontWeight: 'bold',
+                            textDecorationLine: 'underline',
+                            fontSize: 12,
+                          }}>
+                          UNFOLLOW
+                        </Text>
+                      </TouchableOpacity> :
+                      <TouchableOpacity >
+                        <Text
+                          style={{
+                            color: '#E9F0FA',
+                            fontWeight: 'bold',
+                            textDecorationLine: 'underline',
+                            fontSize: 12,
+                          }}>
+                          FOLLOW
+                        </Text>
+                      </TouchableOpacity>}
                     <TouchableOpacity
                       onPress={() => refRBSheet.current.open()}
-                      style={{marginLeft: wp('1%')}}>
+                      style={{ marginLeft: wp('1%') }}>
                       <Image source={Path.menu}></Image>
                     </TouchableOpacity>
                   </View>
-                </View>
+                </View> */}
 
                 <View
                   style={{
                     marginHorizontal: 20,
                     marginTop: 25,
                     marginBottom: 18,
+                    borderWidth:1,
+                    borderColor:'white',
+                    width:wp('30%'),
+                    alignItems:'center',
+                    borderRadius:8,
+                    padding:5
                   }}>
-                    {item.subcategory?
-                  <FlatList
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                    data={['']}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({item1, index}) => {
-                      return (
-                        <View style={styles.listStyle}>
-                          <Text
-                            style={{
-                              color: '#E9F0FA',
-                              fontWeight: '600',
-                              fontSize: 11,
-                            }}>
-                            {item.subcategory}
-                          </Text>
-                        </View>
-                      );
-                    }}
-                  />:null}
+                  {item.subcategory ?
+                    <FlatList
+                      showsHorizontalScrollIndicator={false}
+                      horizontal={true}
+                      data={['']}
+                      keyExtractor={(_, index) => index.toString()}
+                      renderItem={({ item1, index }) => {
+                        return (
+                          <View style={styles.listStyle}>
+                            <Text
+                              style={{
+                                color: '#E9F0FA',
+                                fontWeight: '600',
+                                fontSize: 11,
+                              }}>
+                              {item.subcategory}
+                            </Text>
+                          </View>
+                        );
+                      }}
+                    /> : null}
                 </View>
 
-                <View style={{marginHorizontal: 20}}>
+                <View style={{ marginHorizontal: 20 }}>
                   <Text
                     style={{
                       color: '#E9F0FA',
                       fontSize: 16,
                       fontFamily: 'Poppins-Bold',
                     }}>
-                   {item.title}
+                    {item.title}
                   </Text>
                   <Text
                     style={{
@@ -410,7 +455,7 @@ renderItem={({item,index}) => {
                     ${item.price}.0
                   </Text>
                 </View>
-                <View style={{marginHorizontal: 20}}>
+                <View style={{ marginHorizontal: 20 }}>
                   <Text
                     style={{
                       color: '#9CA6B6',
@@ -420,22 +465,22 @@ renderItem={({item,index}) => {
                       lineHeight: 20,
                     }}>
                     {item.description}{' '}
-                    {item.description && item.description.length >30?
-                    <Text
-                      style={{
-                        textDecorationLine: 'underline',
-                        color: 'white',
-                        fontFamily: 'Poppins-Regular',
-                      }}>
-                      more
-                    </Text>:null}
+                    {item.description && item.description.length > 30 ?
+                      <Text
+                        style={{
+                          textDecorationLine: 'underline',
+                          color: 'white',
+                          fontFamily: 'Poppins-Regular',
+                        }}>
+                        more
+                      </Text> : null}
                   </Text>
                 </View>
                 <View
                   style={{
                     flexDirection: 'row',
                     marginHorizontal: 20,
-                    justifyContent:'space-between',
+                    justifyContent: 'space-between',
                     marginTop: 10,
                     marginBottom: 20,
                   }}>
@@ -443,16 +488,16 @@ renderItem={({item,index}) => {
                     style={{
                       flex: 0.35,
                     }}>
-                    <View>
+                    {/* <View>
                       <Text style={styles.bidingText}>Bidding</Text>
                     </View>
                     <View style={styles.innerBider}>
                       <Image
                         source={Path.BidingMOney}
-                        style={{height: 20, width: 20}}
+                        style={{ height: 20, width: 20 }}
                       />
                       <Text style={styles.innerBidderText}>{item.bids}</Text>
-                    </View>
+                    </View> */}
                   </View>
                   {/* <View style={{flex: 0.35, alignItems: 'center'}}>
                     <View>
@@ -465,17 +510,17 @@ renderItem={({item,index}) => {
                       <Text style={styles.innerBidderText}>5+</Text>
                     </View>
                   </View> */}
-                  <View style={{flex: 0.35, alignItems: 'flex-end'}}>
+                  {/* <View style={{ flex: 0.35, alignItems: 'flex-end' }}>
                     <View>
                       <Text style={styles.bidingText}>Bidders</Text>
                     </View>
                     <View style={styles.innerBider}>
                       <Image
                         source={Path.BidingUsers}
-                        style={{height: 20, width: 20}}></Image>
+                        style={{ height: 20, width: 20 }}></Image>
                       <Text style={styles.innerBidderText}>50+</Text>
                     </View>
-                  </View>
+                  </View> */}
                 </View>
                 <View
                   style={{
@@ -490,7 +535,7 @@ renderItem={({item,index}) => {
                     height={300}
                     width={width}
                     source={item.images}
-                    imageStyle={{overflow: 'hidden'}}
+                    imageStyle={{ overflow: 'hidden' }}
                     onPressImage={source => ShowImage(source.uri)}
                   />
                 </View>
@@ -508,14 +553,14 @@ renderItem={({item,index}) => {
                       flex: 0.5,
                     }}>
                     <View>
-                      <TouchableOpacity onPress={()=>likeDislikeApi(item)}>
-                        {item.isliked=="1"?
-                        <Image
-                          source={Path.RedLike}
-                          style={{height: 20, width: 22}}></Image>:
+                      <TouchableOpacity>
+                        {item.isliked == "1" ?
                           <Image
-                          source={Path.like}
-                          style={{height: 20, width: 22}}></Image>}
+                            source={Path.RedLike}
+                            style={{ height: 20, width: 22 }}></Image> :
+                          <Image
+                            source={Path.like}
+                            style={{ height: 20, width: 22 }}></Image>}
                       </TouchableOpacity>
                       <View>
                         <Text
@@ -531,12 +576,12 @@ renderItem={({item,index}) => {
                       </View>
                     </View>
 
-                    <View style={{marginLeft: 10}}>
+                    <View style={{ marginLeft: 10 }}>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate('Comments', {itemId:item.post_id,login_user_id:login_user_id})}>
+                        onPress={() => navigation.navigate('Comments', { itemId: item.post_id, login_user_id: user_id })}>
                         <Image
                           source={Path.Chat}
-                          style={{height: 20, width: 20}}></Image>
+                          style={{ height: 20, width: 20 }}></Image>
                       </TouchableOpacity>
                       <View>
                         <Text
@@ -553,7 +598,7 @@ renderItem={({item,index}) => {
                     </View>
                   </View>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('PostDetail',{item:item})}>
+                    onPress={() => navigation.navigate('PostDetail', { item: item })}>
                     <View
                       style={{
                         borderWidth: 1,
@@ -576,18 +621,16 @@ renderItem={({item,index}) => {
                 </View>
               </View>
             )
-          }}
-          // onEndReached={getHomeListData(1,10,2)}
-        // keyExtractor={(item, index) => index}
-    />
-       
-         <View style={{alignSelf: 'center', marginTop: hp('15%')}}>
+        }):
+
+      <>
+        <View style={{ alignSelf: 'center', marginTop: hp('15%') }}>
           <View>
             <Image source={ImagePath.Nopost}></Image>
           </View>
         </View>
         <View
-          style={{alignSelf: 'center', alignItems: 'center', margin: hp('5%')}}>
+          style={{ alignSelf: 'center', alignItems: 'center', margin: hp('5%') }}>
           <Text
             style={{
               color: 'white',
@@ -607,8 +650,9 @@ renderItem={({item,index}) => {
             }}>
             Start posting to make your first trade possible!
           </Text>
-        </View> 
-        
+        </View>
+        </>}
+
       </ScrollView>
 
       <ActionSheet
@@ -629,7 +673,7 @@ renderItem={({item,index}) => {
             activeOpacity={0.8}
             onPress={() => reopsrtProfile()}>
             <Text style={styles.deleteText}>Report Profile</Text>
-            <Image source={ImagePath.next} style={{height: 20, width: 20}} />
+            <Image source={ImagePath.next} style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
           {/* report post in case post is not of user */}
         </View>
